@@ -1,9 +1,10 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Ant.gd" type="Script" id=1]
 [ext_resource path="res://Ants Resorce/Animations/Ant Spritesheet.png" type="Texture" id=2]
 [ext_resource path="res://Stats.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Zones/DetectionZone.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Zones/Hitbox.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.82265
@@ -37,6 +38,30 @@ tracks/1/keys = {
 "args": [  ],
 "method": "attack_animation_finished"
 } ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hitbox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.1, 0.5, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("DetectionZone/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.1, 0.5, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -167,7 +192,15 @@ start_node = "Idle"
 [sub_resource type="AnimationNodeStateMachinePlayback" id=24]
 
 [sub_resource type="ConvexPolygonShape2D" id=32]
-points = PoolVector2Array( 0, 0, 150, -45, 150, 45 )
+points = PoolVector2Array( -7, 0, 150, -45, 150, 45 )
+
+[sub_resource type="CapsuleShape2D" id=34]
+radius = 2.85235
+height = 6.14032
+
+[sub_resource type="CapsuleShape2D" id=33]
+radius = 2.67014
+height = 5.30323
 
 [node name="Ant" type="KinematicBody2D"]
 light_mask = -2147483647
@@ -201,10 +234,33 @@ hframes = 25
 frame = 49
 
 [node name="Stats" parent="." instance=ExtResource( 3 )]
+MAX_HP = 3
+CUR_HP = 3
+MAX_SPEED = 50
 
 [node name="DetectionZone" parent="." instance=ExtResource( 4 )]
 
 [node name="CollisionShape2D" parent="DetectionZone" index="0"]
 shape = SubResource( 32 )
 
+[node name="Hitbox" parent="." instance=ExtResource( 5 )]
+collision_layer = 0
+collision_mask = 64
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2( 9.01018, 0.333712 )
+shape = SubResource( 34 )
+disabled = true
+
+[node name="DetectionZone2" parent="." instance=ExtResource( 4 )]
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="DetectionZone2" index="0"]
+position = Vector2( 9.19238, 0.176777 )
+shape = SubResource( 33 )
+
 [editable path="DetectionZone"]
+
+[editable path="Hitbox"]
+
+[editable path="DetectionZone2"]

@@ -70,6 +70,11 @@ attack={
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":46,"unicode":0,"echo":false,"script":null)
  ]
 }
+ui_click={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
 
 [layer_names]
 
@@ -79,8 +84,9 @@ attack={
 2d_physics/layer_4="Food"
 2d_physics/layer_5="Player Hurtbox"
 2d_physics/layer_6="Enemy Hurtbox"
-2d_physics/layer_7="Pheromone"
-2d_physics/layer_8="Waypoint"
+2d_physics/layer_7="Food Hurtbox"
+2d_physics/layer_8="Pheromone"
+2d_physics/layer_9="Waypoint"
 
 [rendering]
 

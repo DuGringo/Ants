@@ -2,10 +2,10 @@
 
 [ext_resource path="res://Ant.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Ants Resorce/Tiles/Sand Tile.png" type="Texture" id=2]
-
-[sub_resource type="AnimationNodeStateMachinePlayback" id=1]
+[ext_resource path="res://World.gd" type="Script" id=4]
 
 [node name="World" type="Node2D"]
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -21,8 +21,3 @@ __meta__ = {
 
 [node name="Ant" parent="." instance=ExtResource( 1 )]
 position = Vector2( 36.4181, 54.8601 )
-
-[node name="AnimationTree" parent="Ant" index="2"]
-parameters/playback = SubResource( 1 )
-
-[editable path="Ant"]
