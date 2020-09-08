@@ -1,0 +1,4 @@
+multiplos acucares faz ele passar reto.
+ele soh procura quando tem seek (?)
+
+mudar deteccao de perto da comida em EAT

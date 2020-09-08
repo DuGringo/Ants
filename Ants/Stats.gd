@@ -6,7 +6,7 @@ export var ACCELERATION = 800
 export var MAX_SPEED = 100
 export var FRICTION = 500
 
-export var DAMAGE = 1
+#For DAMAGE, refer to HITBOX
 export var AWARENESS = 1
 export var DODGE = 1
 
