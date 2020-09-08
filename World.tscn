@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Ant.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Ants Resorce/Tiles/Sand Tile.png" type="Texture" id=2]
+[ext_resource path="res://Tileset/TileMap.tscn" type="PackedScene" id=3]
+[ext_resource path="res://World.gd" type="Script" id=4]
+
+[node name="World" type="YSort"]
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 0, 640, 360 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( 0, 0, 0, 360, 640, 360, 640, 0, 632, 8, 632, 352, 8, 352, 8, 8, 632, 8, 640, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Ant" parent="." instance=ExtResource( 1 )]
+position = Vector2( 264.161, 160.491 )
+
+[node name="Ant2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 144, 232 )
+rotation = -0.659734
+
+[node name="TileMap" parent="." instance=ExtResource( 3 )]
