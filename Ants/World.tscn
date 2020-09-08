@@ -21,9 +21,11 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_lock_": true
 }
+period = 7.0
+persistence = 5.0
+lacunarity = 5
 
 [node name="TileMap" parent="Sprite" instance=ExtResource( 3 )]
-scale = Vector2( 0.1, 0.1 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 

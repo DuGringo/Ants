@@ -3,9 +3,17 @@ extends Sprite
 var WIDTH = 640
 var HEIGHT = 360
 
+export var octaves = 2
+export var period = 7.5
+export var persistence = 0.5
+export var lacunarity = 2
+#2,7,5,5
+
 const TILES = {
 	'grass': 0,
 	'dirt': 1,
+	#'grass':2,
+	#'dirt':3,
 }
 
 var noise
@@ -16,22 +24,26 @@ func _ready():
 # Instantiate
 	randomize()
 	noise = OpenSimplexNoise.new()
-	noisewater = OpenSimplexNoise.new()
+	#noisewater = OpenSimplexNoise.new()
 	
 	# Configure
 	noise.seed = randi()
-	noise.octaves = 2
-	noise.period = 7.5
-	noise.persistence = 0.5
-	noise.lacunarity = 2
+	noise.octaves = octaves
+	noise.period = period
+	noise.persistence = persistence
+	noise.lacunarity = lacunarity
 
-	noisewater.seed = randi()
-	noisewater.octaves = 2
-	noisewater.period = 40.0
-	noisewater.persistence = 0.5
-	noisewater.lacunarity = 2
+	#noisewater.seed = randi()
+	#noisewater.octaves = 2
+	#noisewater.period = 40.0
+	#noisewater.persistence = 0.5
+	#noisewater.lacunarity = 2
 
 	_generate_world()
+	
+func _input(event):
+	if Input.get_action_strength("ui_select"):
+		get_tree().reload_current_scene()
 	
 func _generate_world():
 	for x in WIDTH:
