@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Ant.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Ants Resorce/Tiles/Sand Tile.png" type="Texture" id=2]
+[ext_resource path="res://Tileset/TileMap.tscn" type="PackedScene" id=3]
 [ext_resource path="res://World.gd" type="Script" id=4]
 
 [node name="World" type="YSort"]
@@ -34,72 +35,4 @@ position = Vector2( 264.161, 160.491 )
 position = Vector2( 144, 232 )
 rotation = -0.659734
 
-[node name="Ant3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 472, 160 )
-rotation = -2.55167
-
-[node name="Ant4" parent="." instance=ExtResource( 1 )]
-position = Vector2( 240, 272 )
-
-[node name="Ant5" parent="." instance=ExtResource( 1 )]
-position = Vector2( 96, 80 )
-
-[node name="Ant6" parent="." instance=ExtResource( 1 )]
-position = Vector2( 440, 272 )
-
-[node name="Ant7" parent="." instance=ExtResource( 1 )]
-position = Vector2( 456, 88 )
-
-[node name="Ant8" parent="." instance=ExtResource( 1 )]
-position = Vector2( 80, 296 )
-
-[node name="Ant9" parent="." instance=ExtResource( 1 )]
-position = Vector2( 56, 160 )
-
-[node name="Ant10" parent="." instance=ExtResource( 1 )]
-position = Vector2( 288, 192 )
-
-[node name="Ant11" parent="." instance=ExtResource( 1 )]
-position = Vector2( 80, 240 )
-
-[node name="Ant12" parent="." instance=ExtResource( 1 )]
-position = Vector2( 456, 200 )
-
-[node name="Ant13" parent="." instance=ExtResource( 1 )]
-position = Vector2( 296, 328 )
-
-[node name="Ant14" parent="." instance=ExtResource( 1 )]
-position = Vector2( 288, 80 )
-
-[node name="Ant15" parent="." instance=ExtResource( 1 )]
-position = Vector2( 72, 56 )
-
-[node name="Ant16" parent="." instance=ExtResource( 1 )]
-position = Vector2( 56, 192 )
-
-[node name="Ant17" parent="." instance=ExtResource( 1 )]
-position = Vector2( 288, 48 )
-
-[node name="Ant18" parent="." instance=ExtResource( 1 )]
-position = Vector2( 480, 136 )
-
-[node name="Ant19" parent="." instance=ExtResource( 1 )]
-position = Vector2( 248, 224 )
-
-[node name="Ant20" parent="." instance=ExtResource( 1 )]
-position = Vector2( 32, 112 )
-
-[node name="Ant21" parent="." instance=ExtResource( 1 )]
-position = Vector2( 24, 280 )
-
-[node name="Ant22" parent="." instance=ExtResource( 1 )]
-position = Vector2( 48, 336 )
-
-[node name="Ant23" parent="." instance=ExtResource( 1 )]
-position = Vector2( 272, 312 )
-
-[node name="Ant24" parent="." instance=ExtResource( 1 )]
-position = Vector2( 488, 312 )
-
-[node name="Ant25" parent="." instance=ExtResource( 1 )]
-position = Vector2( 464, 40 )
+[node name="TileMap" parent="." instance=ExtResource( 3 )]
