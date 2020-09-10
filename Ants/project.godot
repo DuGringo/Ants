@@ -87,6 +87,7 @@ ui_click={
 2d_physics/layer_7="Food Hurtbox"
 2d_physics/layer_8="Pheromone"
 2d_physics/layer_9="Waypoint"
+2d_physics/layer_10="Formigueiro"
 
 [rendering]
 

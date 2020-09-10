@@ -39,3 +39,7 @@ func set_thirst(value):
 
 
 
+
+
+
+

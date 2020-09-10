@@ -1,6 +1,36 @@
-multiplos acucares faz ele passar reto.
-ele soh procura quando tem seek (?)
+De vez em quando a formiga desliza (mais visto durante CHASE)
+Se acha durante o search!
+formigas travando em idle depois de bastante tempo (????????????)
 
-mudar deteccao de perto da comida em EAT
+Sinal do formigueiro nao conectando pra formiga se destruir. (sinal existe, a formiga n conecta com o sinal do formigueiro)
 
-De vez em quando a formiga desliza
+formigueiro adicionando E retirando mais de uma formiga ao mesmo tempo (de vez em quando)
+
+array em formigueiro sendo criada com entrada vazia, e referencia a entrada, crasha.
+
+numero do contador de formiga almentando sem criar array (possivelmente relacionado com o problema de cima)
+numero do contador de formiga diminuindo sem instanciar a formiga
+
+formigueiro spawna formiga no canto da tela.
+
+quando tem muita comida de vez em quando formiga anda devagar e buga
+(mudei na animation tree) setinhas
+
+
+SINAL RETORNA ALGUMA COISA
+
+
+
+
+implementar:
+formigueiro soh manda pra fora se a formiga estiver sem fome
+formiga soh entra COM FOME, guarda o valor nutricional, e adiciona ao formigueiro.
+perde fome conforme fica no formigueiro.
+formigueiro soh pega a formiga se ela estiver com fome ou vida menos de 50%
+
+
+
+DESFAZER:
+funcao can_see_object em DETECTIONZONE foi desativada
+
+

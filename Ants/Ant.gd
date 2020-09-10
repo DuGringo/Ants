@@ -3,12 +3,14 @@ extends KinematicBody2D
 enum{
 	MOVE,
 	ATTACK,
-	EAT,
 	CHASE,
+	EAT,
 	WANDER,
 	SEARCH,
 	IDLE
+	VOLTAR
 }
+
 
 var state = WANDER
 var velocity = Vector2.ZERO
@@ -17,20 +19,31 @@ export(int) var WANDER_TARGET_RANGE = 2
 var is_searching = false
 var is_idle = false
 
-var state_list = [WANDER, WANDER, WANDER, WANDER, IDLE, IDLE, IDLE, SEARCH]
+var just_born = true
+
+var state_list = [WANDER, WANDER, WANDER, WANDER, IDLE, IDLE, IDLE, SEARCH, SEARCH, SEARCH, SEARCH]
 
 onready var anim : AnimationPlayer = $AnimationPlayer
 onready var animTree = $AnimationTree
 onready var animState = animTree.get("parameters/playback")
+#onready var formigueiro = $Formigueiro
+onready var formigueiro = get_node("../Formigueiro")
+
 onready var stat = $Stats
 #Finding
 onready var detectionZone = $DetectionZone
 #Attack
 onready var detectionZone2 = $DetectionZone2
+#Formigueiro
+onready var ver_formigueiro = $DetectionZone3
 onready var wanderController = $WanderController
 
 
-
+func _ready():
+	
+	#connect("entrou_formigueiro", self, "morri")
+	animTree.active = true
+	
 func _physics_process(delta):
 	match state:
 		MOVE:
@@ -41,27 +54,30 @@ func _physics_process(delta):
 		ATTACK:
 			attack_state(delta)
 
-		EAT:
-			eat_state(delta)
-
 		CHASE:
 			chase_state(delta)
+			find_food(delta)
+
+		EAT:
+			eat_state(delta)
 
 		WANDER:
 			seek_zone()
 			wander_state(delta)
-			
-			
+			find_food(delta)
 
 		SEARCH:
 			seek_zone()
 			search_state(delta)
-		
+			find_food(delta)
+
 		IDLE:
 			seek_zone()
 			idle_state(delta)
-			
-	
+			find_food(delta)
+
+		VOLTAR:
+			voltar_state(delta)
 
 
 	velocity = move_and_slide(velocity)
@@ -93,14 +109,16 @@ func attack_state(delta):
 	velocity = Vector2.ZERO
 #state 2
 func eat_state(delta):
+	animState.travel("Attack")
+	velocity = Vector2.ZERO
 	
 	var food = detectionZone2.object
-	
 	if food != null:
-		animState.travel("Attack")
-		velocity = Vector2.ZERO
-	else:
-		state = IDLE
+		if food.mordida == true:
+			stat.HUNGER = stat.HUNGER - food.valor_nutricional
+	if stat.HUNGER <= 1 :
+		state = VOLTAR
+	
 #state 3
 func chase_state(delta):
 	var object = detectionZone.object
@@ -111,8 +129,8 @@ func chase_state(delta):
 		animState.travel("Walk")
 		look_at(velocity * 10000)
 		should_attack()
-	else:
-		state = IDLE
+		
+	
 #state 4
 func wander_state(delta):
 	if is_searching != true:
@@ -124,6 +142,8 @@ func wander_state(delta):
 		look_at(velocity * 10000)
 		if direction != Vector2.ZERO:
 			animState.travel("Walk")
+		
+		
 	
 	if global_position.distance_to(wanderController.target_position) <= WANDER_TARGET_RANGE:
 				velocity = Vector2.ZERO
@@ -145,20 +165,38 @@ func idle_state(delta):
 	if  wanderController.get_time_left() == 0:
 		state = pick_random_state(state_list)
 		is_idle = false
-
-
+#state 7
+func voltar_state(delta):
+	if stat.HUNGER <= 1:
+		var direction = global_position.direction_to(formigueiro.global_position)
+		velocity = velocity.move_toward(direction * stat.MAX_SPEED, stat.ACCELERATION * delta)
+		look_at(velocity * 10000)
+		animState.travel("Walk")
+		print(ver_formigueiro.object, "fora")
+	
+	if ver_formigueiro.object != null:
+		print(ver_formigueiro.object)
+		queue_free()
+		
+		
 func attack_animation_finished():
-	state = WANDER
+	#state = WANDER
+	state = IDLE
+	#decidir qual é melhor
 
 func seek_zone():
-	if detectionZone.can_see_object():
+	if detectionZone.object != null:
+		animState.stop()
+		animState.travel("Walk")
 		state = CHASE
 	#else:
 	#	state = WANDER
 
 func should_attack():
-	if detectionZone2.can_see_object():
-		state = EAT
+	#if detectionZone2.can_see_object():
+	#	state = EAT
+	#EVENTUALMENTE MUDAR ISSO PRA STATE ATTACK, NAO STATE EAT
+	pass
 
 func pick_random_state(state_list):
 	state_list.shuffle()
@@ -168,3 +206,17 @@ func pick_random_state(state_list):
 func search_animation_finished():
 	state = WANDER
 	is_searching = false
+
+func find_food(delta):
+	var food = detectionZone2.object
+	if food != null:
+		var direction = global_position.direction_to(food.global_position)
+		look_at(direction * 10000)
+		state = EAT
+	
+
+		
+func morri():
+	print("morri")
+	queue_free()
+

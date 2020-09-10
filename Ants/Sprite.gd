@@ -10,11 +10,12 @@ export var lacunarity = 2
 #2,7,5,5
 
 const TILES = {
-	'grass': 0,
-	'dirt': 1,
-	#'grass':2,
-	#'dirt':3,
+	'dirt': 0,
+	'grass': 1,
+
 }
+
+
 
 var noise
 var noisewater
@@ -48,11 +49,11 @@ func _input(event):
 func _generate_world():
 	for x in WIDTH:
 		for y in HEIGHT:
-			$TileMap.set_cellv(Vector2(x-WIDTH/2, y-HEIGHT/2), _get_tile_index(noise.get_noise_2d(float(x),float(y))))
-	$TileMap.update_bitmask_region()
+			$TileMap2.set_cellv(Vector2(x-WIDTH/2, y-HEIGHT/2), _get_tile_index(noise.get_noise_2d(float(x),float(y))))
+	$TileMap2.update_bitmask_region()
 
 func _get_tile_index(noise_sample):
-	if noise_sample < 0.1:
+	if noise_sample < 0.3:
 		return TILES.dirt
 	return TILES.grass
 	

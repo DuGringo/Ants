@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/singlegrass.png-a0f4231baa8261da82f489f49c9b532f.stex"
+path="res://.import/Formigueiro.png-7144e5cd4baa8156ddfbca55cbff53ce.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Tileset/singlegrass.png"
-dest_files=[ "res://.import/singlegrass.png-a0f4231baa8261da82f489f49c9b532f.stex" ]
+source_file="res://Ants Resorce/Tiles/Formigueiro.png"
+dest_files=[ "res://.import/Formigueiro.png-7144e5cd4baa8156ddfbca55cbff53ce.stex" ]
 
 [params]
 
