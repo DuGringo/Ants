@@ -1,6 +1,5 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Ant.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Ants Resorce/Tiles/Sand Tile.png" type="Texture" id=2]
 [ext_resource path="res://Tileset/TileMap.tscn" type="PackedScene" id=3]
 [ext_resource path="res://World.gd" type="Script" id=4]
@@ -39,8 +38,6 @@
 1/shapes = [  ]
 1/z_index = 0
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=2]
-
 [node name="World" type="YSort"]
 script = ExtResource( 4 )
 __meta__ = {
@@ -77,15 +74,3 @@ __meta__ = {
 
 [node name="Formigueiro" parent="." instance=ExtResource( 8 )]
 position = Vector2( 281.842, 218.814 )
-
-[node name="Ant" parent="." instance=ExtResource( 1 )]
-position = Vector2( 264.161, 160.491 )
-
-[node name="AnimationTree" parent="Ant" index="2"]
-parameters/playback = SubResource( 2 )
-
-[node name="Ant2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 144, 232 )
-rotation = -0.659734
-
-[editable path="Ant"]

@@ -1,10 +1,7 @@
 extends Area2D
 
 
-signal entrou_formigueiro
-
-
-export var ants_count = 3
+export var ants_count = 0
 var antnumber = 0
 
 onready var collision = $CollisionShape2D
@@ -27,34 +24,34 @@ func _process(delta):
 	SpitAnt(formigas)
 	
 func _on_Formigueiro_body_entered(body):
-	#collision.set_deferred("disabled", true)
-	ants_count += 1
-	antnumber += 1
-	stats.append(antnumber)
-	stats.append(body.stat.MAX_HP)
-	stats.append(body.stat.CUR_HP)
-	stats.append(body.stat.ACCELERATION)
-	stats.append(body.stat.MAX_SPEED)
-	stats.append(body.stat.FRICTION)
-	stats.append(body.stat.AWARENESS)
-	stats.append(body.stat.DODGE)
-	stats.append(body.stat.MAX_LEVEL)
-	stats.append(body.stat.LEVEL)
-	stats.append(body.stat.EXPERIENCE)
-	stats.append(body.stat.HUNGER)
-	stats.append(body.stat.THIRST)
+	if body.state == 6:
+		ants_count += 1
+		antnumber += 1
+		print(ants_count)
+		stats.append(antnumber)
+		stats.append(body.stat.MAX_HP)
+		stats.append(body.stat.CUR_HP)
+		stats.append(body.stat.ACCELERATION)
+		stats.append(body.stat.MAX_SPEED)
+		stats.append(body.stat.FRICTION)
+		stats.append(body.stat.AWARENESS)
+		stats.append(body.stat.DODGE)
+		stats.append(body.stat.MAX_LEVEL)
+		stats.append(body.stat.LEVEL)
+		stats.append(body.stat.EXPERIENCE)
+		stats.append(body.stat.HUNGER)
+		stats.append(body.stat.THIRST)
 	
-	formigas.append(stats)
-	set_timer(2)
-	stats.clear()
-	emit_signal("entrou_formigueiro")
+		formigas.append(stats)
+		set_timer(2)
+		stats.clear()
 	
 
 func SpitAnt(list):
 	if get_time_left() <= .5 && resetado == true && ants_count > 0:
-		#collision.set_deferred("disabled", true)
 		resetado = false
 		ants_count -= 1
+		print(ants_count)
 		
 		
 		#instancia a formiga
@@ -80,7 +77,6 @@ func SpitAnt(list):
 		
 		set_timer(5)
 	elif get_time_left() <= .5 && resetado == false:
-		#collision.set_deferred("disabled", false)
 		resetado = true
 		set_timer(rand_range(1,15))
 

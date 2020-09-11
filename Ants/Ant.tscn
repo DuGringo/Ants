@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Ant.gd" type="Script" id=1]
 [ext_resource path="res://Ants Resorce/Animations/Ant Spritesheet.png" type="Texture" id=2]
@@ -98,20 +98,22 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("DetectionZone/CollisionShape2D:scale")
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 1, 1.4, 2.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1.5, 1.5 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
+"times": PoolRealArray( 2.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "search_animation_finished"
+} ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("DetectionZone/CollisionShape2D:rotation_degrees")
+tracks/2/path = NodePath("DetectionZone:rotation_degrees")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -122,19 +124,17 @@ tracks/2/keys = {
 "update": 0,
 "values": [ 0.0, 0.0, 45.0, 45.0, -45.0, -45.0, 0.0 ]
 }
-tracks/3/type = "method"
-tracks/3/path = NodePath(".")
+tracks/3/type = "value"
+tracks/3/path = NodePath("DetectionZone:scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 2.5 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "search_animation_finished"
-} ]
+"times": PoolRealArray( 0, 0.2, 1.7, 2.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -191,15 +191,15 @@ auto_advance = true
 [sub_resource type="AnimationNodeStateMachineTransition" id=17]
 switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=27]
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=28]
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
 
-[sub_resource type="AnimationNodeStateMachine" id=18]
+[sub_resource type="AnimationNodeStateMachine" id=22]
 states/Attack/node = SubResource( 6 )
 states/Attack/position = Vector2( 310, 73 )
 states/Idle/node = SubResource( 7 )
@@ -208,27 +208,24 @@ states/Search/node = SubResource( 8 )
 states/Search/position = Vector2( 428, 273 )
 states/Walk/node = SubResource( 11 )
 states/Walk/position = Vector2( 539, 73 )
-transitions = [ "Idle", "Attack", SubResource( 12 ), "Attack", "Idle", SubResource( 13 ), "Walk", "Idle", SubResource( 14 ), "Idle", "Walk", SubResource( 15 ), "Idle", "Search", SubResource( 16 ), "Search", "Idle", SubResource( 17 ), "Search", "Walk", SubResource( 25 ), "Walk", "Attack", SubResource( 26 ), "Attack", "Walk", SubResource( 27 ), "Walk", "Search", SubResource( 28 ) ]
+transitions = [ "Idle", "Attack", SubResource( 12 ), "Attack", "Idle", SubResource( 13 ), "Walk", "Idle", SubResource( 14 ), "Idle", "Walk", SubResource( 15 ), "Idle", "Search", SubResource( 16 ), "Search", "Idle", SubResource( 17 ), "Search", "Walk", SubResource( 18 ), "Walk", "Attack", SubResource( 19 ), "Attack", "Walk", SubResource( 20 ), "Walk", "Search", SubResource( 21 ) ]
 start_node = "Idle"
+graph_offset = Vector2( 0, 22.0523 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=19]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=23]
 
-[sub_resource type="ConvexPolygonShape2D" id=20]
+[sub_resource type="ConvexPolygonShape2D" id=24]
 points = PoolVector2Array( -7, 0, 150, -45, 150, 45 )
 
-[sub_resource type="CapsuleShape2D" id=21]
+[sub_resource type="CapsuleShape2D" id=25]
 radius = 2.67014
 height = 5.30323
 
-[sub_resource type="CapsuleShape2D" id=24]
-radius = 3.81948
-height = 3.03696
-
-[sub_resource type="CapsuleShape2D" id=22]
+[sub_resource type="CapsuleShape2D" id=27]
 radius = 2.85235
 height = 6.14032
 
-[sub_resource type="CapsuleShape2D" id=23]
+[sub_resource type="CapsuleShape2D" id=28]
 radius = 1.91966
 height = 5.8698
 
@@ -249,9 +246,9 @@ anims/Search = SubResource( 4 )
 anims/Walk = SubResource( 5 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 18 )
+tree_root = SubResource( 22 )
 anim_player = NodePath("../AnimationPlayer")
-parameters/playback = SubResource( 19 )
+parameters/playback = SubResource( 23 )
 parameters/Walk/TimeScale/scale = 2.5
 
 [node name="Ant Spritesheet" type="Sprite" parent="."]
@@ -276,31 +273,25 @@ collision_mask = 12
 
 [node name="CollisionShape2D" parent="DetectionZone" index="0"]
 position = Vector2( 5, 0 )
-shape = SubResource( 20 )
+shape = SubResource( 24 )
 
 [node name="DetectionZone2" parent="." instance=ExtResource( 4 )]
+visible = false
 position = Vector2( -0.353951, 0.117985 )
 collision_mask = 8
 
 [node name="CollisionShape2D" parent="DetectionZone2" index="0"]
 position = Vector2( 9.19238, 0.176777 )
-shape = SubResource( 21 )
-
-[node name="DetectionZone3" parent="." instance=ExtResource( 4 )]
-collision_mask = 512
-
-[node name="CollisionShape2D" parent="DetectionZone3" index="0"]
-position = Vector2( -3.8147e-06, -1.90735e-06 )
-rotation = 1.5708
-shape = SubResource( 24 )
+shape = SubResource( 25 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 5 )]
+visible = false
 collision_layer = 0
 collision_mask = 96
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 position = Vector2( 9.01018, 0.333712 )
-shape = SubResource( 22 )
+shape = SubResource( 27 )
 disabled = true
 
 [node name="WanderController" parent="." instance=ExtResource( 6 )]
@@ -313,13 +304,11 @@ collision_mask = 0
 
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
 rotation = 1.5708
-shape = SubResource( 23 )
+shape = SubResource( 28 )
 
 [editable path="DetectionZone"]
 
 [editable path="DetectionZone2"]
-
-[editable path="DetectionZone3"]
 
 [editable path="Hitbox"]
 

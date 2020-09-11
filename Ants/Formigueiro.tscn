@@ -4,12 +4,13 @@
 [ext_resource path="res://Formigueiro.gd" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 5.02705
+radius = 6.52144
 
 [node name="Formigueiro" type="Area2D"]
 collision_layer = 512
-collision_mask = 0
+collision_mask = 2
 script = ExtResource( 2 )
+ants_count = 30
 distancia = 10
 
 [node name="Sprite" type="Sprite" parent="."]
