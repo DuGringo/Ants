@@ -11,14 +11,13 @@ var formigas = []
 var stats = []
 
 
-
-var resetado = false
-
 export var distancia = 5
 onready var target_position = global_position
 
 func _ready():
 	set_timer(2)
+	#habilitar randomize pra ser randomico fora dos testes
+#	randomize()
 
 func _process(delta):
 	SpitAnt(formigas)
@@ -26,9 +25,8 @@ func _process(delta):
 func _on_Formigueiro_body_entered(body):
 	if body.state == 6:
 		ants_count += 1
-		antnumber += 1
-		print(ants_count)
-		stats.append(antnumber)
+			
+		stats.append(body.stat.ANT_NUMBER)
 		stats.append(body.stat.MAX_HP)
 		stats.append(body.stat.CUR_HP)
 		stats.append(body.stat.ACCELERATION)
@@ -42,43 +40,38 @@ func _on_Formigueiro_body_entered(body):
 		stats.append(body.stat.HUNGER)
 		stats.append(body.stat.THIRST)
 	
-		formigas.append(stats)
+		formigas.append(stats.duplicate(true))
+
 		set_timer(2)
 		stats.clear()
-	
+
 
 func SpitAnt(list):
-	if get_time_left() <= .5 && resetado == true && ants_count > 0:
-		resetado = false
+	if get_time_left() <= .5 && ants_count > 0:
 		ants_count -= 1
-		print(ants_count)
-		
 		
 		#instancia a formiga
-		var InstanceAnt = preload ("res://Ant.tscn")
-		var instanceAnt = InstanceAnt.instance()
+		var InstancedAnt = preload ("res://Ant.tscn")
+		var instancedAnt = InstancedAnt.instance()
 		var world = get_tree().current_scene
-		world.add_child(instanceAnt)
+		world.add_child(instancedAnt)
 		
 		#posicao formiga
-		#var target_vector = Vector2(rand_range(-distancia,distancia), rand_range(-distancia,distancia))
 		target_position = global_position 
-		instanceAnt.global_position = target_position
+		instancedAnt.global_position = target_position
 		
-		#conectando sinal, nao funciona.
-		#instanceAnt.connect("entrou_formigueiro", self, "morri")
+		#status da formiga instanciada
+		if list.size() > 0: 
+			list.shuffle()
+			set_stats(instancedAnt, list)
+			
+		if instancedAnt.stat.ANT_NUMBER == 0:
+			antnumber += 1
+			instancedAnt.stat.ANT_NUMBER = antnumber
+		(set_timer(rand_range(5,20)))
 		
-		#aqui eventualmente vai dar os status da lista pra formiga instanciada
-		#if list[0]!= null:
-		#	list.shuffle()
-		#	var antStats = list.pop_back()
-			#set_stats(instanceAnt, antStats)
-			#detalhe: pop_back NAO RETORNA O VALOR(?), encontrar funcao melhor
-		
-		set_timer(5)
-	elif get_time_left() <= .5 && resetado == false:
-		resetado = true
-		set_timer(rand_range(1,15))
+	
+
 
 func get_time_left():
 	return timer.time_left
@@ -86,17 +79,22 @@ func get_time_left():
 func set_timer(duration):
 	timer.start(duration)
 
-func set_stats(variavel, lista):
-	variavel.stat.MAX_HP = lista[1]
-	variavel.stat.CUR_HP = lista[2]
-	variavel.stat.ACCELERATION = lista[3]
-	variavel.stat.MAX_SPEED = lista[4]
-	variavel.stat.FRICTION = lista[5]
-	variavel.stat.AWARENESS = lista[6]
-	variavel.stat.DODGE = lista[7]
-	variavel.stat.MAX_LEVEL = lista[8]
-	variavel.stat.LEVEL = lista[9]
-	variavel.stat.EXPERIENCE = lista[10]
-	variavel.stat.HUNGER = lista[11]
-	variavel.stat.THIRST = lista[12]
+func set_stats(ant, ants_list):
+	
+	var ant_stat = ants_list[0]
+	ant.stat.ANT_NUMBER = ant_stat[0]
+	ant.stat.MAX_HP = ant_stat[1]
+	ant.stat.CUR_HP = ant_stat[2]
+	ant.stat.ACCELERATION = ant_stat[3]
+	ant.stat.MAX_SPEED = ant_stat[4]
+	ant.stat.FRICTION = ant_stat[5]
+	ant.stat.AWARENESS = ant_stat[6]
+	ant.stat.DODGE = ant_stat[7]
+	ant.stat.MAX_LEVEL = ant_stat[8]
+	ant.stat.LEVEL = ant_stat[9]
+	ant.stat.EXPERIENCE = ant_stat[10]
+	ant.stat.HUNGER = 50
+#	ant.stat.HUNGER = ant_stat[11]
+	ant.stat.THIRST = ant_stat[12]
+	
 

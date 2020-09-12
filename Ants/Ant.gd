@@ -43,7 +43,6 @@ onready var wanderController = $WanderController
 
 func _ready():
 	
-	#connect("entrou_formigueiro", self, "morri")
 	animTree.active = true
 	
 func _physics_process(delta):
@@ -127,17 +126,18 @@ func eat_state(delta):
 func chase_state(delta):
 	
 	var object = detectionZone.object
-	var object_position = null
+#	var object_position = null
 	if object != null:
 		detectionZone.rotation = 0
+		is_searching = false
 		#var direction = (object.global_position - global_position).normalized()
 		look_and_move(object.global_position , delta)
 		should_attack()
-		object_position = object.global_position
+#		object_position = object.global_position
 	else:
 		#state = pick_random_state(state_list)
 		state = IDLE
-	#if object_position != null and global_position.distance_to(object_position) <= 5:
+
 		
 		
 	
@@ -148,8 +148,6 @@ func wander_state(delta):
 			state = pick_random_state(state_list)
 			wanderController.set_wander_timer(rand_range(1,2))
 		look_and_move(wanderController.target_position , delta)
-		
-		
 		
 	
 	if global_position.distance_to(wanderController.target_position) <= WANDER_TARGET_RANGE:
@@ -179,9 +177,7 @@ func voltar_state(delta):
 		look_and_move(formigueiro.global_position , delta)
 	
 	var posicao = formigueiro.global_position - global_position
-	if posicao > Vector2(0,0) and posicao <= Vector2(2,2):
-		queue_free()
-	elif posicao < Vector2(0,0) and posicao >= Vector2(2,2) :
+	if posicao.length() <= 2:
 		queue_free()
 		
 		
@@ -194,7 +190,6 @@ func seek_zone():
 	if detectionZone.object != null:
 		animState.stop()
 		state = CHASE
-
 
 func should_attack():
 	#if detectionZone2.can_see_object():
@@ -219,10 +214,6 @@ func find_food(delta):
 		state = EAT
 	
 
-		
-func morri():
-	print("morri")
-	queue_free()
 
 func look_and_move(target_position , delta):
 	var direction = global_position.direction_to(target_position)

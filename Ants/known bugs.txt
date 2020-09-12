@@ -1,22 +1,19 @@
-De vez em quando a formiga desliza (mais visto durante CHASE)
-Se acha durante o search!
-formigas travando em idle depois de bastante tempo (????????????) --> acho qu eeh relacionado a comida desaparecer (talvez relacionado com ela colidir em uam comida que nao foi a primeira identificada)
-TRAVOU EM WANDER DEPOIS DE SAIR DE IDLE, depois de sair de chase
+formigas travando em idle depois de bastante tempo (????????????) --> acho que é relacionado a comida desaparecer (talvez relacionado com ela colidir em uam comida que nao foi a primeira identificada) (se come arruma)
+TRAVOU EM WANDER DEPOIS DE SAIR DE IDLE, depois de sair de chase (se comer, arruma)
 
+FORMIGA TRAVADA VAI ATRAZ DE COMIDA QUE NAO CONSEGUE VER
 
-formigueiro adicionando E retirando mais de uma formiga ao mesmo tempo (de vez em quando)
+formigas indo infinitamente pro canto superior esquerdo e inferior direito (se comer, corrige.)
 
 array em formigueiro sendo criada com entrada vazia, e referencia a entrada, crasha.
+a primeira entrada da lista de formiga nao consegue ser lida e interpretada corretamente
 
-numero do contador de formiga almentando sem criar array (possivelmente relacionado com o problema de cima)
-numero do contador de formiga diminuindo sem instanciar a formiga
 
-formigueiro spawna formiga no canto da tela.
+de vez em quando a formiga trava (se tem muita comida) (mesmo sem comida wtf)
 
-de vez em quando a formiga trava (se tem muita comida)
+come masi de uma comida e soh ganha a satisfacao de uma
 
-se a formiga esta voltando para o formigueiro, ela ainda destroi outras comidas
-
+arrumar hitbox do eat (possivelmente da food)
 
 
 
@@ -26,11 +23,11 @@ implementar:
 formigueiro soh manda pra fora se a formiga estiver sem fome
 formiga soh entra COM FOME, guarda o valor nutricional, e adiciona ao formigueiro.
 perde fome conforme fica no formigueiro.
-formigueiro soh pega a formiga se ela estiver com fome ou vida menos de 50%
+formigueiro perde valor nutricional.
 
+formiga so procura formigueiro se ela estiver com fome ou vida menos de 50%
 
 
 DESFAZER:
-funcao can_see_object em DETECTIONZONE foi desativada
 
 
