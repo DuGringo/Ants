@@ -1,16 +1,3 @@
-formigas travando em idle depois de bastante tempo (????????????) --> acho que é relacionado a comida desaparecer (talvez relacionado com ela colidir em uam comida que nao foi a primeira identificada) (se come arruma)
-TRAVOU EM WANDER DEPOIS DE SAIR DE IDLE, depois de sair de chase (se comer, arruma)
-
-FORMIGA TRAVADA VAI ATRAZ DE COMIDA QUE NAO CONSEGUE VER
-
-formigas indo infinitamente pro canto superior esquerdo e inferior direito (se comer, corrige.)
-
-array em formigueiro sendo criada com entrada vazia, e referencia a entrada, crasha.
-a primeira entrada da lista de formiga nao consegue ser lida e interpretada corretamente
-
-
-de vez em quando a formiga trava (se tem muita comida) (mesmo sem comida wtf)
-
 come masi de uma comida e soh ganha a satisfacao de uma
 
 arrumar hitbox do eat (possivelmente da food)
@@ -27,7 +14,10 @@ formigueiro perde valor nutricional.
 
 formiga so procura formigueiro se ela estiver com fome ou vida menos de 50%
 
+INIMIGO
+
+forma de ganhar stats
+
 
 DESFAZER:
-
 

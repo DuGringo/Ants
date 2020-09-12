@@ -12,16 +12,16 @@ enum{
 }
 
 
-var state = WANDER
+var state = null
 var velocity = Vector2.ZERO
 export(int) var WANDER_TARGET_RANGE = 2
 
 var is_searching = false
 var is_idle = false
 
-var just_born = true
+var obj_pos = null
 
-var state_list = [WANDER, WANDER, WANDER, WANDER, IDLE, IDLE, IDLE, SEARCH, SEARCH, SEARCH, SEARCH]
+var state_list = [WANDER, WANDER, WANDER, WANDER, IDLE, IDLE, IDLE, SEARCH]
 
 onready var anim : AnimationPlayer = $AnimationPlayer
 onready var animTree = $AnimationTree
@@ -42,8 +42,10 @@ onready var wanderController = $WanderController
 
 
 func _ready():
-	
+	randomize()
 	animTree.active = true
+	state = pick_random_state(state_list)
+	self.rotation = rand_range(-360, 360)
 	
 func _physics_process(delta):
 	
@@ -57,28 +59,38 @@ func _physics_process(delta):
 			attack_state(delta)
 #stat1 
 		CHASE:
+
+			seek_zone()
+			fix_cone()
 			chase_state(delta)
 			find_food(delta)
 #state 2
 		EAT:
+
 			eat_state(delta)
 #state 3
 		WANDER:
+
+			fix_cone()
 			seek_zone()
 			wander_state(delta)
 			find_food(delta)
 #state 4
 		SEARCH:
+
 			seek_zone()
 			search_state(delta)
 			find_food(delta)
 #state 5
 		IDLE:
+
+			fix_cone()
 			seek_zone()
 			idle_state(delta)
 			find_food(delta)
 #state 6
 		VOLTAR:
+			fix_cone()
 			voltar_state(delta)
 
 
@@ -108,10 +120,15 @@ func _physics_process(delta):
 
 #state 0
 func attack_state(delta):
+	is_searching = false
+	is_idle = false
+	
 	animState.travel("Attack")
 	velocity = Vector2.ZERO
 #state 1
 func eat_state(delta):
+	is_searching = false
+	is_idle = false
 	animState.travel("Attack")
 	velocity = Vector2.ZERO
 	
@@ -124,25 +141,24 @@ func eat_state(delta):
 	
 #state 2
 func chase_state(delta):
+	is_searching = false
+	is_idle = false
 	
 	var object = detectionZone.object
-#	var object_position = null
-	if object != null:
-		detectionZone.rotation = 0
-		is_searching = false
-		#var direction = (object.global_position - global_position).normalized()
-		look_and_move(object.global_position , delta)
-		should_attack()
-#		object_position = object.global_position
-	else:
-		#state = pick_random_state(state_list)
-		state = IDLE
+	
+	look_and_move(obj_pos , delta)
+	should_attack()
+	
+	if is_it_close(global_position, obj_pos, 2):
+		velocity = Vector2.ZERO
+		animState.travel("Idle")
+		state = pick_random_state(state_list)
 
-		
-		
 	
 #state 3
 func wander_state(delta):
+	is_idle = false
+
 	if is_searching != true:
 		if wanderController.get_time_left() == 0:
 			state = pick_random_state(state_list)
@@ -156,12 +172,17 @@ func wander_state(delta):
 				state = pick_random_state(state_list)
 #state 4
 func search_state(delta):
+	is_idle = false
 	is_searching = true
+	
 	animState.travel("Search")
 	velocity = Vector2.ZERO
 #state 5
 func idle_state(delta):
+	is_searching = false
+
 	if is_idle == false:
+		is_searching = false
 		is_idle = true
 		wanderController.set_wander_timer(rand_range(1,3))
 		animState.travel("Idle")
@@ -172,12 +193,13 @@ func idle_state(delta):
 		is_idle = false
 #state 6
 func voltar_state(delta):
+	is_searching = false
+	is_idle = false
 	if stat.HUNGER <= 1:
 		hitbox.disabled = true
 		look_and_move(formigueiro.global_position , delta)
 	
-	var posicao = formigueiro.global_position - global_position
-	if posicao.length() <= 2:
+	if is_it_close(formigueiro.global_position, global_position, 2):
 		queue_free()
 		
 		
@@ -189,6 +211,7 @@ func attack_animation_finished():
 func seek_zone():
 	if detectionZone.object != null:
 		animState.stop()
+		obj_pos = detectionZone.object.global_position
 		state = CHASE
 
 func should_attack():
@@ -212,11 +235,18 @@ func find_food(delta):
 		var direction = global_position.direction_to(food.global_position)
 		look_at(direction * 10000)
 		state = EAT
-	
-
 
 func look_and_move(target_position , delta):
 	var direction = global_position.direction_to(target_position)
 	velocity = velocity.move_toward(direction * stat.MAX_SPEED, stat.ACCELERATION * delta)
 	look_at(velocity * 10000)
 	animState.travel("Walk")
+
+func fix_cone():
+	detectionZone.rotation = 0
+	detectionZone.scale = Vector2(1,2)
+
+func is_it_close(pos1, pos2, distance):
+	var posicao = pos1 - pos2
+	if posicao.length() <= distance:
+		return true

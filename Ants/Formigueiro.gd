@@ -16,8 +16,8 @@ onready var target_position = global_position
 
 func _ready():
 	set_timer(2)
-	#habilitar randomize pra ser randomico fora dos testes
-#	randomize()
+
+
 
 func _process(delta):
 	SpitAnt(formigas)
