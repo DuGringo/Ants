@@ -42,10 +42,7 @@ func _ready():
 
 	_generate_world()
 	
-func _input(event):
-	if Input.get_action_strength("ui_select"):
-		get_tree().reload_current_scene()
-	
+
 func _generate_world():
 	for x in WIDTH:
 		for y in HEIGHT:

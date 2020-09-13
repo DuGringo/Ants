@@ -10,8 +10,6 @@ onready var timer = $Timer
 var formigas = []
 var stats = []
 
-
-export var distancia = 5
 onready var target_position = global_position
 
 func _ready():
@@ -25,6 +23,9 @@ func _process(delta):
 func _on_Formigueiro_body_entered(body):
 	if body.state == 6:
 		ants_count += 1
+		
+		if body.stat.EXPERIENCE >= body.stat.LEVEL * 5:
+			body.stat.LEVEL += 1
 			
 		stats.append(body.stat.ANT_NUMBER)
 		stats.append(body.stat.MAX_HP)
@@ -33,6 +34,7 @@ func _on_Formigueiro_body_entered(body):
 		stats.append(body.stat.MAX_SPEED)
 		stats.append(body.stat.FRICTION)
 		stats.append(body.stat.AWARENESS)
+		stats.append(body.stat.DAMAGE)
 		stats.append(body.stat.DODGE)
 		stats.append(body.stat.MAX_LEVEL)
 		stats.append(body.stat.LEVEL)
@@ -41,7 +43,6 @@ func _on_Formigueiro_body_entered(body):
 		stats.append(body.stat.THIRST)
 	
 		formigas.append(stats.duplicate(true))
-
 		set_timer(2)
 		stats.clear()
 
@@ -57,18 +58,20 @@ func SpitAnt(list):
 		world.add_child(instancedAnt)
 		
 		#posicao formiga
-		target_position = global_position 
+		target_position = global_position
+		target_position.y = target_position.y + 20 
 		instancedAnt.global_position = target_position
 		
 		#status da formiga instanciada
 		if list.size() > 0: 
 			list.shuffle()
 			set_stats(instancedAnt, list)
+			list.remove(0)
 			
 		if instancedAnt.stat.ANT_NUMBER == 0:
 			antnumber += 1
 			instancedAnt.stat.ANT_NUMBER = antnumber
-		(set_timer(rand_range(5,20)))
+		(set_timer(rand_range(2,10)))
 		
 	
 
@@ -81,7 +84,7 @@ func set_timer(duration):
 
 func set_stats(ant, ants_list):
 	
-	var ant_stat = ants_list[0]
+	var ant_stat = ants_list[0].duplicate(true)
 	ant.stat.ANT_NUMBER = ant_stat[0]
 	ant.stat.MAX_HP = ant_stat[1]
 	ant.stat.CUR_HP = ant_stat[2]
@@ -90,11 +93,14 @@ func set_stats(ant, ants_list):
 	ant.stat.FRICTION = ant_stat[5]
 	ant.stat.AWARENESS = ant_stat[6]
 	ant.stat.DODGE = ant_stat[7]
-	ant.stat.MAX_LEVEL = ant_stat[8]
-	ant.stat.LEVEL = ant_stat[9]
-	ant.stat.EXPERIENCE = ant_stat[10]
+	ant.stat.DAMAGE = ant_stat[8]
+	ant.stat.MAX_LEVEL = ant_stat[9]
+	ant.stat.LEVEL = ant_stat[10]
+	ant.stat.EXPERIENCE = ant_stat[11]
 	ant.stat.HUNGER = 50
-#	ant.stat.HUNGER = ant_stat[11]
-	ant.stat.THIRST = ant_stat[12]
+#	ant.stat.HUNGER = ant_stat[12]
+	ant.stat.THIRST = ant_stat[13]
 	
-
+	ant.hitdamage.damage = ant.stat.DAMAGE
+	ant.detectionZone.scale = ant.detectionZone.scale + Vector2(ant.stat.AWARENESS/10, ant.stat.AWARENESS/10)
+	ant.scale = ant.scale + Vector2(ant.stat.LEVEL / 10 , ant.stat.LEVEL / 10) 

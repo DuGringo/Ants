@@ -1,0 +1,96 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/StatsUI.gd" type="Script" id=1]
+
+[node name="StatsUI" type="Control"]
+margin_right = 100.0
+margin_bottom = 358.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ClassUI" type="Label" parent="."]
+margin_right = 55.0
+margin_bottom = 14.0
+text = "Ant"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ant Number" type="Label" parent="."]
+margin_left = 27.0163
+margin_top = 1.34591
+margin_right = 95.0163
+margin_bottom = 15.3459
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="Label" parent="."]
+margin_top = 28.0163
+margin_right = 55.0
+margin_bottom = 42.0163
+text = "Health: 1/10"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Damage" type="Label" parent="."]
+margin_left = -0.529724
+margin_top = 41.8488
+margin_right = 54.4703
+margin_bottom = 55.8488
+text = "Damage: 1"
+
+[node name="Speed" type="Label" parent="."]
+margin_left = 1.05948
+margin_top = 55.6218
+margin_right = 56.0595
+margin_bottom = 69.6218
+text = "Speed: 1"
+
+[node name="Awareness" type="Label" parent="."]
+margin_left = -1.52588e-05
+margin_top = 69.9246
+margin_right = 85.0
+margin_bottom = 83.9246
+text = "Awareness: 1"
+
+[node name="Dodge" type="Label" parent="."]
+margin_left = -0.529709
+margin_top = 83.6976
+margin_right = 88.4703
+margin_bottom = 97.6976
+text = "Dodge%: 10%"
+
+[node name="Level" type="Label" parent="."]
+margin_left = 3.05176e-05
+margin_top = 98.0003
+margin_right = 71.0
+margin_bottom = 112.0
+text = "Level: 1/10"
+
+[node name="Experience" type="Label" parent="."]
+margin_top = 112.303
+margin_right = 86.0
+margin_bottom = 126.303
+text = "Experience: 0"
+
+[node name="Hunger" type="Label" parent="."]
+margin_left = 0.529709
+margin_top = 127.665
+margin_right = 55.5297
+margin_bottom = 141.665
+text = "Hunger:"
+
+[node name="Formigueiro" type="Label" parent="."]
+margin_left = 1.27805
+margin_top = 342.639
+margin_right = 94.278
+margin_bottom = 356.639
+text = "Formigueiro: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -1,5 +1,6 @@
 extends Node2D
 
+export var CLASS = "ant"
 export var ANT_NUMBER = 0
 export var MAX_HP = 1
 export var CUR_HP = 1 setget set_health
@@ -9,10 +10,11 @@ export var FRICTION = 500
 
 #For DAMAGE, refer to HITBOX
 export var AWARENESS = 1
+export var DAMAGE = 1
 export var DODGE = 1
 
-export var MAX_LEVEL = 1
-export var LEVEL = 1
+export var MAX_LEVEL = 10.0
+export var LEVEL = 1.0 setget level_up
 export var EXPERIENCE = 0
 
 export var HUNGER = 1 setget set_hunger
@@ -38,9 +40,13 @@ func set_thirst(value):
 	if THIRST < 1 : THIRST = 1
 	if THIRST > 100: HUNGER = 100
 
-
-
-
-
-
-
+func level_up(level):
+	LEVEL = level
+	EXPERIENCE = 0
+	#if CLASS = <raca da formiga, classe da formiga, etc>
+	DAMAGE += 1
+	AWARENESS += 1
+	MAX_HP +=1
+	CUR_HP += 1
+	
+	

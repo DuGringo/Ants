@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Ants Resorce/Tiles/Sand Tile.png" type="Texture" id=2]
 [ext_resource path="res://Tileset/TileMap.tscn" type="PackedScene" id=3]
@@ -6,7 +6,6 @@
 [ext_resource path="res://Sprite.gd" type="Script" id=5]
 [ext_resource path="res://Tileset/singledirt.png" type="Texture" id=6]
 [ext_resource path="res://Tileset/singlegrass.png" type="Texture" id=7]
-[ext_resource path="res://Formigueiro.tscn" type="PackedScene" id=8]
 
 [sub_resource type="TileSet" id=1]
 0/name = "singledirt.png 0"
@@ -43,6 +42,7 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_lock_": true
 }
+max_time = 10
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
@@ -65,15 +65,14 @@ format = 1
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_mask = 15
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PoolVector2Array( 0, 0, 0, 360, 640, 360, 640, 0, 632, 8, 632, 352, 8, 352, 8, 8, 632, 8, 640, 0 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Formigueiro" parent="." instance=ExtResource( 8 )]
-position = Vector2( 281.842, 218.814 )
-ants_count = 50
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( -28.1447, -30.2977, -30.6674, 390.151, 663.072, 385.105, 660.549, -34.5022, 620, 20, 620, 340, 20, 340, 20, 20, 620, 20, 659.709, -36.184 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Timer" type="Timer" parent="."]

@@ -12,14 +12,15 @@ enum{
 }
 
 
-var state = null
+var state = WANDER
 var velocity = Vector2.ZERO
-export(int) var WANDER_TARGET_RANGE = 2
+export(int) var proximity_range = 2
 
 var is_searching = false
 var is_idle = false
 
 var obj_pos = null
+var valor_nutricional = null
 
 var state_list = [WANDER, WANDER, WANDER, WANDER, IDLE, IDLE, IDLE, SEARCH]
 
@@ -28,24 +29,26 @@ onready var animTree = $AnimationTree
 onready var animState = animTree.get("parameters/playback")
 #onready var formigueiro = $Formigueiro
 onready var formigueiro = get_node("../Formigueiro")
-
 onready var hitbox = get_node("Hitbox/CollisionShape2D")
+onready var hitdamage = $Hitbox
 
-
+#Stats
 onready var stat = $Stats
 #Finding
 onready var detectionZone = $DetectionZone
 #Attack
 onready var detectionZone2 = $DetectionZone2
-
+#Wander
 onready var wanderController = $WanderController
+#soft Collistion
+onready var softCollision = $SoftCollision
 
 
 func _ready():
 	randomize()
 	animTree.active = true
 	state = pick_random_state(state_list)
-	self.rotation = rand_range(-360, 360)
+	self.rotation_degrees = rand_range(-360, 360)
 	
 func _physics_process(delta):
 	
@@ -93,9 +96,11 @@ func _physics_process(delta):
 			fix_cone()
 			voltar_state(delta)
 
-
+	if softCollision.is_colliding():
+		velocity += softCollision.get_push_vector() * delta * 400
 	velocity = move_and_slide(velocity)
-	
+	if stat.HUNGER <= 1 or stat.CUR_HP == stat.MAX_HP/2:
+		state = VOLTAR	
 #state 0
 #func move_state(delta):
 #	var input_vector = Vector2.ZERO
@@ -132,13 +137,11 @@ func eat_state(delta):
 	animState.travel("Attack")
 	velocity = Vector2.ZERO
 	
-	var food = detectionZone2.object
-	if food != null:
-		if food.mordida == true:
-			stat.HUNGER = stat.HUNGER - food.valor_nutricional
-	if stat.HUNGER <= 1 :
-		state = VOLTAR
+
 	
+#	if food != null and _on_AnimationPlayer_animation_finished("Attack"):
+#		if anim.get_current_animation() == "Attack":
+
 #state 2
 func chase_state(delta):
 	is_searching = false
@@ -149,12 +152,10 @@ func chase_state(delta):
 	look_and_move(obj_pos , delta)
 	should_attack()
 	
-	if is_it_close(global_position, obj_pos, 2):
+	if is_it_close(global_position, obj_pos, proximity_range):
 		velocity = Vector2.ZERO
 		animState.travel("Idle")
 		state = pick_random_state(state_list)
-
-	
 #state 3
 func wander_state(delta):
 	is_idle = false
@@ -166,7 +167,7 @@ func wander_state(delta):
 		look_and_move(wanderController.target_position , delta)
 		
 	
-	if global_position.distance_to(wanderController.target_position) <= WANDER_TARGET_RANGE:
+	if global_position.distance_to(wanderController.target_position) <= proximity_range:
 				velocity = Vector2.ZERO
 				animState.travel("Idle")
 				state = pick_random_state(state_list)
@@ -180,13 +181,15 @@ func search_state(delta):
 #state 5
 func idle_state(delta):
 	is_searching = false
+	#vector zero aqui para a formiga parar de ser empurrada enquanto estiver idle
+	velocity = Vector2.ZERO
 
 	if is_idle == false:
 		is_searching = false
 		is_idle = true
 		wanderController.set_wander_timer(rand_range(1,3))
 		animState.travel("Idle")
-		velocity = Vector2.ZERO
+#		velocity = Vector2.ZERO
 
 	if  wanderController.get_time_left() == 0:
 		state = pick_random_state(state_list)
@@ -197,21 +200,30 @@ func voltar_state(delta):
 	is_idle = false
 	if stat.HUNGER <= 1:
 		hitbox.disabled = true
-		look_and_move(formigueiro.global_position , delta)
+		look_and_move(Vector2(formigueiro.global_position.x, formigueiro.global_position.y +20) , delta)
 	
-	if is_it_close(formigueiro.global_position, global_position, 2):
+	if is_it_close(Vector2(formigueiro.global_position.x, formigueiro.global_position.y +20), global_position, proximity_range):
 		queue_free()
 		
+func attack_animation_start():
+	var food = detectionZone2.object
+	if food != null:
+		valor_nutricional = food.valor_nutricional
 		
 func attack_animation_finished():
-	#state = WANDER
-	state = IDLE
-	#decidir qual é melhor
+		#fix porco de um bug
+		if valor_nutricional != null:
+			stat.HUNGER = stat.HUNGER - valor_nutricional
+			state = IDLE
+			
+
 
 func seek_zone():
 	if detectionZone.object != null:
 		animState.stop()
 		obj_pos = detectionZone.object.global_position
+		if detectionZone.object.stat.CLASS == "food":
+			obj_pos = Vector2(obj_pos.x , obj_pos.y + 20)
 		state = CHASE
 
 func should_attack():
@@ -223,7 +235,6 @@ func should_attack():
 func pick_random_state(state_list):
 	state_list.shuffle()
 	return state_list[1]
-	#return state_list.pop_out()
 
 func search_animation_finished():
 	state = WANDER
@@ -232,7 +243,8 @@ func search_animation_finished():
 func find_food(delta):
 	var food = detectionZone2.object
 	if food != null:
-		var direction = global_position.direction_to(food.global_position)
+#		var direction = global_position.direction_to(Vector2(food.global_position.x, food.global_position.y -10))
+		var direction = global_position.direction_to(Vector2(food.global_position.x, food.global_position.y + 20))
 		look_at(direction * 10000)
 		state = EAT
 
@@ -244,9 +256,18 @@ func look_and_move(target_position , delta):
 
 func fix_cone():
 	detectionZone.rotation = 0
-	detectionZone.scale = Vector2(1,2)
+	detectionZone.scale = Vector2(1,1)
 
 func is_it_close(pos1, pos2, distance):
 	var posicao = pos1 - pos2
 	if posicao.length() <= distance:
 		return true
+
+func gain_exp():
+	if stat.LEVEL < stat.MAX_LEVEL:
+		if stat.EXPERIENCE < stat.LEVEL * 5:
+			stat.EXPERIENCE += 1
+	
+
+
+	
