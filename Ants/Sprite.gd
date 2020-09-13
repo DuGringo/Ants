@@ -1,7 +1,7 @@
 extends Sprite
 
-var WIDTH = 640
-var HEIGHT = 360
+var WIDTH = 1280
+var HEIGHT = 720
 
 export var octaves = 2
 export var period = 7.5

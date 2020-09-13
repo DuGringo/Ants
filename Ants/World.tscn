@@ -1,6 +1,5 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Ants Resorce/Tiles/Sand Tile.png" type="Texture" id=2]
 [ext_resource path="res://Tileset/TileMap.tscn" type="PackedScene" id=3]
 [ext_resource path="res://World.gd" type="Script" id=4]
 [ext_resource path="res://Sprite.gd" type="Script" id=5]
@@ -45,14 +44,10 @@ __meta__ = {
 max_time = 10
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 2 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 0, 0, 640, 360 )
 script = ExtResource( 5 )
-__meta__ = {
-"_edit_lock_": true
-}
 period = 5.0
 persistence = 20.0
 
@@ -70,7 +65,7 @@ __meta__ = {
 }
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PoolVector2Array( -28.1447, -30.2977, -30.6674, 390.151, 663.072, 385.105, 660.549, -34.5022, 620, 20, 620, 340, 20, 340, 20, 20, 620, 20, 659.709, -36.184 )
+polygon = PoolVector2Array( -30, -30, -30, 750, 1310, 750, 1310, -30, 1260, 20, 1260, 700, 20, 700, 20, 20, 1260, 20, 1310, -30 )
 __meta__ = {
 "_edit_lock_": true
 }

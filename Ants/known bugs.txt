@@ -29,3 +29,5 @@ poder mudar o nome da formiga
 
 DESFAZER:
 
+640 -> 1280
+360 -> 720
