@@ -1,7 +1,8 @@
 extends Sprite
 
-var WIDTH = 1280
-var HEIGHT = 720
+var WIDTH = 80/scale.x
+var HEIGHT = 45/scale.y
+
 
 export var octaves = 2
 export var period = 7.5
@@ -46,7 +47,10 @@ func _ready():
 func _generate_world():
 	for x in WIDTH:
 		for y in HEIGHT:
-			$TileMap2.set_cellv(Vector2(x-WIDTH/2, y-HEIGHT/2), _get_tile_index(noise.get_noise_2d(float(x),float(y))))
+			#centraliza, mas como meu centered eh OFF, eh melhor nao centralizar
+#			$TileMap2.set_cellv(Vector2(x-WIDTH/2, y-HEIGHT/2), _get_tile_index(noise.get_noise_2d(float(x),float(y))))
+			$TileMap2.set_cellv(Vector2(x, y), _get_tile_index(noise.get_noise_2d(float(x),float(y))))
+			pass
 	$TileMap2.update_bitmask_region()
 
 func _get_tile_index(noise_sample):

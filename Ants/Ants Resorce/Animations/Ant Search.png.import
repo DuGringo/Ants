@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Ant Attack.png-1ba9c7c3bee98f5fb015c039f0e2e5c0.stex"
+path="res://.import/Ant Search.png-9c1349add6b38f038b3c38150cb1ef93.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Ants Resorce/Animations/Ant Attack.png"
-dest_files=[ "res://.import/Ant Attack.png-1ba9c7c3bee98f5fb015c039f0e2e5c0.stex" ]
+source_file="res://Ants Resorce/Animations/Ant Search.png"
+dest_files=[ "res://.import/Ant Search.png-9c1349add6b38f038b3c38150cb1ef93.stex" ]
 
 [params]
 

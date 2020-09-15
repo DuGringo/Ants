@@ -22,7 +22,7 @@ script = ExtResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
-valor_nutricional = 5
+valor_nutricional = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 20 )
@@ -42,8 +42,8 @@ position = Vector2( 0, 20 )
 shape = SubResource( 2 )
 
 [node name="Stats" parent="." instance=ExtResource( 4 )]
-MAX_HP = 25
-CUR_HP = 25
+MAX_HP = 20
+CUR_HP = 20
 
 [node name="SoftCollision" parent="." instance=ExtResource( 5 )]
 

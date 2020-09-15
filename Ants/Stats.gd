@@ -9,16 +9,18 @@ export var MAX_SPEED = 100
 export var FRICTION = 500
 
 #For DAMAGE, refer to HITBOX
-export var AWARENESS = 1
-export var DAMAGE = 1
-export var DODGE = 1
+export var AWARENESS = 1.0
+export var DAMAGE = 1 
+export var DODGE = 1.0
 
 export var MAX_LEVEL = 10.0
-export var LEVEL = 1.0 setget level_up
+export var LEVEL = 1.0 
 export var EXPERIENCE = 0
 
 export var HUNGER = 1 setget set_hunger
 export var THIRST = 1 setget set_thirst
+
+var need_level_up = false
 
 signal no_health
 signal is_hungry
@@ -40,13 +42,18 @@ func set_thirst(value):
 	if THIRST < 1 : THIRST = 1
 	if THIRST > 100: HUNGER = 100
 
-func level_up(level):
-	LEVEL = level
+func level_up():
+	LEVEL += 1
 	EXPERIENCE = 0
 	#if CLASS = <raca da formiga, classe da formiga, etc>
 	DAMAGE += 1
 	AWARENESS += 1
 	MAX_HP +=1
 	CUR_HP += 1
+	need_level_up = false
+	
+func _process(delta):
+	if need_level_up:
+		level_up() 
 	
 	

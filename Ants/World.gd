@@ -4,13 +4,11 @@ extends Node2D
 #
 #func _draw():
 #	draw_rect()
-export var max_time = 15
+export var time_between_cupcakes = 15
 onready var timer = $Timer
 
 var stats_ant = null
 var same = null
-
-
 
 func _ready():
 	timer.start(rand_range(1, 5))
@@ -20,12 +18,7 @@ func _ready():
 	var formigueiro = Formigueiro.instance()
 	var world = get_tree().current_scene
 	world.add_child(formigueiro)
-	formigueiro.position = Vector2(rand_range(50,590), rand_range(10,290))
-	
-	
-#func set_same(mesmo):
-#	same = mesmo
-#	print(same)
+	formigueiro.position = Vector2(rand_range(50,1230), rand_range(10,650))
 	
 func _physics_process(delta):
 	
@@ -43,8 +36,8 @@ func _physics_process(delta):
 		var foodCube = FoodCube.instance()
 		var world = get_tree().current_scene
 		world.add_child(foodCube)
-		foodCube.position = Vector2(rand_range(20,620), rand_range(20,310))
-		timer.start(rand_range(1, max_time))
+		foodCube.position = Vector2(rand_range(20,1260), rand_range(20,670))
+		timer.start(rand_range(1, time_between_cupcakes))
 
 
 func _input(event):
@@ -54,16 +47,15 @@ func _input(event):
 	#funcoes do clique direito (instanciamento e delete da UI
 	if Input.is_action_just_pressed("ui_click"):
 		
-		same = stats_ant
-		print(same)
-		#se existe um node, ele eh deletado.
-		if get_node_or_null("StatsUI") != null:
+		#Se existe um node StatsUI no nome, ele é deletado)
+		if find_node("*StatsUI*", true , false):
 			if stats_ant == null:
 				KillUi()
 			else:
 				if stats_ant == same:
 					KillUi()
 					stats_ant = null
+					same = null
 				else:
 					if stats_ant != same:
 						KillUi()
@@ -75,27 +67,32 @@ func _input(event):
 
 
 func KillUi():
-	get_node("StatsUI").queue_free()
-	get_node("Setinha").queue_free()
+	get_node(find_node("*StatsUI*", true, false).get_path()).queue_free()
+	get_node(find_node("*Setinha*", true, false).get_path()).queue_free()
 
 func instance_ui():
+#	var InstancedUi = preload ("res://UI/StatsUI.tscn")
+#	var instancedUi = InstancedUi.instance()
+#	var world = get_tree().current_scene
+#	world.add_child(instancedUi)
+#	instancedUi.selected_ant = stats_ant
+	
 	var InstancedUi = preload ("res://UI/StatsUI.tscn")
 	var instancedUi = InstancedUi.instance()
-	var world = get_tree().current_scene
-	world.add_child(instancedUi)
+	var canvas = get_tree().current_scene.get_child(find_node("*CanvasLayer*", true, false ).get_index())
+	canvas.add_child(instancedUi)
 	instancedUi.selected_ant = stats_ant
-	
-	#same eh melhor aqui
-#	same = stats_ant
 	
 
 	var Setinha = preload ("res://UI/Setinha.tscn")
 	var setinha = Setinha.instance()
+	var world = get_tree().current_scene
 	world.add_child(setinha)
 	var target_position = stats_ant.global_position
 	target_position.y = target_position.y - 10
 	setinha.global_position = target_position
 	setinha.selected_ant = stats_ant
 
+	same = stats_ant
 	stats_ant = null
 

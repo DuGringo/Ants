@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Ant Idle 1.png-ca5f539c7d3376e90245cf7321d847e8.stex"
+path="res://.import/AntSpriteSheet2.png-cbae8269abdd7200919ce0bc9fd0ad1e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Ants Resorce/Animations/Ant Idle 1.png"
-dest_files=[ "res://.import/Ant Idle 1.png-ca5f539c7d3376e90245cf7321d847e8.stex" ]
+source_file="res://Ants Resorce/Animations/AntSpriteSheet2.png"
+dest_files=[ "res://.import/AntSpriteSheet2.png-cbae8269abdd7200919ce0bc9fd0ad1e.stex" ]
 
 [params]
 

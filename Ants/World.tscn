@@ -1,5 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
+[ext_resource path="res://FormigueiroCount.gd" type="Script" id=1]
+[ext_resource path="res://Camera2D.gd" type="Script" id=2]
 [ext_resource path="res://Tileset/TileMap.tscn" type="PackedScene" id=3]
 [ext_resource path="res://World.gd" type="Script" id=4]
 [ext_resource path="res://Sprite.gd" type="Script" id=5]
@@ -41,7 +43,26 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_lock_": true
 }
-max_time = 10
+time_between_cupcakes = 30
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 1280
+limit_bottom = 720
+limit_smoothed = true
+smoothing_enabled = true
+smoothing_speed = 0.7
+drag_margin_left = 1.0
+drag_margin_top = 1.0
+drag_margin_right = 1.0
+drag_margin_bottom = 1.0
+editor_draw_drag_margin = true
+script = ExtResource( 2 )
+zoomspeed = 150.0
+zoomsmooth = 2
+zoomMin = 0.1
 
 [node name="Sprite" type="Sprite" parent="."]
 centered = false
@@ -71,3 +92,21 @@ __meta__ = {
 }
 
 [node name="Timer" type="Timer" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="FormigueiroCount" type="Control" parent="CanvasLayer"]
+margin_left = 1217.54
+margin_top = 22.2236
+margin_right = 1257.54
+margin_bottom = 62.2236
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer/FormigueiroCount"]
+margin_left = -26.7271
+margin_right = 31.2729
+margin_bottom = 14.0
+text = "Anthill: 0"

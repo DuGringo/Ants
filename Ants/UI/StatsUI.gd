@@ -16,7 +16,7 @@ var DAMAGE
 var DODGE
 var MAX_LEVEL
 var LEVEL = 1
-var EXPERIENCE setget set_experience
+var EXPERIENCE 
 var MAX_EXP = LEVEL * 5
 var HUNGER
 var THIRST
@@ -32,13 +32,10 @@ onready var dodge = $Dodge
 onready var level = $Level
 onready var experience = $Experience
 onready var hunger = $Hunger
-onready var formigueiro = $Formigueiro
 
 func set_hp(value):
 	CUR_HP = clamp(value, 0, MAX_HP)
 
-func set_experience(value):
-	EXPERIENCE = clamp(value , 0 , MAX_LEVEL)
 	
 
 func _process(delta):
@@ -57,6 +54,7 @@ func _process(delta):
 		self.MAX_LEVEL= selected_ant.stat.MAX_LEVEL
 		self.LEVEL= selected_ant.stat.LEVEL
 		self.EXPERIENCE= selected_ant.stat.EXPERIENCE
+		self.MAX_EXP = (self.LEVEL * 5)
 		self.HUNGER= selected_ant.stat.HUNGER
 		self.THIRST= selected_ant.stat.THIRST
 	else:
@@ -72,6 +70,3 @@ func _process(delta):
 	level.text = "Level: " + str(LEVEL) + "/" + str(MAX_LEVEL) 
 	experience.text = "Exp.: " + str(EXPERIENCE) + "/" + str(MAX_EXP)
 	hunger.text = "Hunger: " + str(HUNGER) + "/" + "100"
-	
-	ANT_COUNT = get_tree().current_scene.get_node("Formigueiro").ants_count
-	formigueiro.text = "Ant Hill: " + str(ANT_COUNT)

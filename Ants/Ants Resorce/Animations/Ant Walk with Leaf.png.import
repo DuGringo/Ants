@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Ant Walk jazz and stop.png-bfb79b98879e53455b67c09bc6245996.stex"
+path="res://.import/Ant Walk with Leaf.png-7d8425900d122ba052f6f53335c26cc5.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Ants Resorce/Animations/Ant Walk jazz and stop.png"
-dest_files=[ "res://.import/Ant Walk jazz and stop.png-bfb79b98879e53455b67c09bc6245996.stex" ]
+source_file="res://Ants Resorce/Animations/Ant Walk with Leaf.png"
+dest_files=[ "res://.import/Ant Walk with Leaf.png-7d8425900d122ba052f6f53335c26cc5.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

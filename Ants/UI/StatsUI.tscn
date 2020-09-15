@@ -77,6 +77,9 @@ margin_top = 112.303
 margin_right = 86.0
 margin_bottom = 126.303
 text = "Experience: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Hunger" type="Label" parent="."]
 margin_left = 0.529709
@@ -84,13 +87,3 @@ margin_top = 127.665
 margin_right = 55.5297
 margin_bottom = 141.665
 text = "Hunger:"
-
-[node name="Formigueiro" type="Label" parent="."]
-margin_left = 1.27805
-margin_top = 342.639
-margin_right = 94.278
-margin_bottom = 356.639
-text = "Formigueiro: 0"
-__meta__ = {
-"_edit_use_anchors_": false
-}

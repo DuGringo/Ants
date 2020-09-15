@@ -1,33 +1,54 @@
 Bugs a arrumar:
-em world:
-quando clica na formiga pega os dados dela: quando clica em qualquer lugar, instancia os stats
-A LOGICA ESTA TODA ERRADA DE QUANDO INSTANCIA E QUANDO NAO
-UI sumindo e voltando de vez em quando mesmo sem clicar (problema no Ysort?) (acontece quando formigas entram/saem do formigueiro, a seta n some
 
-alguns status muda dinamicamente (quando nao deveria, tipo level), outros so quando entrar formigueiro
-
-(acho que bugou por ser muito grande, tentou pegar comida e ficou presa em chase)
-
-valor nutricional nulo as vezes (quando termina de atacar) (fix feito porcamente)
+anthill n contando todas as formigas que entram
 
 
+primeiro frame de formiga instanciada é de walk leaf
+
+-------------------------------------------------------------------------
+Bugs arrumar prioridade baixa:
+Glitch visual (depois de adicionar a camera, mas acontece mesmo com ela parada)
+-de vez em quando formiga acha comida MUITO ALEM da visao dela (exatamente no mesmo segudo que a comida é criada)
+-formiga presa em ataque animation de vez em nunca
+
+-----------------------------------------------------------------------
 implementar:
 
 animacao de EAT
 
 formigueiro soh manda pra fora se a formiga estiver sem fome e perde fome conforme fica no formigueiro e formigueiro perde valor nutricional.
 formiga soh entra COM FOME, guarda o valor nutricional, e adiciona ao formigueiro.
-formiga so procura formigueiro se ela estiver com fome ou vida menos de 50% ou levando comida pra dentro
-
-animacao de folinha pro formigueiro
+formiga so procura formigueiro se ela estiver com fome ou vida menos de 50% ou levando comida pra dentro 
 
 INIMIGO
 
-ui mostrando antnumber(total de formigas) e ant count (dentro do formigueiro) (sempre, nao soh quadno os outros status estao ligado)
+ui mostrando antnumber(total de formigas) 
 
-poder mudar o nome da formiga
+mudar tile
 
+
+Ferormonio 0.1 (area em volta da formiga que avisa outras formigas)
+
+poder mudar o nome da formiga (dificil)
+
+
+
+====
+POKEDEX
+formiga robo controlada pelo player
+
+-----------------------------------------------------------------------
 DESFAZER:
 
-640 -> 1280
-360 -> 720
+
+
+-----------------------------------------------------------------------
+MELHORAR EVENTUALMENTE:
+-PASS no loop n ajuda com FPS??
+-UPDATE do label no nodulo controle de world <Anthill> (nodulo anthill sendo chamado e procurado todo frame)
+-formigas sempre que saem em wander, é pra diagonal (esquerda,cima), posicao (0,0)?[formigueiro em cima na esquerda n aprece que vao pra (0,0)
+-visual da UI
+
+===============================================================================
+pensar em:
+Easter eggs e Referencias - terraria, risk of rain, isaac, northernlion, wanderbots 

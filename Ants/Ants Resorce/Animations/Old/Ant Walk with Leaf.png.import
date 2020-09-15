@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Ant Spritesheet.png-4766b474eff0d74e8ea9228a190d902e.stex"
+path="res://.import/Ant Walk with Leaf.png-c6610178849996b033069fcd3332a3b6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Ants Resorce/Animations/Ant Spritesheet.png"
-dest_files=[ "res://.import/Ant Spritesheet.png-4766b474eff0d74e8ea9228a190d902e.stex" ]
+source_file="res://Ants Resorce/Animations/Old/Ant Walk with Leaf.png"
+dest_files=[ "res://.import/Ant Walk with Leaf.png-c6610178849996b033069fcd3332a3b6.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

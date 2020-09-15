@@ -12,7 +12,7 @@ enum{
 }
 
 
-var state = WANDER
+var state = null
 var velocity = Vector2.ZERO
 export(int) var proximity_range = 2
 
@@ -30,6 +30,8 @@ onready var animState = animTree.get("parameters/playback")
 #onready var formigueiro = $Formigueiro
 onready var formigueiro = get_node("../Formigueiro")
 onready var hitbox = get_node("Hitbox/CollisionShape2D")
+
+#usado em Formigueiro para dar update no dano da formiga
 onready var hitdamage = $Hitbox
 
 #Stats
@@ -48,7 +50,21 @@ func _ready():
 	randomize()
 	animTree.active = true
 	state = pick_random_state(state_list)
-	self.rotation_degrees = rand_range(-360, 360)
+	self.rotation_degrees = rand_range(0, 360)
+	
+	#nasce uma formiga existente ao invez de nova
+	if formigueiro.formigas.size() > 0: 
+			formigueiro.formigas.shuffle()
+			set_stat()
+	else:
+		formigueiro.antnumber += 1
+		stat.ANT_NUMBER = formigueiro.antnumber
+			
+
+	
+	
+
+	
 	
 func _physics_process(delta):
 	
@@ -96,9 +112,12 @@ func _physics_process(delta):
 			fix_cone()
 			voltar_state(delta)
 
+	#colisao
 	if softCollision.is_colliding():
 		velocity += softCollision.get_push_vector() * delta * 400
+	#se meche por causa disso:
 	velocity = move_and_slide(velocity)
+	#decide se volta pro formigueiro
 	if stat.HUNGER <= 1 or stat.CUR_HP == stat.MAX_HP/2:
 		state = VOLTAR	
 #state 0
@@ -136,12 +155,6 @@ func eat_state(delta):
 	is_idle = false
 	animState.travel("Attack")
 	velocity = Vector2.ZERO
-	
-
-	
-#	if food != null and _on_AnimationPlayer_animation_finished("Attack"):
-#		if anim.get_current_animation() == "Attack":
-
 #state 2
 func chase_state(delta):
 	is_searching = false
@@ -150,6 +163,7 @@ func chase_state(delta):
 	var object = detectionZone.object
 	
 	look_and_move(obj_pos , delta)
+	animState.travel("Walk")
 	should_attack()
 	
 	if is_it_close(global_position, obj_pos, proximity_range):
@@ -165,6 +179,7 @@ func wander_state(delta):
 			state = pick_random_state(state_list)
 			wanderController.set_wander_timer(rand_range(1,2))
 		look_and_move(wanderController.target_position , delta)
+		animState.travel("Walk")
 		
 	
 	if global_position.distance_to(wanderController.target_position) <= proximity_range:
@@ -201,22 +216,57 @@ func voltar_state(delta):
 	if stat.HUNGER <= 1:
 		hitbox.disabled = true
 		look_and_move(Vector2(formigueiro.global_position.x, formigueiro.global_position.y +20) , delta)
-	
+		animState.travel("Walk Leaf")
 	if is_it_close(Vector2(formigueiro.global_position.x, formigueiro.global_position.y +20), global_position, proximity_range):
 		queue_free()
+
+#funcoes
+func set_stat():
+	var ant_stat = formigueiro.formigas[0].duplicate(true)
+	stat.ANT_NUMBER = ant_stat[0]
+	stat.MAX_HP = ant_stat[1]
+	stat.CUR_HP = ant_stat[2]
+	stat.ACCELERATION = ant_stat[3]
+	stat.MAX_SPEED = ant_stat[4]
+	stat.FRICTION = ant_stat[5]
+	stat.AWARENESS = ant_stat[6]
+	stat.DAMAGE = ant_stat[7]
+	stat.DODGE = ant_stat[8]
+	stat.MAX_LEVEL = ant_stat[9]
+	stat.LEVEL = ant_stat[10]
+	stat.EXPERIENCE = ant_stat[11]
+	#fome fixa por enquanto
+	#ant.stat.HUNGER = ant_stat[12]
+	stat.HUNGER = 50
+	stat.THIRST = ant_stat[13]
+	stat.need_level_up = ant_stat[14]
 		
+	formigueiro.formigas.remove(0)
+	if stat.ANT_NUMBER == 0:
+		stat.ANT_NUMBER += 1
+		formigueiro.antnumber = stat.ANT_NUMBER
+		
+	#CLASS SPECIFIC
+	#da o dano certo para HitZone
+	hitdamage.damage = stat.DAMAGE
+	#CLASS SPECIFIC
+	#almenta o tamanho da do campo de visao baseado AWARENESS level
+	detectionZone.scale = detectionZone.scale + Vector2(stat.AWARENESS/10, stat.AWARENESS/10)
+	#almenta o tamanho da formiga baseado no level
+	scale = scale + Vector2(stat.LEVEL / 7 , stat.LEVEL / 7)
+	#almenta o range que anda conforme awareness
+	wanderController.wander_range = wanderController.wander_range * (1 * stat.LEVEL) 
+
 func attack_animation_start():
 	var food = detectionZone2.object
 	if food != null:
 		valor_nutricional = food.valor_nutricional
-		
+
 func attack_animation_finished():
 		#fix porco de um bug
 		if valor_nutricional != null:
 			stat.HUNGER = stat.HUNGER - valor_nutricional
 			state = IDLE
-			
-
 
 func seek_zone():
 	if detectionZone.object != null:
@@ -252,7 +302,8 @@ func look_and_move(target_position , delta):
 	var direction = global_position.direction_to(target_position)
 	velocity = velocity.move_toward(direction * stat.MAX_SPEED, stat.ACCELERATION * delta)
 	look_at(velocity * 10000)
-	animState.travel("Walk")
+	#É aqui que chamava a animacao de andar antes, e nao precisava de outras!
+#	animState.travel("Walk")
 
 func fix_cone():
 	detectionZone.rotation = 0
@@ -270,4 +321,3 @@ func gain_exp():
 	
 
 
-	
