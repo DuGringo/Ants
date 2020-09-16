@@ -338,6 +338,7 @@ HUNGER = 100
 THIRST = 50
 
 [node name="DetectionZone" parent="." instance=ExtResource( 4 )]
+visible = false
 collision_mask = 12
 
 [node name="CollisionShape2D" parent="DetectionZone" index="0"]
@@ -347,7 +348,7 @@ shape = SubResource( 24 )
 [node name="DetectionZone2" parent="." instance=ExtResource( 4 )]
 visible = false
 position = Vector2( -2.35395, 0.117985 )
-collision_mask = 8
+collision_mask = 12
 
 [node name="CollisionShape2D" parent="DetectionZone2" index="0"]
 position = Vector2( 8.26441, -0.0897349 )
@@ -368,7 +369,6 @@ visible = false
 wander_range = 150
 
 [node name="HurtBox" parent="." instance=ExtResource( 7 )]
-visible = false
 position = Vector2( -1, 0 )
 collision_layer = 16
 collision_mask = 0
@@ -378,6 +378,7 @@ rotation = 1.5708
 shape = SubResource( 28 )
 
 [node name="SoftCollision" parent="." instance=ExtResource( 8 )]
+visible = false
 position = Vector2( -1, 0 )
 
 [node name="CollisionShape2D" parent="SoftCollision" index="0"]
@@ -386,6 +387,9 @@ rotation = 1.5708
 shape = SubResource( 29 )
 [connection signal="mouse_entered" from="ClickArea" to="ClickArea" method="_on_ClickArea_mouse_entered"]
 [connection signal="mouse_exited" from="ClickArea" to="ClickArea" method="_on_ClickArea_mouse_exited"]
+[connection signal="low_health" from="Stats" to="." method="_on_Stats_low_health"]
+[connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
+[connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
 
 [editable path="DetectionZone"]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://FormigueiroCount.gd" type="Script" id=1]
 [ext_resource path="res://Camera2D.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Sprite.gd" type="Script" id=5]
 [ext_resource path="res://Tileset/singledirt.png" type="Texture" id=6]
 [ext_resource path="res://Tileset/singlegrass.png" type="Texture" id=7]
+[ext_resource path="res://Enemies/Ladybug.tscn" type="PackedScene" id=8]
 
 [sub_resource type="TileSet" id=1]
 0/name = "singledirt.png 0"
@@ -92,6 +93,9 @@ __meta__ = {
 }
 
 [node name="Timer" type="Timer" parent="."]
+
+[node name="Ladybug" parent="." instance=ExtResource( 8 )]
+position = Vector2( 576.945, 347.963 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

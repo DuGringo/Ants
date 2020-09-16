@@ -2,25 +2,34 @@ Bugs a arrumar:
 
 anthill n contando todas as formigas que entram
 
+Formiga Imortal? (fica fora da zona de ataque da joaninha)
 
-primeiro frame de formiga instanciada é de walk leaf
+-hud pra joaninha?!
+
+-joaninha dropar comida quando morrer
+
+joaninha entrar de vez em nunca na tela pelo lado( + botao para spawnar voluntariamente)
 
 -------------------------------------------------------------------------
 Bugs arrumar prioridade baixa:
 Glitch visual (depois de adicionar a camera, mas acontece mesmo com ela parada)
 -de vez em quando formiga acha comida MUITO ALEM da visao dela (exatamente no mesmo segudo que a comida é criada)
--formiga presa em ataque animation de vez em nunca
+-formiga presa em estado de chase
 
 -----------------------------------------------------------------------
 implementar:
+
+formigueiro produzir mais formigas com tempo.
+
+animacao morte formiga
+
+animacao morte joaninha
 
 animacao de EAT
 
 formigueiro soh manda pra fora se a formiga estiver sem fome e perde fome conforme fica no formigueiro e formigueiro perde valor nutricional.
 formiga soh entra COM FOME, guarda o valor nutricional, e adiciona ao formigueiro.
 formiga so procura formigueiro se ela estiver com fome ou vida menos de 50% ou levando comida pra dentro 
-
-INIMIGO
 
 ui mostrando antnumber(total de formigas) 
 
@@ -36,6 +45,8 @@ poder mudar o nome da formiga (dificil)
 ====
 POKEDEX
 formiga robo controlada pelo player
+cards
+rythm game
 
 -----------------------------------------------------------------------
 DESFAZER:
@@ -44,6 +55,7 @@ DESFAZER:
 
 -----------------------------------------------------------------------
 MELHORAR EVENTUALMENTE:
+-MAIS INIMIGOS
 -PASS no loop n ajuda com FPS??
 -UPDATE do label no nodulo controle de world <Anthill> (nodulo anthill sendo chamado e procurado todo frame)
 -formigas sempre que saem em wander, é pra diagonal (esquerda,cima), posicao (0,0)?[formigueiro em cima na esquerda n aprece que vao pra (0,0)

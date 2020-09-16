@@ -82,7 +82,7 @@ func _physics_process(delta):
 			seek_zone()
 			fix_cone()
 			chase_state(delta)
-			find_food(delta)
+			detect_and_look(delta)
 #state 2
 		EAT:
 
@@ -93,20 +93,20 @@ func _physics_process(delta):
 			fix_cone()
 			seek_zone()
 			wander_state(delta)
-			find_food(delta)
+			detect_and_look(delta)
 #state 4
 		SEARCH:
 
 			seek_zone()
 			search_state(delta)
-			find_food(delta)
+			detect_and_look(delta)
 #state 5
 		IDLE:
 
 			fix_cone()
 			seek_zone()
 			idle_state(delta)
-			find_food(delta)
+			detect_and_look(delta)
 #state 6
 		VOLTAR:
 			fix_cone()
@@ -118,7 +118,7 @@ func _physics_process(delta):
 	#se meche por causa disso:
 	velocity = move_and_slide(velocity)
 	#decide se volta pro formigueiro
-	if stat.HUNGER <= 1 or stat.CUR_HP == stat.MAX_HP/2:
+	if stat.HUNGER <= 1:
 		state = VOLTAR	
 #state 0
 #func move_state(delta):
@@ -258,21 +258,22 @@ func set_stat():
 	wanderController.wander_range = wanderController.wander_range * (1 * stat.LEVEL) 
 
 func attack_animation_start():
-	var food = detectionZone2.object
-	if food != null:
-		valor_nutricional = food.valor_nutricional
+	var object = detectionZone2.object
+	if object != null:
+		if object.stat.CLASS == "Food":
+			valor_nutricional = object.valor_nutricional
 
 func attack_animation_finished():
 		#fix porco de um bug
 		if valor_nutricional != null:
 			stat.HUNGER = stat.HUNGER - valor_nutricional
-			state = IDLE
+		state = IDLE
 
 func seek_zone():
 	if detectionZone.object != null:
 		animState.stop()
 		obj_pos = detectionZone.object.global_position
-		if detectionZone.object.stat.CLASS == "food":
+		if detectionZone.object.stat.CLASS == "Food":
 			obj_pos = Vector2(obj_pos.x , obj_pos.y + 20)
 		state = CHASE
 
@@ -290,13 +291,17 @@ func search_animation_finished():
 	state = WANDER
 	is_searching = false
 
-func find_food(delta):
-	var food = detectionZone2.object
-	if food != null:
-#		var direction = global_position.direction_to(Vector2(food.global_position.x, food.global_position.y -10))
-		var direction = global_position.direction_to(Vector2(food.global_position.x, food.global_position.y + 20))
+		
+func detect_and_look(delta):
+	var object = detectionZone2.object
+	if object != null:
+		var direction = global_position.direction_to(Vector2(object.global_position.x, object.global_position.y + 20))
 		look_at(direction * 10000)
-		state = EAT
+		if object.stat.CLASS == "Food":
+			state = EAT
+		if object.stat.CLASS == "Enemy":
+			state = ATTACK
+			
 
 func look_and_move(target_position , delta):
 	var direction = global_position.direction_to(target_position)
@@ -321,3 +326,13 @@ func gain_exp():
 	
 
 
+
+
+func _on_HurtBox_area_entered(attack):
+	stat.CUR_HP -= attack.damage
+
+func _on_Stats_no_health():
+	queue_free()
+
+func _on_Stats_low_health():
+	state = VOLTAR

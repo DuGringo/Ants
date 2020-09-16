@@ -10,8 +10,7 @@ var velocity = Vector2.ZERO
 var mordida = false 
 
 func _ready():
-	stat.CLASS = "food"
-
+	pass
 func _physics_process(delta):
 	if softCollision.is_colliding():
 		velocity += softCollision.get_push_vector() * delta * 5

@@ -25,12 +25,17 @@ var need_level_up = false
 signal no_health
 signal is_hungry
 signal is_thirsty
+signal low_health
+signal loosing_health
 
 func set_health(value):
 	CUR_HP = value
+	emit_signal("loosing_health")
 	if CUR_HP <= 0 :
 		CUR_HP = 0
 		emit_signal("no_health")
+	if CUR_HP <= MAX_HP/3:
+		emit_signal("low_health")
 
 func set_hunger(value):
 	HUNGER = value
