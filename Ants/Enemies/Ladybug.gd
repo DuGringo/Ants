@@ -10,7 +10,7 @@ enum{
 
 var state = null
 var velocity = Vector2.ZERO
-export(int) var proximity_range = 10
+export(int) var proximity_range = 2
 
 var is_idle = false
 var is_attacking = false
@@ -43,7 +43,7 @@ func _ready():
 	randomize()
 	rand_stat()
 	animTree.active = true
-	state = WANDER
+	state = IDLE
 
 func _physics_process(delta):
 	match state:
@@ -98,9 +98,10 @@ func chase_state(delta):
 func wander_state(delta):
 	is_idle = false
 
-	if wanderController.get_time_left() == 0:
+	if wanderController.get_time_left() <= .5:
 		state = pick_random_state(state_list)
 		wanderController.set_wander_timer(rand_range(1,10))
+
 	look_and_move(wanderController.target_position , delta)
 	animState.travel("Walk")
 		
@@ -189,6 +190,12 @@ func _on_HurtBox_area_entered(attack):
 	stat.CUR_HP -= attack.damage
 
 func _on_Stats_no_health():
+	for x in range (0, stat.LEVEL*10)  :
+		var FoodCube = load("res://Food.tscn")
+		var foodCube = FoodCube.instance()
+		var world = get_tree().current_scene
+		world.add_child(foodCube)
+		foodCube.position = global_position + Vector2(rand_range(-2,2), rand_range(-2,2))
 	queue_free()
 
 

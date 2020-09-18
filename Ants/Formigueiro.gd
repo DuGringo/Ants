@@ -13,21 +13,27 @@ onready var timer = $Timer
 var formigas = []
 var stats = []
 
+var foodsource = 0
+
 onready var target_position = global_position
 
 func _ready():
 	set_timer(2)
+	global_position = Vector2(rand_range(60,2500), rand_range(20,1370))
 	get_tree().current_scene.get_node("Camera2D").posicao = global_position
 
 
 
 func _process(delta):
 	SpitAnt()
+	
 	anthill_count = ants_count
+	
+	
 func _on_Formigueiro_body_entered(body):
 	if body.state == 6:
 		ants_count += 1
-		if body.stat.EXPERIENCE >= body.stat.LEVEL * 5:
+		if body.stat.EXPERIENCE >= body.stat.LEVEL * 2:
 			need_level_up = true
 		else:
 			need_level_up = false
@@ -48,6 +54,14 @@ func _on_Formigueiro_body_entered(body):
 		stats.append(body.stat.THIRST)
 		stats.append(need_level_up)
 	
+		#resurso pro formigueiro
+		foodsource = foodsource + (body.stat.HUNGER - 100)*-1
+		if foodsource >= 300:
+			foodsource = foodsource - 300
+			ants_count = ants_count + 1
+			print("nasceu")
+		print(foodsource)
+		
 		formigas.append(stats.duplicate(true))
 		stats.clear()
 
@@ -77,3 +91,7 @@ func get_time_left():
 
 func set_timer(duration):
 	timer.start(duration)
+	
+
+
+	

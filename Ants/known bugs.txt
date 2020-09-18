@@ -1,23 +1,22 @@
 Bugs a arrumar:
 
-anthill n contando todas as formigas que entram
+-camera tem que comecar em cima do formigueiro
 
-Formiga Imortal? (fica fora da zona de ataque da joaninha)
 
--hud pra joaninha?!
 
--joaninha dropar comida quando morrer
-
-joaninha entrar de vez em nunca na tela pelo lado( + botao para spawnar voluntariamente)
+-anthill n contando todas as formigas que entram(?)
 
 -------------------------------------------------------------------------
 Bugs arrumar prioridade baixa:
 Glitch visual (depois de adicionar a camera, mas acontece mesmo com ela parada)
 -de vez em quando formiga acha comida MUITO ALEM da visao dela (exatamente no mesmo segudo que a comida é criada)
 -formiga presa em estado de chase
+-poder deixar com borda sem ter stutter na camera
 
 -----------------------------------------------------------------------
 implementar:
+
+formiga fugir do dano antes de ir pro formigueiro (com vida baixa)
 
 formigueiro produzir mais formigas com tempo.
 
@@ -60,7 +59,16 @@ MELHORAR EVENTUALMENTE:
 -UPDATE do label no nodulo controle de world <Anthill> (nodulo anthill sendo chamado e procurado todo frame)
 -formigas sempre que saem em wander, é pra diagonal (esquerda,cima), posicao (0,0)?[formigueiro em cima na esquerda n aprece que vao pra (0,0)
 -visual da UI
-
+-achar lugar bom para resetar valor nutricional (dentro da formiga, pra n perder fome quando morde a joaninha, por enquanto esta depois que morde)
+-joaninha entrar de vez em nunca na tela pelo lado
 ===============================================================================
 pensar em:
 Easter eggs e Referencias - terraria, risk of rain, isaac, northernlion, wanderbots 
+
+
+
+
+NOTES:
+
+1280 -> 2560
+720 ->1440

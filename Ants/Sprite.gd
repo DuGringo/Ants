@@ -1,7 +1,7 @@
 extends Sprite
 
-var WIDTH = 80/scale.x
-var HEIGHT = 45/scale.y
+var WIDTH = 160
+var HEIGHT = 90
 
 
 export var octaves = 2

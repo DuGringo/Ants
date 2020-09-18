@@ -118,7 +118,7 @@ func _physics_process(delta):
 	#se meche por causa disso:
 	velocity = move_and_slide(velocity)
 	#decide se volta pro formigueiro
-	if stat.HUNGER <= 1:
+	if stat.HUNGER <= 1 or stat.CUR_HP <= stat.MAX_HP/3:
 		state = VOLTAR	
 #state 0
 #func move_state(delta):
@@ -213,7 +213,7 @@ func idle_state(delta):
 func voltar_state(delta):
 	is_searching = false
 	is_idle = false
-	if stat.HUNGER <= 1:
+	if stat.HUNGER <= 1 or stat.CUR_HP <= stat.MAX_HP/3:
 		hitbox.disabled = true
 		look_and_move(Vector2(formigueiro.global_position.x, formigueiro.global_position.y +20) , delta)
 		animState.travel("Walk Leaf")
@@ -225,7 +225,7 @@ func set_stat():
 	var ant_stat = formigueiro.formigas[0].duplicate(true)
 	stat.ANT_NUMBER = ant_stat[0]
 	stat.MAX_HP = ant_stat[1]
-	stat.CUR_HP = ant_stat[2]
+	stat.CUR_HP = stat.MAX_HP
 	stat.ACCELERATION = ant_stat[3]
 	stat.MAX_SPEED = ant_stat[4]
 	stat.FRICTION = ant_stat[5]
@@ -237,7 +237,7 @@ func set_stat():
 	stat.EXPERIENCE = ant_stat[11]
 	#fome fixa por enquanto
 	#ant.stat.HUNGER = ant_stat[12]
-	stat.HUNGER = 50
+	stat.HUNGER = 100
 	stat.THIRST = ant_stat[13]
 	stat.need_level_up = ant_stat[14]
 		
@@ -253,7 +253,7 @@ func set_stat():
 	#almenta o tamanho da do campo de visao baseado AWARENESS level
 	detectionZone.scale = detectionZone.scale + Vector2(stat.AWARENESS/10, stat.AWARENESS/10)
 	#almenta o tamanho da formiga baseado no level
-	scale = scale + Vector2(stat.LEVEL / 7 , stat.LEVEL / 7)
+	scale = scale + Vector2(stat.LEVEL * 0.05 , stat.LEVEL * 0.05)
 	#almenta o range que anda conforme awareness
 	wanderController.wander_range = wanderController.wander_range * (1 * stat.LEVEL) 
 
@@ -267,6 +267,7 @@ func attack_animation_finished():
 		#fix porco de um bug
 		if valor_nutricional != null:
 			stat.HUNGER = stat.HUNGER - valor_nutricional
+			valor_nutricional = 0
 		state = IDLE
 
 func seek_zone():
@@ -321,7 +322,7 @@ func is_it_close(pos1, pos2, distance):
 
 func gain_exp():
 	if stat.LEVEL < stat.MAX_LEVEL:
-		if stat.EXPERIENCE < stat.LEVEL * 5:
+		if stat.EXPERIENCE < stat.LEVEL * 2:
 			stat.EXPERIENCE += 1
 	
 
@@ -330,6 +331,7 @@ func gain_exp():
 
 func _on_HurtBox_area_entered(attack):
 	stat.CUR_HP -= attack.damage
+	
 
 func _on_Stats_no_health():
 	queue_free()

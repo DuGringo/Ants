@@ -17,7 +17,7 @@ var DODGE
 var MAX_LEVEL
 var LEVEL = 1
 var EXPERIENCE 
-var MAX_EXP = LEVEL * 5
+var MAX_EXP = LEVEL * 2
 var HUNGER
 var THIRST
 
@@ -54,19 +54,26 @@ func _process(delta):
 		self.MAX_LEVEL= selected_ant.stat.MAX_LEVEL
 		self.LEVEL= selected_ant.stat.LEVEL
 		self.EXPERIENCE= selected_ant.stat.EXPERIENCE
-		self.MAX_EXP = (self.LEVEL * 5)
+		self.MAX_EXP = (self.LEVEL * 2)
 		self.HUNGER= selected_ant.stat.HUNGER
 		self.THIRST= selected_ant.stat.THIRST
 	else:
 		queue_free()	
 	
 	classui.text = str(CLASS)
-	antnumber.text = str(ANT_NUMBER)
+	if CLASS == "Ant":
+		antnumber.text = str(ANT_NUMBER)
+		experience.text = "Exp.: " + str(EXPERIENCE) + "/" + str(MAX_EXP)
+		hunger.text = "Hunger: " + str(HUNGER) + "/" + "100"
+		damage.text = "Damage: " + str(DAMAGE)
+	else: 
+		antnumber.text = " "
+		experience.text = " "
+		damage.text = "Damage: " + str(DAMAGE) + "x2"
+		hunger.text = " "
 	health.text = "Health: " + str(CUR_HP) + "/" + str(MAX_HP) 
-	damage.text = "Damage: " + str(DAMAGE)
 	speed.text = "Speed: " + str(MAX_SPEED)
 	awareness.text = "Awareness: " + str(AWARENESS)
 	dodge.text = "Dodge: " + str(DODGE)
 	level.text = "Level: " + str(LEVEL) + "/" + str(MAX_LEVEL) 
-	experience.text = "Exp.: " + str(EXPERIENCE) + "/" + str(MAX_EXP)
-	hunger.text = "Hunger: " + str(HUNGER) + "/" + "100"
+	

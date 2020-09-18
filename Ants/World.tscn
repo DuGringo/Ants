@@ -7,7 +7,7 @@
 [ext_resource path="res://Sprite.gd" type="Script" id=5]
 [ext_resource path="res://Tileset/singledirt.png" type="Texture" id=6]
 [ext_resource path="res://Tileset/singlegrass.png" type="Texture" id=7]
-[ext_resource path="res://Enemies/Ladybug.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Formigueiro.tscn" type="PackedScene" id=8]
 
 [sub_resource type="TileSet" id=1]
 0/name = "singledirt.png 0"
@@ -46,25 +46,6 @@ __meta__ = {
 }
 time_between_cupcakes = 30
 
-[node name="Camera2D" type="Camera2D" parent="."]
-current = true
-limit_left = 0
-limit_top = 0
-limit_right = 1280
-limit_bottom = 720
-limit_smoothed = true
-smoothing_enabled = true
-smoothing_speed = 0.7
-drag_margin_left = 1.0
-drag_margin_top = 1.0
-drag_margin_right = 1.0
-drag_margin_bottom = 1.0
-editor_draw_drag_margin = true
-script = ExtResource( 2 )
-zoomspeed = 150.0
-zoomsmooth = 2
-zoomMin = 0.1
-
 [node name="Sprite" type="Sprite" parent="."]
 centered = false
 region_enabled = true
@@ -87,15 +68,33 @@ __meta__ = {
 }
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PoolVector2Array( -30, -30, -30, 750, 1310, 750, 1310, -30, 1260, 20, 1260, 700, 20, 700, 20, 20, 1260, 20, 1310, -30 )
+polygon = PoolVector2Array( -30, -30, -30, 1470, 2590, 1470, 2590, -30, 2540, 20, 2540, 1420, 20, 1420, 20, 20, 2540, 20, 2590, -30 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="Timer" type="Timer" parent="."]
 
-[node name="Ladybug" parent="." instance=ExtResource( 8 )]
-position = Vector2( 576.945, 347.963 )
+[node name="Formigueiro" parent="." instance=ExtResource( 8 )]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 2560
+limit_bottom = 1440
+limit_smoothed = true
+smoothing_enabled = true
+smoothing_speed = 0.7
+drag_margin_left = 1.0
+drag_margin_top = 1.0
+drag_margin_right = 1.0
+drag_margin_bottom = 1.0
+editor_draw_drag_margin = true
+script = ExtResource( 2 )
+zoomspeed = 150.0
+zoomsmooth = 2
+zoomMin = 0.1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

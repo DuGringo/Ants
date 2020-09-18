@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://Ant.gd" type="Script" id=1]
 [ext_resource path="res://Ants Resorce/Animations/AntSpriteSheet2.png" type="Texture" id=2]
@@ -171,7 +171,7 @@ tracks/0/keys = {
 "values": [ 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
 }
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=6]
 resource_name = "Walk Leaf"
 length = 0.8
 loop = true
@@ -188,57 +188,48 @@ tracks/0/keys = {
 "values": [ 21, 22, 23, 24, 25, 26, 27, 28 ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=6]
+[sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Attack"
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "Search"
 
-[sub_resource type="AnimationNodeAnimation" id=32]
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "Walk Leaf"
 
-[sub_resource type="AnimationNodeTimeScale" id=33]
+[sub_resource type="AnimationNodeTimeScale" id=11]
 
-[sub_resource type="AnimationNodeBlendTree" id=34]
+[sub_resource type="AnimationNodeBlendTree" id=12]
 graph_offset = Vector2( 0, 146.25 )
-nodes/Animation/node = SubResource( 32 )
+nodes/Animation/node = SubResource( 10 )
 nodes/Animation/position = Vector2( 80, 200 )
-nodes/TimeScale/node = SubResource( 33 )
+nodes/TimeScale/node = SubResource( 11 )
 nodes/TimeScale/position = Vector2( 260, 200 )
 nodes/output/position = Vector2( 420, 220 )
 node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "Animation" ]
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=13]
 animation = "Walk"
 
-[sub_resource type="AnimationNodeTimeScale" id=10]
+[sub_resource type="AnimationNodeTimeScale" id=14]
 
-[sub_resource type="AnimationNodeBlendTree" id=11]
+[sub_resource type="AnimationNodeBlendTree" id=15]
 graph_offset = Vector2( -6.10352e-05, 0 )
-nodes/Animation/node = SubResource( 9 )
+nodes/Animation/node = SubResource( 13 )
 nodes/Animation/position = Vector2( 80, 80 )
-nodes/TimeScale/node = SubResource( 10 )
+nodes/TimeScale/node = SubResource( 14 )
 nodes/TimeScale/position = Vector2( 300, 60 )
 nodes/output/position = Vector2( 520, 80 )
 node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "Animation" ]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=12]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=13]
-switch_mode = 2
-auto_advance = true
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=14]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=15]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=16]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=17]
 switch_mode = 2
+auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=18]
 
@@ -247,49 +238,61 @@ switch_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id=20]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=21]
+switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=35]
+[sub_resource type="AnimationNodeStateMachineTransition" id=22]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=36]
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
 
-[sub_resource type="AnimationNodeStateMachine" id=22]
-states/Attack/node = SubResource( 6 )
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=27]
+
+[sub_resource type="AnimationNodeStateMachine" id=28]
+states/Attack/node = SubResource( 7 )
 states/Attack/position = Vector2( 310, 73 )
-states/Idle/node = SubResource( 7 )
+states/Idle/node = SubResource( 8 )
 states/Idle/position = Vector2( 428, 148 )
-states/Search/node = SubResource( 8 )
+states/Search/node = SubResource( 9 )
 states/Search/position = Vector2( 428, 273 )
-states/Walk/node = SubResource( 11 )
+states/Walk/node = SubResource( 15 )
 states/Walk/position = Vector2( 539, 73 )
-"states/Walk Leaf/node" = SubResource( 34 )
+"states/Walk Leaf/node" = SubResource( 12 )
 "states/Walk Leaf/position" = Vector2( 248.667, 153.429 )
-transitions = [ "Idle", "Attack", SubResource( 12 ), "Attack", "Idle", SubResource( 13 ), "Walk", "Idle", SubResource( 14 ), "Idle", "Walk", SubResource( 15 ), "Idle", "Search", SubResource( 16 ), "Search", "Idle", SubResource( 17 ), "Search", "Walk", SubResource( 18 ), "Walk", "Attack", SubResource( 19 ), "Attack", "Walk", SubResource( 20 ), "Walk", "Search", SubResource( 21 ), "Walk Leaf", "Idle", SubResource( 35 ), "Idle", "Walk Leaf", SubResource( 36 ) ]
+transitions = [ "Idle", "Attack", SubResource( 16 ), "Attack", "Idle", SubResource( 17 ), "Walk", "Idle", SubResource( 18 ), "Idle", "Walk", SubResource( 19 ), "Idle", "Search", SubResource( 20 ), "Search", "Idle", SubResource( 21 ), "Search", "Walk", SubResource( 22 ), "Walk", "Attack", SubResource( 23 ), "Attack", "Walk", SubResource( 24 ), "Walk", "Search", SubResource( 25 ), "Walk Leaf", "Idle", SubResource( 26 ), "Idle", "Walk Leaf", SubResource( 27 ) ]
 start_node = "Idle"
 graph_offset = Vector2( -272.333, 40.4292 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=23]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=29]
 
 [sub_resource type="RectangleShape2D" id=30]
 extents = Vector2( 8.12613, 5.47466 )
 
-[sub_resource type="ConvexPolygonShape2D" id=24]
+[sub_resource type="ConvexPolygonShape2D" id=31]
 points = PoolVector2Array( -7, 0, 150, -45, 150, 45 )
 
-[sub_resource type="CapsuleShape2D" id=25]
+[sub_resource type="CapsuleShape2D" id=32]
 radius = 1.159
 height = 3.91978
 
-[sub_resource type="CapsuleShape2D" id=27]
+[sub_resource type="CapsuleShape2D" id=33]
 radius = 2.57252
 height = 4.09592
 
-[sub_resource type="CapsuleShape2D" id=28]
+[sub_resource type="CapsuleShape2D" id=34]
 radius = 1.91966
 height = 5.8698
 
-[sub_resource type="CapsuleShape2D" id=29]
+[sub_resource type="CapsuleShape2D" id=35]
 radius = 1.76989
 height = 3.89305
+
+[sub_resource type="Animation" id=36]
+resource_name = "Hurt"
 
 [node name="Ant" type="KinematicBody2D"]
 light_mask = -2147483647
@@ -299,7 +302,7 @@ script = ExtResource( 1 )
 proximity_range = 5
 
 [node name="Ant Spritesheet" type="Sprite" parent="."]
-position = Vector2( -1, 0.9 )
+position = Vector2( -0.220459, 1.45681 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, -0.5 )
 hframes = 54
@@ -315,16 +318,17 @@ anims/Attack = SubResource( 2 )
 anims/Idle = SubResource( 3 )
 anims/Search = SubResource( 4 )
 anims/Walk = SubResource( 5 )
-"anims/Walk Leaf" = SubResource( 31 )
+"anims/Walk Leaf" = SubResource( 6 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 22 )
+tree_root = SubResource( 28 )
 anim_player = NodePath("../AnimationPlayer")
-parameters/playback = SubResource( 23 )
+parameters/playback = SubResource( 29 )
 parameters/Walk/TimeScale/scale = 2.5
 "parameters/Walk Leaf/TimeScale/scale" = 2.5
 
 [node name="ClickArea" type="Area2D" parent="."]
+visible = false
 script = ExtResource( 9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
@@ -334,6 +338,7 @@ shape = SubResource( 30 )
 MAX_HP = 3
 CUR_HP = 3
 MAX_SPEED = 80
+MAX_LEVEL = 100.0
 HUNGER = 100
 THIRST = 50
 
@@ -343,7 +348,7 @@ collision_mask = 12
 
 [node name="CollisionShape2D" parent="DetectionZone" index="0"]
 position = Vector2( 5, 0 )
-shape = SubResource( 24 )
+shape = SubResource( 31 )
 
 [node name="DetectionZone2" parent="." instance=ExtResource( 4 )]
 visible = false
@@ -352,7 +357,7 @@ collision_mask = 12
 
 [node name="CollisionShape2D" parent="DetectionZone2" index="0"]
 position = Vector2( 8.26441, -0.0897349 )
-shape = SubResource( 25 )
+shape = SubResource( 32 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 5 )]
 visible = false
@@ -361,7 +366,7 @@ collision_mask = 96
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 position = Vector2( 6.69484, 0.333712 )
-shape = SubResource( 27 )
+shape = SubResource( 33 )
 disabled = true
 
 [node name="WanderController" parent="." instance=ExtResource( 6 )]
@@ -375,16 +380,18 @@ collision_mask = 0
 
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
 rotation = 1.5708
-shape = SubResource( 28 )
+shape = SubResource( 34 )
 
 [node name="SoftCollision" parent="." instance=ExtResource( 8 )]
-visible = false
-position = Vector2( -1, 0 )
+position = Vector2( -0.888638, 0.111362 )
 
 [node name="CollisionShape2D" parent="SoftCollision" index="0"]
 position = Vector2( -1, 0 )
 rotation = 1.5708
-shape = SubResource( 29 )
+shape = SubResource( 35 )
+
+[node name="GettingHurt" type="AnimationPlayer" parent="."]
+anims/Hurt = SubResource( 36 )
 [connection signal="mouse_entered" from="ClickArea" to="ClickArea" method="_on_ClickArea_mouse_entered"]
 [connection signal="mouse_exited" from="ClickArea" to="ClickArea" method="_on_ClickArea_mouse_exited"]
 [connection signal="low_health" from="Stats" to="." method="_on_Stats_low_health"]

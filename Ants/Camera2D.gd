@@ -1,7 +1,6 @@
 extends Camera2D
 
 var posicao = Vector2(0,0)
-var just_initialized = true
 
 export var speed = 10
 
@@ -22,10 +21,10 @@ func _ready():
 	
 	zoom = Vector2(0.3, 0.3)
 	
-	position = Vector2(1280/2, 720/2)
-pass
 	
-func _process(delta):
+#pass
+#
+func _physics_process(delta):
 
 #	#smooth movement
 #	var inpx = (int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left")))
@@ -36,10 +35,9 @@ func _process(delta):
 #	position.x = lerp(position.x, position.x + inpx * speed * zoom.x, speed * delta)
 #	position.y = lerp(position.y, position.y + inpy * speed * zoom.y, speed * delta)
 #	print(position)#
-	#acha formigueiro na inicializacao
-	if just_initialized == true and get_tree().current_scene.find_node("*Formigueiro*", true , false):
-		position = get_tree().current_scene.get_node("Formigueiro").global_position
-		just_initialized = false
+	
+
+
 	#segue a formiga selecionada
 	if get_tree().current_scene.find_node("*StatsUI*", true , false):
 		smoothing_speed = 2
@@ -77,3 +75,6 @@ func _input(event):
 				zoompos = get_global_mouse_position()
 		else:
 			zooming = false
+			
+	if Input.is_action_just_pressed("ui_focus_next"):
+		global_position = get_tree().current_scene.get_node("Formigueiro").global_position
