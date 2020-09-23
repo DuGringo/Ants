@@ -18,6 +18,7 @@ export(int) var proximity_range = 2
 
 var is_searching = false
 var is_idle = false
+var is_chase = false
 
 var obj_pos = null
 var valor_nutricional = null
@@ -152,16 +153,21 @@ func attack_state(delta):
 	
 	animState.travel("Attack")
 	velocity = Vector2.ZERO
+	is_chase = false
 #state 1
 func eat_state(delta):
 	is_searching = false
 	is_idle = false
 	animState.travel("Attack")
 	velocity = Vector2.ZERO
+	is_chase = false
 #state 2
 func chase_state(delta):
 	is_searching = false
 	is_idle = false
+	if is_chase == false and obj_pos != null:
+		release_pherormon(obj_pos)
+		is_chase = true
 	
 	var object = detectionZone.object
 	
@@ -176,6 +182,7 @@ func chase_state(delta):
 #state 3
 func wander_state(delta):
 	is_idle = false
+	is_chase = false
 
 	if is_searching != true:
 		if wanderController.get_time_left() == 0:
@@ -193,11 +200,13 @@ func wander_state(delta):
 func search_state(delta):
 	is_idle = false
 	is_searching = true
+	is_chase = false
 	
 	animState.travel("Search")
 	velocity = Vector2.ZERO
 #state 5
 func idle_state(delta):
+	is_chase = false
 	is_searching = false
 	#vector zero aqui para a formiga parar de ser empurrada enquanto estiver idle
 	velocity = Vector2.ZERO
@@ -214,6 +223,7 @@ func idle_state(delta):
 		is_idle = false
 #state 6
 func voltar_state(delta):
+	is_chase = false
 	is_searching = false
 	is_idle = false
 	if stat.HUNGER <= 1 or stat.CUR_HP <= stat.MAX_HP/3:
@@ -277,7 +287,6 @@ func seek_zone():
 	if detectionZone.object != null:
 		animState.stop()
 		obj_pos = detectionZone.object.global_position
-		release_pherormon(obj_pos)
 		if detectionZone.object.stat.CLASS == "Food":
 			obj_pos = Vector2(obj_pos.x , obj_pos.y + 20)
 		state = CHASE
@@ -337,7 +346,7 @@ func release_pherormon(obj_pos):
 	world.add_child(pherormone)
 	pherormone.global_position = global_position
 	pherormone.state = state
-	pherormone.direction_to = direction
+	pherormone.direction_to = obj_pos
 	
 
 func _on_HurtBox_area_entered(attack):

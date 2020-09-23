@@ -1,6 +1,6 @@
 extends Node2D
 
-export var CLASS = "ant"
+export var CLASS = "Ant"
 export var ANT_NUMBER = 0
 export var MAX_HP = 1
 export var CUR_HP = 1 setget set_health
