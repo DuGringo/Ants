@@ -17,9 +17,14 @@ var zooming = false
 
 var tempposition = Vector2(0,0)
 
+onready var timer = $Timer2
+var just_started = true
+
+
 func _ready():
 	
 	zoom = Vector2(0.3, 0.3)
+	timer.start(5)
 	
 	
 #pass
@@ -45,8 +50,12 @@ func _physics_process(delta):
 			position = get_tree().current_scene.same.global_position
 	#segue o mouse
 	else:
-		smoothing_speed = 0.7
-		position = get_global_mouse_position()
+		if just_started:
+			position = get_tree().current_scene.get_node("Formigueiro").global_position
+			smoothing_speed = 10
+		else:
+			smoothing_speed = 0.7
+			position = get_global_mouse_position()
 
 	#zoom
 	zoom.x = lerp(zoom.x, zoom.x * zoomfactor, zoomsmooth * delta)
@@ -76,5 +85,8 @@ func _input(event):
 		else:
 			zooming = false
 			
-	if Input.is_action_just_pressed("ui_focus_next"):
-		global_position = get_tree().current_scene.get_node("Formigueiro").global_position
+
+
+func _on_Timer2_timeout():
+	just_started = false
+	timer.queue_free()

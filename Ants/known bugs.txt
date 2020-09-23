@@ -1,9 +1,7 @@
 Bugs a arrumar:
 
--camera tem que comecar em cima do formigueiro
-
-
-
+ferormonio lancado mil vezes ao invez de so uma.
+-dificilmente a formiga entra no femormonio certo.
 -anthill n contando todas as formigas que entram(?)
 
 -------------------------------------------------------------------------
@@ -18,7 +16,6 @@ implementar:
 
 formiga fugir do dano antes de ir pro formigueiro (com vida baixa)
 
-formigueiro produzir mais formigas com tempo.
 
 animacao morte formiga
 
@@ -27,15 +24,11 @@ animacao morte joaninha
 animacao de EAT
 
 formigueiro soh manda pra fora se a formiga estiver sem fome e perde fome conforme fica no formigueiro e formigueiro perde valor nutricional.
-formiga soh entra COM FOME, guarda o valor nutricional, e adiciona ao formigueiro.
-formiga so procura formigueiro se ela estiver com fome ou vida menos de 50% ou levando comida pra dentro 
+formiga soh entra COM FOME, guarda o valor nutricional, adiciona ao formigueiro
 
 ui mostrando antnumber(total de formigas) 
 
 mudar tile
-
-
-Ferormonio 0.1 (area em volta da formiga que avisa outras formigas)
 
 poder mudar o nome da formiga (dificil)
 

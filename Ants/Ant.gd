@@ -21,6 +21,7 @@ var is_idle = false
 
 var obj_pos = null
 var valor_nutricional = null
+var direction = null
 
 var state_list = [WANDER, WANDER, WANDER, WANDER, IDLE, IDLE, IDLE, SEARCH]
 
@@ -68,6 +69,7 @@ func _ready():
 	
 func _physics_process(delta):
 	
+	
 	match state:
 #		MOVE:
 #			seek_zone()
@@ -83,6 +85,7 @@ func _physics_process(delta):
 			fix_cone()
 			chase_state(delta)
 			detect_and_look(delta)
+			
 #state 2
 		EAT:
 
@@ -274,6 +277,7 @@ func seek_zone():
 	if detectionZone.object != null:
 		animState.stop()
 		obj_pos = detectionZone.object.global_position
+		release_pherormon(obj_pos)
 		if detectionZone.object.stat.CLASS == "Food":
 			obj_pos = Vector2(obj_pos.x , obj_pos.y + 20)
 		state = CHASE
@@ -296,7 +300,7 @@ func search_animation_finished():
 func detect_and_look(delta):
 	var object = detectionZone2.object
 	if object != null:
-		var direction = global_position.direction_to(Vector2(object.global_position.x, object.global_position.y + 20))
+		direction = global_position.direction_to(Vector2(object.global_position.x, object.global_position.y + 20))
 		look_at(direction * 10000)
 		if object.stat.CLASS == "Food":
 			state = EAT
@@ -305,7 +309,7 @@ func detect_and_look(delta):
 			
 
 func look_and_move(target_position , delta):
-	var direction = global_position.direction_to(target_position)
+	direction = global_position.direction_to(target_position)
 	velocity = velocity.move_toward(direction * stat.MAX_SPEED, stat.ACCELERATION * delta)
 	look_at(velocity * 10000)
 	#É aqui que chamava a animacao de andar antes, e nao precisava de outras!
@@ -326,8 +330,15 @@ func gain_exp():
 			stat.EXPERIENCE += 1
 	
 
-
-
+func release_pherormon(obj_pos):
+	var Pherormone = load("res://Zones/Pherormone.tscn")
+	var pherormone = Pherormone.instance()
+	var world = get_tree().current_scene
+	world.add_child(pherormone)
+	pherormone.global_position = global_position
+	pherormone.state = state
+	pherormone.direction_to = direction
+	
 
 func _on_HurtBox_area_entered(attack):
 	stat.CUR_HP -= attack.damage
@@ -338,3 +349,6 @@ func _on_Stats_no_health():
 
 func _on_Stats_low_health():
 	state = VOLTAR
+
+
+

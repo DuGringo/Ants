@@ -328,7 +328,6 @@ parameters/Walk/TimeScale/scale = 2.5
 "parameters/Walk Leaf/TimeScale/scale" = 2.5
 
 [node name="ClickArea" type="Area2D" parent="."]
-visible = false
 script = ExtResource( 9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
@@ -343,7 +342,6 @@ HUNGER = 100
 THIRST = 50
 
 [node name="DetectionZone" parent="." instance=ExtResource( 4 )]
-visible = false
 collision_mask = 12
 
 [node name="CollisionShape2D" parent="DetectionZone" index="0"]

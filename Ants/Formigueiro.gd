@@ -6,6 +6,7 @@ onready var anthill_count = ants_count
 #ant name#
 var antnumber = 0
 var need_level_up = false
+var strongest_ant = 1
 
 onready var collision = $CollisionShape2D
 onready var timer = $Timer
@@ -19,14 +20,10 @@ onready var target_position = global_position
 
 func _ready():
 	set_timer(2)
-	global_position = Vector2(rand_range(60,2500), rand_range(20,1370))
-	get_tree().current_scene.get_node("Camera2D").posicao = global_position
-
 
 
 func _process(delta):
 	SpitAnt()
-	
 	anthill_count = ants_count
 	
 	
@@ -59,8 +56,9 @@ func _on_Formigueiro_body_entered(body):
 		if foodsource >= 300:
 			foodsource = foodsource - 300
 			ants_count = ants_count + 1
-			print("nasceu")
-		print(foodsource)
+		if body.stat.LEVEL > strongest_ant:
+			strongest_ant = body.stat.LEVEL
+		
 		
 		formigas.append(stats.duplicate(true))
 		stats.clear()

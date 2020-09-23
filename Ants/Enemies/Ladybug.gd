@@ -43,7 +43,10 @@ func _ready():
 	randomize()
 	rand_stat()
 	animTree.active = true
+	
 	state = IDLE
+	
+
 
 func _physics_process(delta):
 	match state:
@@ -127,6 +130,12 @@ func idle_state(delta):
 
 #funcoes
 func rand_stat():
+	
+	stat.LEVEL = get_tree().current_scene.get_node("Formigueiro").strongest_ant
+	
+	
+	
+	
 #	stat.MAX_HP = ant_stat[1]
 #	stat.CUR_HP = ant_stat[2]
 #	stat.ACCELERATION = ant_stat[3]
@@ -146,12 +155,19 @@ func rand_stat():
 		
 	#CLASS SPECIFIC
 	#da o dano certo para HitZone
+	stat.DAMAGE = 1 + (stat.LEVEL/4)
 	hitdamage.damage = stat.DAMAGE
+	
+	stat.MAX_HP = stat.MAX_HP * 1.5
+	stat.CUR_HP = stat.MAX_HP
+	
 	#CLASS SPECIFIC
 	#almenta o tamanho da formiga baseado no level
-	scale = scale + Vector2(stat.LEVEL / 7 , stat.LEVEL / 7)
+	scale = scale + Vector2(stat.LEVEL * 0.07 , stat.LEVEL * 0.07)
 	#almenta o range que anda conforme awareness
-	wanderController.wander_range = wanderController.wander_range * (1 * stat.LEVEL) 
+	wanderController.wander_range = wanderController.wander_range * (0.5 * stat.LEVEL) 
+	
+	
 
 func attack_animation_finished():
 	state = IDLE

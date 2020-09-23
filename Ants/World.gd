@@ -13,6 +13,7 @@ var last_input = null
 
 func _ready():
 	timer.start(rand_range(1, 5))
+
 #
 #	#instancia o formigueiro:
 #	var Formigueiro = load("res://Formigueiro.tscn")
@@ -22,7 +23,6 @@ func _ready():
 #	formigueiro.position = Vector2(rand_range(60,2500), rand_range(20,1370))
 	
 func _physics_process(delta):	
-	
 	#cria bolinhos em um timer e inimigo
 	if timer.time_left <= .5:
 		if rand_range(0, 30) <= 1:

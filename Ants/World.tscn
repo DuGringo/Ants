@@ -46,6 +46,28 @@ __meta__ = {
 }
 time_between_cupcakes = 30
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 640, 360 )
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 2560
+limit_bottom = 1440
+limit_smoothed = true
+smoothing_enabled = true
+smoothing_speed = 0.7
+drag_margin_left = 1.0
+drag_margin_top = 1.0
+drag_margin_right = 1.0
+drag_margin_bottom = 1.0
+editor_draw_drag_margin = true
+script = ExtResource( 2 )
+zoomspeed = 150.0
+zoomsmooth = 2
+zoomMin = 0.1
+
+[node name="Timer2" type="Timer" parent="Camera2D"]
+
 [node name="Sprite" type="Sprite" parent="."]
 centered = false
 region_enabled = true
@@ -76,25 +98,7 @@ __meta__ = {
 [node name="Timer" type="Timer" parent="."]
 
 [node name="Formigueiro" parent="." instance=ExtResource( 8 )]
-
-[node name="Camera2D" type="Camera2D" parent="."]
-current = true
-limit_left = 0
-limit_top = 0
-limit_right = 2560
-limit_bottom = 1440
-limit_smoothed = true
-smoothing_enabled = true
-smoothing_speed = 0.7
-drag_margin_left = 1.0
-drag_margin_top = 1.0
-drag_margin_right = 1.0
-drag_margin_bottom = 1.0
-editor_draw_drag_margin = true
-script = ExtResource( 2 )
-zoomspeed = 150.0
-zoomsmooth = 2
-zoomMin = 0.1
+position = Vector2( 1273.44, 712.804 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -113,3 +117,4 @@ margin_left = -26.7271
 margin_right = 31.2729
 margin_bottom = 14.0
 text = "Anthill: 0"
+[connection signal="timeout" from="Camera2D/Timer2" to="Camera2D" method="_on_Timer2_timeout"]
