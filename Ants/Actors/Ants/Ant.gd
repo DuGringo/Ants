@@ -304,12 +304,12 @@ func set_stat():
 	hitdamage.damage = stat.DAMAGE
 
 	#almenta o tamanho da do campo de visao baseado AWARENESS level
-	detectionZone.scale = detectionZone.scale + Vector2(stat.AWARENESS, stat.AWARENESS)
+	detectionZone.scale = Vector2(stat.AWARENESS, stat.AWARENESS)
 	#almenta o tamanho da formiga baseado no level
 	if stat.CLASS == "Worker":
-		scale = scale + Vector2(stat.LEVEL * 0.05 , stat.LEVEL * 0.05)
+		scale = Vector2(1,1) + Vector2(stat.LEVEL * 0.05 , stat.LEVEL * 0.05)
 	if stat.CLASS == "Fighter":
-		scale = scale + Vector2(stat.LEVEL * 0.1 , stat.LEVEL * 0.1)
+		scale = Vector2(1,1) + Vector2(stat.LEVEL * 0.1 , stat.LEVEL * 0.1)
 	#almenta o range que anda conforme awareness
 	wanderController.wander_range = 32 * (stat.LEVEL/10) 
 
@@ -382,16 +382,6 @@ func get_closer(delta, proximity):
 		if is_it_close(global_position, path[1], 4):
 			path.remove(1)
 			
-			#esse else estava vazio e o conteudo acida desse comentario (dentro do if)
-		else:
-#			if path.size() >= 2:
-#				get_closer(delta , proximity)
-#			else:
-#				get_closer(delta, 4)
-			pass
-	#re-habilitar, foi desabilitado para testar final de pathfinding
-#	elif path.size() == 1:
-#		rotation = lerp(rotation, global_position.direction_to(path[0]).angle(), 0.08)	
 	elif path.size() == 1:
 		if is_it_close(global_position, path[0], proximity):
 			velocity = Vector2.ZERO
@@ -464,9 +454,9 @@ func follow_pherormone(new_value):
 		elif stat.CLASS == "Fighter" and phero_obj_type == "Enemy":
 			if state != CHASE:
 				state = CHASE
-		else:
-			release_pherormon(obj_pos, obj_type)
-#			state = pick_random_state(state_list)
+#		else:
+#			release_pherormon(obj_pos, obj_type)
+##			state = pick_random_state(state_list)
 	else:
 		pass
 		
