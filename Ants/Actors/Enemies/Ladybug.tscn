@@ -1,0 +1,245 @@
+[gd_scene load_steps=31 format=2]
+
+[ext_resource path="res://Zones/Hitbox.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Zones/HurtBox.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Zones/DetectionZone.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Animations/Enemies/Ladybug/Ladybug Spritesheet.png" type="Texture" id=4]
+[ext_resource path="res://Actors/Enemies/Ladybug.gd" type="Script" id=5]
+[ext_resource path="res://Actors/WanderController.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Actors/Stats.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Zones/SoftCollision.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Actors/Enemies/Area2D.gd" type="Script" id=9]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 25.2092
+
+[sub_resource type="ConvexPolygonShape2D" id=2]
+points = PoolVector2Array( 0, -5, 150, -100, 150, 100, 0, 5 )
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 4.063
+height = 3.88156
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 34.4686
+
+[sub_resource type="CapsuleShape2D" id=5]
+radius = 26.1643
+height = 8.29411
+
+[sub_resource type="Animation" id=6]
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3, 4, 5, 6, 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hitbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.7 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "attack_animation_finished"
+} ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.7
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 8, 9, 10, 11, 12, 13, 14 ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "Attack"
+
+[sub_resource type="AnimationNodeAnimation" id=10]
+animation = "Idle"
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+animation = "Walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+
+[sub_resource type="AnimationNodeStateMachine" id=18]
+states/Attack/node = SubResource( 9 )
+states/Attack/position = Vector2( 381, 150 )
+states/Idle/node = SubResource( 10 )
+states/Idle/position = Vector2( 240, 91 )
+states/Walk/node = SubResource( 11 )
+states/Walk/position = Vector2( 375, 32 )
+transitions = [ "Idle", "Walk", SubResource( 12 ), "Walk", "Idle", SubResource( 13 ), "Idle", "Attack", SubResource( 14 ), "Attack", "Idle", SubResource( 15 ), "Attack", "Walk", SubResource( 16 ), "Walk", "Attack", SubResource( 17 ) ]
+start_node = "Idle"
+graph_offset = Vector2( -125, -3 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=19]
+
+[sub_resource type="CapsuleShape2D" id=20]
+radius = 13.6726
+height = 24.4349
+
+[sub_resource type="CircleShape2D" id=21]
+radius = 21.4378
+
+[node name="Ladybug" type="KinematicBody2D" groups=[
+"Enemy",
+]]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource( 5 )
+
+[node name="Stats" parent="." instance=ExtResource( 7 )]
+MAX_HP = 50
+CUR_HP = 50
+MAX_LEVEL = 100.0
+CLASS = "Ladybug"
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 4 )
+offset = Vector2( 0, 2 )
+hframes = 16
+frame = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -3.11779, 0.733414 )
+shape = SubResource( 1 )
+
+[node name="DetectionZone" parent="." instance=ExtResource( 3 )]
+visible = false
+collision_mask = 2147483656
+
+[node name="CollisionShape2D" parent="DetectionZone" index="0"]
+shape = SubResource( 2 )
+
+[node name="DetectionZone2" parent="." instance=ExtResource( 3 )]
+visible = false
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="DetectionZone2" index="0"]
+position = Vector2( 30.0678, 0.668175 )
+shape = SubResource( 3 )
+
+[node name="Hitbox" parent="." instance=ExtResource( 1 )]
+visible = false
+position = Vector2( 2.55907, 0.44545 )
+collision_layer = 0
+collision_mask = 80
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2( 0, 0.222733 )
+shape = SubResource( 4 )
+disabled = true
+
+[node name="HurtBox" parent="." instance=ExtResource( 2 )]
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape2D" parent="HurtBox" index="0"]
+position = Vector2( -1.39683, 1.00886 )
+rotation = 1.5708
+shape = SubResource( 5 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Attack = SubResource( 6 )
+anims/Idle = SubResource( 7 )
+anims/Walk = SubResource( 8 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 18 )
+anim_player = NodePath("../AnimationPlayer")
+parameters/playback = SubResource( 19 )
+
+[node name="WanderController" parent="." instance=ExtResource( 6 )]
+wander_range = 200
+
+[node name="SoftCollision" parent="." instance=ExtResource( 8 )]
+visible = false
+
+[node name="CollisionShape2D" parent="SoftCollision" index="0"]
+position = Vector2( -0.222733, 1.11362 )
+rotation = 1.5708
+shape = SubResource( 20 )
+
+[node name="ClickArea" type="Area2D" parent="."]
+script = ExtResource( 9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
+position = Vector2( -4.23178, 1.33634 )
+shape = SubResource( 21 )
+[connection signal="loosing_health" from="Stats" to="." method="_on_Stats_loosing_health"]
+[connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
+[connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
+[connection signal="mouse_entered" from="ClickArea" to="ClickArea" method="_on_ClickArea_mouse_entered"]
+[connection signal="mouse_exited" from="ClickArea" to="ClickArea" method="_on_ClickArea_mouse_exited"]
+
+[editable path="DetectionZone"]
+
+[editable path="DetectionZone2"]
+
+[editable path="Hitbox"]
+
+[editable path="HurtBox"]
+
+[editable path="SoftCollision"]

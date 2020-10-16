@@ -7,39 +7,58 @@ extends Node2D
 export var time_between_cupcakes = 15
 onready var timer = $Timer
 
+var is_selection_on: bool = false
 var stats_ant = null
+var stats_actor_group
 var same = null
 var last_input = null
 
+#for instancing
+onready var world = get_tree().current_scene
+#for instancing food
+onready var FoodCube = load("res://Actors/Food/Food.tscn")
+
+#for isntancing enemy
+onready var Enemy = load("res://Actors/Enemies/Ladybug.tscn")
+#for isntancing ants
+onready var Ant = load("res://Actors/Ants/Ant.tscn")
+
+#for the stats modifier menu:
+onready var modifierui = $"CanvasLayer/StatChange"
+
+
+
+onready var ground = $Ground
+onready var pathfinding = $Pathfinding
+
+
 func _ready():
+	randomize()
+	pathfinding.create_navigation_map(ground)
+	
 	timer.start(rand_range(1, 5))
 
-#
 #	#instancia o formigueiro:
 #	var Formigueiro = load("res://Formigueiro.tscn")
 #	var formigueiro = Formigueiro.instance()
 #	var world = get_tree().current_scene
 #	world.add_child(formigueiro)
 #	formigueiro.position = Vector2(rand_range(60,2500), rand_range(20,1370))
+
+
+func _input(_event):
 	
-func _physics_process(delta):	
-	#cria bolinhos em um timer e inimigo
-	if timer.time_left <= .5:
-		if rand_range(0, 30) <= 1:
-			var Enemy = load("res://Enemies/Ladybug.tscn")
-			var enemy = Enemy.instance()
-			var world = get_tree().current_scene
-			world.add_child(enemy)
-			enemy.position = Vector2(rand_range(20,2540), rand_range(20,1420))
-		var FoodCube = load("res://Food.tscn")
-		var foodCube = FoodCube.instance()
-		var world = get_tree().current_scene
-		world.add_child(foodCube)
-		foodCube.position = Vector2(rand_range(20,2540), rand_range(20,1420))
-		timer.start(rand_range(1, time_between_cupcakes))
-
-
-func _input(event):
+	if Input.is_action_just_pressed("StatsScreen"):
+		if is_selection_on:
+			modifierui.visible = false
+			is_selection_on = false
+		else:
+			modifierui.visible = true
+			is_selection_on = true
+		
+	
+	
+	
 	if Input.is_key_pressed(70):
 		last_input = "F"
 	if Input.is_key_pressed(69):
@@ -78,31 +97,23 @@ func _input(event):
 	if Input.is_action_just_pressed("ui_right_click"):
 		#cria bolinhos depois de apertar F
 		if last_input == "F":	
-			var FoodCube = load("res://Food.tscn")
 			var foodCube = FoodCube.instance()
-			var world = get_tree().current_scene
 			world.add_child(foodCube)
 			foodCube.global_position = get_global_mouse_position()
 			foodCube.global_position.y = foodCube.global_position.y -20
 		#Cria Joaninha depois de apertar E
 		if last_input == "E":
-			var Enemy = load("res://Enemies/Ladybug.tscn")
 			var enemy = Enemy.instance()
-			var world = get_tree().current_scene
 			world.add_child(enemy)
 			enemy.global_position = get_global_mouse_position()
 		#Cria Formiga depois de apertar A
 		if last_input == "A":
-			var Ant = load("res://Ant.tscn")
 			var ant = Ant.instance()
-			var world = get_tree().current_scene
 			world.add_child(ant)
 			ant.global_position = get_global_mouse_position()
 		#Cria super comida depois de paertar P
 		if last_input == "P":
-			var FoodCube = load("res://Food.tscn")
 			var foodCube = FoodCube.instance()
-			var world = get_tree().current_scene
 			world.add_child(foodCube)
 			foodCube.global_position = get_global_mouse_position()
 			foodCube.global_position.y = foodCube.global_position.y -20
@@ -118,7 +129,6 @@ func KillUi():
 func instance_ui():
 #	var InstancedUi = preload ("res://UI/StatsUI.tscn")
 #	var instancedUi = InstancedUi.instance()
-#	var world = get_tree().current_scene
 #	world.add_child(instancedUi)
 #	instancedUi.selected_ant = stats_ant
 	
@@ -131,12 +141,24 @@ func instance_ui():
 
 	var Setinha = preload ("res://UI/Setinha.tscn")
 	var setinha = Setinha.instance()
-	var world = get_tree().current_scene
 	world.add_child(setinha)
 	var target_position = stats_ant.global_position
 	target_position.y = target_position.y - 10
 	setinha.global_position = target_position
-	setinha.selected_ant = stats_ant
+	setinha.selected_object = stats_ant
+	setinha.object_group = stats_actor_group
 
 	same = stats_ant
 	stats_ant = null
+	stats_actor_group = null
+
+
+func _on_Timer_timeout():
+		if rand_range(0, 25) <= 1:
+			var enemy = Enemy.instance()
+			world.add_child(enemy)
+			enemy.position = Vector2(rand_range(20,2540), rand_range(20,1420))
+		var foodCube = FoodCube.instance()
+		world.add_child(foodCube)
+		foodCube.position = Vector2(rand_range(20,2540), rand_range(20,1420))
+		timer.start(rand_range(1, time_between_cupcakes))

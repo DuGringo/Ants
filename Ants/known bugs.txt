@@ -1,18 +1,53 @@
 Bugs a arrumar:
 
-ferormonio lancado mil vezes ao invez de so uma.
--dificilmente a formiga entra no femormonio certo.
+
+-----> formigas ficando presas em um loop infinito (em waves) de pherormonio, lancanod elas pro mesmo lugar) estao criando lumps.
 -anthill n contando todas as formigas que entram(?)
+-formigas fora negativo quando tem ataque terrorista
+
+
+
+
+-- fazer UI igual ferormonio (nao eh queu free, soh disabilita e habilita de novo [para referencia, a criacao esta em ant.release_pherormon()] )
+
+-- duck coding (if body.has_method("<methodname>"): for onhit, for pherormone
+-- use clamp(valor novo, minimo, maximo) pra exp, fome, sede, vida, etc  -> dentro de setget
+-- setget for state: whenever state changes calls a function (more control!!)
+
+--to reference siblin, use dependency injection
+
+-- folder global para autoload scrips, global signals e global enums, etc... (pherormonio?) ant?
+
+
+----------------------------------------------------------------------------
+TESTAR:
 
 -------------------------------------------------------------------------
 Bugs arrumar prioridade baixa:
-Glitch visual (depois de adicionar a camera, mas acontece mesmo com ela parada)
--de vez em quando formiga acha comida MUITO ALEM da visao dela (exatamente no mesmo segudo que a comida é criada)
+
+para melhora rperformance (com varias instancias)
+https://godotengine.org/qa/60012/improve-performance-when-have-lots-dynamic-objects-your-game
+
+formiga cega: desabilita a visao durante ataque e nao habilita de novo pq a animacao foi interrompida
+setinha mudar de posicao conforme o level do bixo (nao ficar escondido se o objeto for grande/lvl alto)
+
+balancear taxa de drop de comida [semi arrumado]
+Glitch visual (depois de adicionar a camera, mas acontece mesmo com ela parada) [semi arrumado]
+-de vez em quando formiga acha comida MUITO ALEM da visao dela (exatamente no mesmo segudo que a comida é criada) (posivemlente relacionado com o tipo de nodulo que o cone de visao, tem error falando pra usar um diferente)
 -formiga presa em estado de chase
 -poder deixar com borda sem ter stutter na camera
-
+-melhorar as funcoes dentro dos estados da formiga (algumas sao desnecessarias)
 -----------------------------------------------------------------------
 implementar:
+
+
+Lancar contra ferormonio se nao tiver comida (mesmo lugar que anula ganhar nutriente)
+
+apertar formiga com o mouse (se left click em cima da area da formiga, por mais de 1 segundo, formiga = idle, cur_hp diminui devagar)
+
+formigas sairem com mais frequencia under treat
+
+Classes de formiga. (com possivelmente AI diferentes tb)
 
 formiga fugir do dano antes de ir pro formigueiro (com vida baixa)
 
@@ -26,8 +61,6 @@ animacao de EAT
 formigueiro soh manda pra fora se a formiga estiver sem fome e perde fome conforme fica no formigueiro e formigueiro perde valor nutricional.
 formiga soh entra COM FOME, guarda o valor nutricional, adiciona ao formigueiro
 
-ui mostrando antnumber(total de formigas) 
-
 mudar tile
 
 poder mudar o nome da formiga (dificil)
@@ -39,29 +72,49 @@ POKEDEX
 formiga robo controlada pelo player
 cards
 rythm game
+treasure Hunt
+
+arcade: o controle do player estaem como builda cada classe de formiga (e quanto de cada classe)
 
 -----------------------------------------------------------------------
 DESFAZER:
 
+phero_obj_dir
+
+Se a formiga esta perto do ultimo ferormonio que entrou, ela n libera, mesmo se o ferormonio nao existir mais
+
+tirar fix_cone() e tirar mudar o tamanho do cone na animacao searching 
 
 
 -----------------------------------------------------------------------
 MELHORAR EVENTUALMENTE:
+-mudar path para ser recalculado uma vez por segundo, ou quando se mover um certo tanto, ao ivnez de todo frame. (mudar na funcao look and move ou criar outra funcao que eh chamada de pouco em pouco pela look and move)
 -MAIS INIMIGOS
 -PASS no loop n ajuda com FPS??
 -UPDATE do label no nodulo controle de world <Anthill> (nodulo anthill sendo chamado e procurado todo frame)
 -formigas sempre que saem em wander, é pra diagonal (esquerda,cima), posicao (0,0)?[formigueiro em cima na esquerda n aprece que vao pra (0,0)
 -visual da UI
--achar lugar bom para resetar valor nutricional (dentro da formiga, pra n perder fome quando morde a joaninha, por enquanto esta depois que morde)
 -joaninha entrar de vez em nunca na tela pelo lado
+-no executavel, a UI aparece como NULL quando a formiga/joaninha morre/desespawna (arrumar com setget?)
+-lerp for turnning (ja tem na formiga nova)
+-UI ao invez de criar e descriar, soh desaparece (vai concertaro bug de a UI virar NULL no executavel)
+if you use a lot of get_node, it’s better to save it on an onready var
 ===============================================================================
 pensar em:
-Easter eggs e Referencias - terraria, risk of rain, isaac, northernlion, wanderbots 
+Easter eggs e Referencias - terraria, risk of rain, isaac, northernlion, wanderbots, formiga albina[development], legend of zelda (triforce), rock adn stone!(deep rock galactic), achievement "Oh! the Humanity!",
+Arrumar level maximo da joaninha spawnada (verificar qual o lvl maximo atual das formigas? deixar que a joaninha acabe com a run?)
+
+
+
 
 
 
 
 NOTES:
+funcoes que demoram mais: 1- physics_process ant(800 calls), 2- chase state(350 calls),3- look and move(406 calls) , pathfinding (406 calls)
+(tendo formigas especificas para cada coisa vai tirar essa necessidade toda de todas chamarem ao mesmo tempo)
 
-1280 -> 2560
-720 ->1440
+
+continuar pathfinding da formiga teste: video https://youtu.be/frNH5ojEw_M?t=396 (necessita descobrir como ele fez o movimento das unidades dele)
+
+for x in range(0,int(round(40 - 10^((-(LALALAL-20*log(40)))/20)))):          <---- funcao da comida de quando a joaninha morre) , adicionar +/- 5
