@@ -3,7 +3,7 @@
 [ext_resource path="res://Zones/Pherormone.gd" type="Script" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 116.29
+radius = 154.9
 
 [node name="Pherormone" type="Area2D" groups=[
 "Pherormone",

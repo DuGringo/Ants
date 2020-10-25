@@ -1,7 +1,7 @@
 extends Area2D
 
-#ants inside anthill ants_count eh o mudavel, Anthill_count é o update...
-export var ants_count = 0
+#ants inside anthill ants_count eh o mudavel
+export var ants_count = 100
 export var max_ants = 150
 
 #ant name#
@@ -18,22 +18,81 @@ onready var collision = $CollisionShape2D
 onready var timer = $Timer
 onready var pathfinding = $"../Pathfinding"
 
+onready var spawnermanager = $"../SpawnerManager"
+
+onready var statchange = $"../CanvasLayer/StatChange"
 
 var formigas = []
 var stats = []
 
-var foodsource = 0
+var foodsource = 0 setget handle_foodsource
+
+var anthillexp = 0
+var anthilllevel = 1
 
 onready var target_position = global_position
 
-func _ready():
+func initialize():
+	GlobalSignals.connect("leveledup", self, "handle_exp")
 	set_timer(2)
-	var initial_position: Vector2 =  Vector2(abs(rand_range(100, 2400)),abs(rand_range(100, 1300)))
+	var initial_position: Vector2 = spawnermanager.get_spawn_position()
+	initial_position.x = clamp(initial_position.x, 100, 2400)
+	initial_position.y = clamp(initial_position.y, 100, 1300)
 	global_position = initial_position
+	pass
 
+func SpitAnt():
+	ants_count -= 1
+	antout += 1
 	
+	#instancia a formiga
+	var InstancedAnt = preload ("res://Actors/Ants/Ant.tscn")
+	var instancedAnt = InstancedAnt.instance()
+	var world = get_tree().current_scene
+	world.get_node("AntsManager").add_child(instancedAnt)
 	
+	#posicao formiga
+	target_position = global_position
+	target_position.y = target_position.y + rand_range(-10, 10)
+	target_position.x = target_position.x + rand_range(-10,10)
+	instancedAnt.global_position = target_position
+
+	set_timer(rand_range(0,2))
+	pass
+
+
+func get_time_left():
+	return timer.time_left
+	pass
+
+func set_timer(duration):
+	timer.start(duration)
+	pass
+
+func handle_foodsource(new_value):
+	foodsource = new_value
+	if foodsource >= 300 and (ants_count + antout) < max_ants:
+		foodsource = foodsource - 300
+		ants_count = ants_count + 1
+	return foodsource
+
+func add_exp():
+	anthillexp = anthillexp + 1
+	pass
+
+func handle_exp():
+	anthillexp = clamp(anthillexp + 1, 0, anthilllevel * 20 )
+	print ("Anthill +1 exp: ", anthillexp ," (Implementar na UI. print dentro de formigueiro)")
+	if anthillexp == anthilllevel * 20:
+		statchange.availablepoints += 1
+		statchange.maxpoints += 1
+		anthilllevel += 1
+		anthillexp = 0
+	pass
+
 func _on_Formigueiro_body_entered(body):
+	if body.is_in_group("obstacles"):
+		body.remove_from_group("obstacles")
 	if body.state == 6:
 		ants_count += 1
 		if body.stat.EXPERIENCE >= body.stat.LEVEL:
@@ -58,52 +117,24 @@ func _on_Formigueiro_body_entered(body):
 		stats.append(need_level_up)
 		stats.append(body.stat.CLASS)
 	
-		#resurso pro formigueiro
-		foodsource = foodsource + (body.stat.HUNGER - 100)*-1
-		if foodsource >= 300 and (ants_count + antout) < max_ants:
-			foodsource = foodsource - 300
-			ants_count = ants_count + 1
-		if body.stat.LEVEL > strongest_ant:
-			strongest_ant = body.stat.LEVEL
-		
-		
+		#recurso pro formigueiro
+		var foodchange = (body.stat.HUNGER -100)* -1
+		foodsource = handle_foodsource(foodsource + foodchange)
+
+		if body.stat.LEVEL > spawnermanager.spawner_level:
+			spawnermanager.spawner_level = body.stat.LEVEL
 		formigas.append(stats.duplicate(true))
 		stats.clear()
+		pass
 
 
-func SpitAnt():
-		ants_count -= 1
-		antout += 1
-		
-		#instancia a formiga
-		var InstancedAnt = preload ("res://Actors/Ants/Ant.tscn")
-		var instancedAnt = InstancedAnt.instance()
-		var world = get_tree().current_scene
-		world.add_child(instancedAnt)
-		
-		#posicao formiga
-		target_position = global_position
-		target_position.y = target_position.y + rand_range(-10, 10)
-		target_position.x = target_position.x + rand_range(-10,10)
-		instancedAnt.global_position = target_position
 
-
-		set_timer(rand_range(0,2))
-		
-	
-
-
-func get_time_left():
-	return timer.time_left
-
-func set_timer(duration):
-	timer.start(duration)
-	
-
-
-	
+func _on_Formigueiro_body_exited(body):
+	body.add_to_group("obstacles", true)
+	pass
 
 
 func _on_Timer_timeout():
 	if ants_count > 0: 
 		SpitAnt()
+	pass

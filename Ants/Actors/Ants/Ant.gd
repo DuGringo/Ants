@@ -13,7 +13,6 @@ enum{
 	VOLTAR
 }
 
-
 export(int) var proximity_range = 16
 
 
@@ -52,6 +51,7 @@ var obj_type = null
 var phero_obj_type = null
 
 
+
 var modifier: Array = []
 
 var state_list = [WANDER, WANDER, WANDER, WANDER, IDLE, IDLE, IDLE, SEARCH]
@@ -60,14 +60,16 @@ onready var anim : AnimationPlayer = $AnimationPlayer
 onready var animTree = $AnimationTree
 onready var animState = animTree.get("parameters/playback")
 #onready var formigueiro = $Formigueiro
-onready var formigueiro = get_node("../Formigueiro")
+onready var formigueiro = get_node("../../Formigueiro")
 onready var hitbox = get_node("Hitbox/CollisionShape2D")
 
-onready var pathfinding = get_node("../Pathfinding")
+onready var pathfinding = get_node("../../Pathfinding")
 
-onready var ferormonios = get_node("../Ferormonios")
+onready var ferormonios = get_node("../../FerormoniosManager")
 
 onready var colisao = get_node("CollisionShape2D")
+
+onready var spawnermanager = get_node("../../SpawnerManager")
 
 
 
@@ -77,7 +79,7 @@ onready var hitdamage = $Hitbox
 #Stats
 onready var stat = $Stats
 #Stats modifiers for lvl up
-onready var statchange = $"../CanvasLayer/StatChange"
+onready var statchange = $"../../CanvasLayer/StatChange"
 #Finding
 onready var detectionZone = $DetectionZone
 #Attack
@@ -98,32 +100,29 @@ func _ready():
 	state = WANDER
 	self.rotation_degrees = rand_range(0, 2 * PI)
 	
-	
-	#nasce uma formiga existente ao invez de nova
+	#nasce uma formiga existente ou uma nova
 	if rand_range(0, formigueiro.ants_count) < formigueiro.formigas.size(): 
 			formigueiro.formigas.shuffle()
 			set_stat()
 	else:
 		formigueiro.ant_id += 1
+		stat.LEVEL = int(rand_range(1, spawnermanager.spawner_level))
 		stat.ANT_ID = formigueiro.ant_id
-		if 2*formigueiro.warriorcount < formigueiro.workercount:
-			stat.CLASS = "Fighter"
-			formigueiro.warriorcount +=1
-		else: 
+		
+		if formigueiro.workercount == 0:
 			stat.CLASS = "Worker"
 			formigueiro.workercount += 1
+		elif (float(formigueiro.warriorcount)/formigueiro.workercount) < (float(statchange.warrior_priority)/statchange.worker_priority):
+			stat.CLASS = "Warrior"
+			formigueiro.warriorcount +=1
+		else:
 
+			stat.CLASS = "Worker"
+			formigueiro.workercount += 1
 		apply_modifier()
 
-
-
-	
-	
-
-	
-	
 func _physics_process(delta):
-	
+
 	match state:
 #		MOVE:
 #			seek_zone()
@@ -221,8 +220,10 @@ func wander_state(delta):
 		if wanderController.get_time_left() == 0:
 			state = pick_random_state(state_list)
 			wanderController.set_wander_timer(rand_range(1,2))
-		look_and_move(wanderController.target_position , delta, 8)
-		
+		if stat.CLASS == "Worker":
+			look_and_move(wanderController.target_position , delta, 6)
+		if stat.CLASS == "Warrior":
+			look_and_move(wanderController.target_position , delta, 6)
 		animState.travel("Walk")
 		
 	
@@ -298,20 +299,7 @@ func set_stat():
 		formigueiro.antid = stat.ANT_ID
 
 	apply_modifier()
-	
 
-	#da o dano certo para HitZone
-	hitdamage.damage = stat.DAMAGE
-
-	#almenta o tamanho da do campo de visao baseado AWARENESS level
-	detectionZone.scale = Vector2(stat.AWARENESS, stat.AWARENESS)
-	#almenta o tamanho da formiga baseado no level
-	if stat.CLASS == "Worker":
-		scale = Vector2(1,1) + Vector2(stat.LEVEL * 0.05 , stat.LEVEL * 0.05)
-	if stat.CLASS == "Fighter":
-		scale = Vector2(1,1) + Vector2(stat.LEVEL * 0.1 , stat.LEVEL * 0.1)
-	#almenta o range que anda conforme awareness
-	wanderController.wander_range = 32 * (stat.LEVEL/10) 
 
 func attack_animation_start():
 	var object = detectionZone2.object
@@ -421,27 +409,40 @@ func release_pherormon(target_position, objtype):
 		ferormonio.state = CHASE
 		ferormonio.objtype = objtype
 
-
 	elif ferormonio_encontrado == false and ferormonio_criado == true:
 		for child in int(ferormonios.get_child_count()):
 			if ferormonios.get_children()[child].id == "Pherormone" + str(stat.ANT_ID):
 				ferormonio = ferormonios.get_child(child)
 				ferormonio_encontrado = true
 				release_pherormon(target_position, objtype)
-				pass
+				continue
 
-	elif ferormonio_criado == false or ferormonios.get_child_count() == 0 :
-		var Pherormone = load("res://Zones/Pherormone.tscn")
-		var pherormone = Pherormone.instance()
-		ferormonios.add_child(pherormone)
-		pherormone.id = pherormone.id + str(stat.ANT_ID)
-		ferormonio_criado = true
-		release_pherormon(target_position, objtype)
+	elif ferormonio_criado == false:
+		if ferormonios.get_child_count() != 0:
+			for child in int(ferormonios.get_child_count()):
+				if ferormonios.get_children()[child].id == "Pherormone" + str(stat.ANT_ID):
+					ferormonio = ferormonios.get_child(child)
+					ferormonio_criado = true
+					ferormonio_encontrado = true
+					release_pherormon(target_position, objtype)
+					continue
+					pass
+		if ferormonio_criado:
+			release_pherormon(target_position,objtype)
+		else:
+			var Pherormone = load("res://Zones/Pherormone.tscn")
+			var pherormone = Pherormone.instance()
+			ferormonios.add_child(pherormone)
+			pherormone.id = "Pherormone" + str(stat.ANT_ID)
+			ferormonio_criado = true
+			release_pherormon(target_position, objtype)
+			pass
 		pass
 	else:
 		print("Ferormonio nao foi criado e nao existe")
 
 func follow_pherormone(new_value):
+
 	if pheroid != last_chased_object_pos:
 		#can probably cut this short. remove the middleman. obj_pos = new value .
 		phero_obj_dir = new_value
@@ -451,9 +452,12 @@ func follow_pherormone(new_value):
 		if stat.CLASS == "Worker" and phero_obj_type == "Food":
 			if state != CHASE:
 				state = CHASE
-		elif stat.CLASS == "Fighter" and phero_obj_type == "Enemy":
+			pass
+		elif stat.CLASS == "Warrior" and phero_obj_type == "Enemy":
 			if state != CHASE:
 				state = CHASE
+			pass
+		pass
 #		else:
 #			release_pherormon(obj_pos, obj_type)
 ##			state = pick_random_state(state_list)
@@ -465,16 +469,25 @@ func follow_pherormone(new_value):
 func apply_modifier():
 	if stat.CLASS == "Worker":
 		modifier = statchange.listworker
-	if stat.CLASS == "Fighter":
+		scale = Vector2(1,1) + Vector2(stat.LEVEL * 0.05 , stat.LEVEL * 0.05)
+	if stat.CLASS == "Warrior":
 		modifier = statchange.listfighter
+		scale = Vector2(1,1) + Vector2(stat.LEVEL * 0.1 , stat.LEVEL * 0.1)
 	
 #	stat.LEVEL = stat.LEVEL + modifier[0]
 	stat.DAMAGE = 1 * ( 1 + (modifier[0] + stat.LEVEL))
 
 	stat.MAX_SPEED = 50 *  (1 + (modifier[1] + stat.LEVEL)/10)
-# isso 'e igual a 201.6 no lvl 5.
+	#da o dano certo para HitZone
+	hitdamage.damage = stat.DAMAGE
 
-#trocar para ser a area redonda ao invez da quadrada
+	#desabilitado por ser quebrado!, o cone fic aMUITO grande muito rapido (pq almenta duas vezes. com a formiga e com awareness)
+	#almenta o tamanho da do campo de visao baseado AWARENESS level
+#	detectionZone.scale = Vector2(stat.AWARENESS, stat.AWARENESS)
+
+	#almenta o range que anda conforme awareness //// removido para debugging
+	wanderController.wander_range = 150 * 1 + (stat.LEVEL/10) 
+
 func get_random_position_within_target_radius() -> Vector2:
 #	var extents = Vector2.ZERO
 	var radius: float = detectionZone.object.collisionshape.shape.radius
@@ -495,8 +508,13 @@ func _on_HurtBox_area_entered(attack):
 	stat.CUR_HP -= attack.damage
 
 func _on_Stats_no_health():
-	queue_free()
+	if stat.CLASS == "Warrior":
+		formigueiro.warriorcount -= 1
+	if stat.CLASS == "Worker":
+		formigueiro.workercount -= 1
 	formigueiro.antout -= 1
 	if ferormonio != null:
 		ferormonio.queue_free()
+	queue_free()
+
 

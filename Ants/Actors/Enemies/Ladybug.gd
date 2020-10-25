@@ -137,31 +137,8 @@ func idle_state(_delta):
 
 #funcoes
 func rand_stat():
+	stat.LEVEL = get_tree().current_scene.get_node("SpawnerManager").spawner_level
 	
-	stat.LEVEL = get_tree().current_scene.get_node("Formigueiro").strongest_ant
-	
-	
-	
-	
-#	stat.MAX_HP = ant_stat[1]
-#	stat.CUR_HP = ant_stat[2]
-#	stat.ACCELERATION = ant_stat[3]
-#	stat.MAX_SPEED = ant_stat[4]
-#	stat.FRICTION = ant_stat[5]
-#	stat.AWARENESS = ant_stat[6]
-#	stat.DAMAGE = ant_stat[7]
-#	stat.DODGE = ant_stat[8]
-#	stat.MAX_LEVEL = ant_stat[9]
-#	stat.LEVEL = ant_stat[10]
-#	stat.EXPERIENCE = ant_stat[11]
-#	#fome fixa por enquanto
-#	#ant.stat.HUNGER = ant_stat[12]
-#	stat.HUNGER = 50
-#	stat.THIRST = ant_stat[13]
-#	stat.need_level_up = ant_stat[14]
-		
-	#CLASS SPECIFIC
-	#da o dano certo para HitZone
 	stat.DAMAGE = 1 + (stat.LEVEL/4)
 	hitdamage.damage = stat.DAMAGE
 	
@@ -214,12 +191,12 @@ func _on_HurtBox_area_entered(attack):
 
 func _on_Stats_no_health():
 	#limite - 10^(-(x-taxa*log(limite)/taxa))
-	for _x in range (0, rand_range(1, stat.LEVEL*2) )  :
+	for _x in range (0, rand_range(1, 3) )  :
 #	for x in range (0, 40 - pow(10,(-(stat.LEVEL -20*log(40)/20)))):
-		world.add_child(foodCube)
-		foodCube.position = global_position + Vector2(rand_range(-10,10), rand_range(-10,10))
-		foodCube.valor_nutricional = foodCube.valor_nutricional * (1 + stat.LEVEL * 0.5)
-		foodCube.stat.MAX_HP = foodCube.stat.MAX_HP * (1 + stat.LEVEL * 0.5)
+		world.get_node("FoodsManager").add_child(foodCube)
+		foodCube.position = global_position + Vector2(rand_range(-15,15), rand_range(-15,15))
+		foodCube.valor_nutricional = 8 * (1 + stat.LEVEL/10)
+		foodCube.stat.MAX_HP = 50 * (1 + stat.LEVEL/10)
 		foodCube.stat.CUR_HP = foodCube.stat.MAX_HP
 	queue_free()
 

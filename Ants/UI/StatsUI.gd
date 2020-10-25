@@ -42,13 +42,15 @@ onready var classui = $ClassUI
 
 func set_hp(value):
 	CUR_HP = clamp(value, 0, MAX_HP)
-
 	
 
 func _process(_delta):
 	
 	if selected_ant != null:
-		self.GROUP = selected_ant.get_groups()[0]
+		if selected_ant.is_in_group("Ant"):
+			self.GROUP = "Ant"
+		else:
+			self.GROUP = selected_ant.get_groups()[0]
 		self.ANT_ID= selected_ant.stat.ANT_ID
 		self.MAX_HP= selected_ant.stat.MAX_HP
 		self.CUR_HP= selected_ant.stat.CUR_HP

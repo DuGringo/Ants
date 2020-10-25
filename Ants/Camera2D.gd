@@ -5,7 +5,7 @@ export var zoommargin = 0.1
 export var zoomsmooth = 1
 
 export var zoomMin = 0.25
-export var zoomMax = 1
+export var zoomMax = 1.25
 
 var zoompos = Vector2()
 var zoomfactor = 1.0
@@ -32,8 +32,8 @@ func _physics_process(delta):
 		set_drag_margin(2 , 0.1)
 		set_drag_margin(3 , 0.1)
 		smoothing_speed = 2
-		if get_tree().current_scene.same != null:
-			position = get_tree().current_scene.same.global_position
+		if get_tree().current_scene.get_node("SpawnerManager").same != null:
+			position = get_tree().current_scene.get_node("SpawnerManager").same.global_position
 	#segue o mouse
 	else:
 		if just_started:

@@ -104,7 +104,7 @@ func _ready():
 		formigueiro.ant_id += 1
 		stat.ANT_ID = formigueiro.ant_id
 		if 2*formigueiro.warriorcount < formigueiro.workercount:
-			stat.CLASS = "Fighter"
+			stat.CLASS = "Warrior"
 			formigueiro.warriorcount +=1
 		else: 
 			stat.CLASS = "Worker"
@@ -313,7 +313,7 @@ func set_stat():
 	#almenta o tamanho da formiga baseado no level
 	if stat.CLASS == "Worker":
 		scale = scale + Vector2(stat.LEVEL * 0.05 , stat.LEVEL * 0.05)
-	if stat.CLASS == "Fighter":
+	if stat.CLASS == "Warrior":
 		scale = scale + Vector2(stat.LEVEL * 0.1 , stat.LEVEL * 0.1)
 	#almenta o range que anda conforme awareness
 	wanderController.wander_range = wanderController.wander_range * (1 * stat.LEVEL) 
@@ -472,7 +472,7 @@ func get_closer(delta, proximity):
 func apply_modifier():
 	if stat.CLASS == "Worker":
 		modifier = statchange.listworker
-	if stat.CLASS == "Fighter":
+	if stat.CLASS == "Warrior":
 		modifier = statchange.listfighter
 	
 #	stat.LEVEL = stat.LEVEL + modifier[0]

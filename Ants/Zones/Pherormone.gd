@@ -27,10 +27,8 @@ func _ready():
 	timer.start(2)
 
 func _on_Pherormone_body_entered(body):
-	if posicao != null and body.get_groups()[0] == "Ant":
+	if posicao != null and body.is_in_group("Ant"):
 		if body.state != VOLTAR: 
-
-
 			body.phero_obj_dir = posicao
 			body.pheroid = objid
 			body.phero_obj_type = objtype

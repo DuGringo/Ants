@@ -40,12 +40,37 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Title" type="Label" parent="StatsMenu/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsMenu/VBoxContainer"]
 margin_right = 269.0
+margin_bottom = 43.0
+
+[node name="MarginLeft" type="MarginContainer" parent="StatsMenu/VBoxContainer/HBoxContainer"]
+margin_right = 75.0
+margin_bottom = 43.0
+rect_min_size = Vector2( 75, 0 )
+
+[node name="Stats" type="Label" parent="StatsMenu/VBoxContainer/HBoxContainer"]
+margin_left = 79.0
+margin_right = 184.0
 margin_bottom = 43.0
 custom_fonts/font = ExtResource( 4 )
 text = "Stats Up"
 align = 1
+
+[node name="MarginMiddle" type="MarginContainer" parent="StatsMenu/VBoxContainer/HBoxContainer"]
+margin_left = 188.0
+margin_right = 218.0
+margin_bottom = 43.0
+rect_min_size = Vector2( 30, 0 )
+
+[node name="Points" type="Label" parent="StatsMenu/VBoxContainer/HBoxContainer"]
+margin_left = 222.0
+margin_right = 239.0
+margin_bottom = 43.0
+custom_fonts/font = ExtResource( 4 )
+text = "0"
+align = 2
+valign = 3
 
 [node name="DropDown" type="OptionButton" parent="StatsMenu/VBoxContainer"]
 margin_top = 47.0
@@ -169,8 +194,132 @@ rect_min_size = Vector2( 35, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Proportion" type="Label" parent="StatsMenu/VBoxContainer"]
+margin_top = 209.0
+margin_right = 269.0
+margin_bottom = 252.0
+custom_fonts/font = ExtResource( 4 )
+text = "Proportion"
+align = 1
+
+[node name="Workers" type="Label" parent="StatsMenu/VBoxContainer"]
+margin_top = 256.0
+margin_right = 269.0
+margin_bottom = 278.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Workers"
+align = 1
+
+[node name="WorkersMeter" type="HBoxContainer" parent="StatsMenu/VBoxContainer"]
+margin_top = 282.0
+margin_right = 269.0
+margin_bottom = 314.0
+
+[node name="MarginLeft" type="MarginContainer" parent="StatsMenu/VBoxContainer/WorkersMeter"]
+margin_right = 90.0
+margin_bottom = 32.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_min_size = Vector2( 90, 0 )
+
+[node name="WorkersLeftButton" type="TextureButton" parent="StatsMenu/VBoxContainer/WorkersMeter"]
+margin_left = 94.0
+margin_right = 126.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
+expand = true
+
+[node name="WorkersModifier" type="Label" parent="StatsMenu/VBoxContainer/WorkersMeter"]
+margin_left = 130.0
+margin_top = 9.0
+margin_right = 138.0
+margin_bottom = 23.0
+text = "2"
+align = 1
+
+[node name="WorkersRightButton" type="TextureButton" parent="StatsMenu/VBoxContainer/WorkersMeter"]
+margin_left = 142.0
+margin_right = 174.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 8 )
+expand = true
+
+[node name="MarginRight" type="MarginContainer" parent="StatsMenu/VBoxContainer/WorkersMeter"]
+margin_left = 178.0
+margin_right = 213.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 35, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Warriors" type="Label" parent="StatsMenu/VBoxContainer"]
+margin_top = 318.0
+margin_right = 269.0
+margin_bottom = 340.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Warriors"
+align = 1
+
+[node name="WarriorsMeter" type="HBoxContainer" parent="StatsMenu/VBoxContainer"]
+margin_top = 344.0
+margin_right = 269.0
+margin_bottom = 376.0
+
+[node name="MarginLeft" type="MarginContainer" parent="StatsMenu/VBoxContainer/WarriorsMeter"]
+margin_right = 90.0
+margin_bottom = 32.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_min_size = Vector2( 90, 0 )
+
+[node name="WarriorsLeftButton" type="TextureButton" parent="StatsMenu/VBoxContainer/WarriorsMeter"]
+margin_left = 94.0
+margin_right = 126.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
+expand = true
+
+[node name="WarriorsModifier" type="Label" parent="StatsMenu/VBoxContainer/WarriorsMeter"]
+margin_left = 130.0
+margin_top = 9.0
+margin_right = 138.0
+margin_bottom = 23.0
+text = "1"
+align = 1
+
+[node name="WarriorsRightButton" type="TextureButton" parent="StatsMenu/VBoxContainer/WarriorsMeter"]
+margin_left = 142.0
+margin_right = 174.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 8 )
+expand = true
+
+[node name="MarginRight" type="MarginContainer" parent="StatsMenu/VBoxContainer/WarriorsMeter"]
+margin_left = 178.0
+margin_right = 213.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 35, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="item_selected" from="StatsMenu/VBoxContainer/DropDown" to="." method="_on_DropDown_item_selected"]
 [connection signal="pressed" from="StatsMenu/VBoxContainer/StrengthMeter/StrLeftButton" to="." method="_on_StrLeftButton_pressed"]
 [connection signal="pressed" from="StatsMenu/VBoxContainer/StrengthMeter/StrRightButton" to="." method="_on_StrRightButton_pressed"]
 [connection signal="pressed" from="StatsMenu/VBoxContainer/AgilityMeter/AgiLeftButton" to="." method="_on_AgiLeftButton_pressed"]
 [connection signal="pressed" from="StatsMenu/VBoxContainer/AgilityMeter/AgiRightButton" to="." method="_on_AgiRightButton_pressed"]
+[connection signal="pressed" from="StatsMenu/VBoxContainer/WorkersMeter/WorkersLeftButton" to="." method="_on_WorkersLeftButton_pressed"]
+[connection signal="pressed" from="StatsMenu/VBoxContainer/WorkersMeter/WorkersRightButton" to="." method="_on_WorkersRightButton_pressed"]
+[connection signal="pressed" from="StatsMenu/VBoxContainer/WarriorsMeter/WarriorsLeftButton" to="." method="_on_WarriorsLeftButton_pressed"]
+[connection signal="pressed" from="StatsMenu/VBoxContainer/WarriorsMeter/WarriorsRightButton" to="." method="_on_WarriorsRightButton_pressed"]

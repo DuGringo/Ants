@@ -146,13 +146,16 @@ radius = 21.4378
 [node name="Ladybug" type="KinematicBody2D" groups=[
 "Enemy",
 ]]
+modulate = Color( 0.85, 0.85, 0.85, 1 )
 collision_layer = 4
-collision_mask = 2
+collision_mask = 3
 script = ExtResource( 5 )
+proximity_range = 6
 
 [node name="Stats" parent="." instance=ExtResource( 7 )]
 MAX_HP = 50
 CUR_HP = 50
+DAMAGE = 1.5
 MAX_LEVEL = 100.0
 CLASS = "Ladybug"
 

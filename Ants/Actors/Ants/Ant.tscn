@@ -256,10 +256,10 @@ graph_offset = Vector2( -272.333, 40.4292 )
 [sub_resource type="RectangleShape2D" id=30]
 extents = Vector2( 8.12613, 5.47466 )
 
-[sub_resource type="ConvexPolygonShape2D" id=36]
+[sub_resource type="ConvexPolygonShape2D" id=31]
 points = PoolVector2Array( 0, 0, 150, -45, 150, 45 )
 
-[sub_resource type="CapsuleShape2D" id=37]
+[sub_resource type="CapsuleShape2D" id=32]
 radius = 1.28265
 height = 3.51286
 
@@ -283,7 +283,7 @@ light_mask = -2147483647
 collision_layer = 3
 collision_mask = 2147484162
 script = ExtResource( 8 )
-proximity_range = 8
+proximity_range = 6
 
 [node name="Ant Spritesheet" type="Sprite" parent="."]
 position = Vector2( -0.220459, 1.45681 )
@@ -312,7 +312,6 @@ parameters/Walk/TimeScale/scale = 2.5
 "parameters/Walk Leaf/TimeScale/scale" = 2.5
 
 [node name="WanderController" parent="." instance=ExtResource( 5 )]
-wander_range = 150
 
 [node name="Stats" parent="." instance=ExtResource( 6 )]
 MAX_HP = 3
@@ -335,7 +334,7 @@ collision_mask = 12
 
 [node name="CollisionShape2D" parent="DetectionZone" index="0"]
 position = Vector2( -4.94027, -0.105114 )
-shape = SubResource( 36 )
+shape = SubResource( 31 )
 
 [node name="DetectionZone2" parent="." instance=ExtResource( 3 )]
 position = Vector2( -2.35395, 0.117985 )
@@ -344,7 +343,7 @@ collision_mask = 14
 
 [node name="CollisionShape2D" parent="DetectionZone2" index="0"]
 position = Vector2( 7.31641, -3.41982e-06 )
-shape = SubResource( 37 )
+shape = SubResource( 32 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 4 )]
 collision_layer = 0

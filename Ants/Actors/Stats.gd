@@ -10,7 +10,7 @@ export var FRICTION = 500
 
 #For DAMAGE, refer to HITBOX
 export var AWARENESS = 1.0
-export var DAMAGE = 1 
+export var DAMAGE = 1.0 
 export var DODGE = 1.0
 
 export var MAX_LEVEL = 10.0
@@ -49,6 +49,7 @@ func set_thirst(value):
 func level_up():
 	LEVEL = clamp (LEVEL + 1, 1, MAX_LEVEL)
 	EXPERIENCE = 0
+	GlobalSignals.emit_signal("leveledup")
 	need_level_up = false
 
 func _process(_delta):
@@ -65,7 +66,7 @@ func apply_level(new_level):
 		MAX_HP +=1 * LEVEL
 		CUR_HP += MAX_HP
 	
-	if CLASS == "Fighter":
+	if CLASS == "Warrior":
 		DAMAGE = 1.5* LEVEL
 		AWARENESS = 1 + (0.1 * LEVEL)
 		MAX_HP += 1.5 * LEVEL

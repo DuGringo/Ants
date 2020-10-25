@@ -9,6 +9,8 @@ var half_cell_size: Vector2
 #will map size
 var used_rect: Rect2
 
+func initialize(ground: TileMap):
+	create_navigation_map(ground)
 
 func create_navigation_map(tileMap: TileMap):
 	self.tilemap = tileMap

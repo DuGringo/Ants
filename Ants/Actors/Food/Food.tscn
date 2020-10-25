@@ -18,6 +18,7 @@ radius = 6.91477
 [node name="Food" type="KinematicBody2D" groups=[
 "Food",
 ]]
+modulate = Color( 0.85, 0.85, 0.85, 1 )
 scale = Vector2( 4, 4 )
 collision_layer = 9
 collision_mask = 0
@@ -46,8 +47,8 @@ shape = SubResource( 2 )
 
 [node name="Stats" parent="." instance=ExtResource( 4 )]
 visible = false
-MAX_HP = 200
-CUR_HP = 200
+MAX_HP = 50
+CUR_HP = 50
 CLASS = "Sugar"
 
 [node name="SoftCollision" parent="." instance=ExtResource( 5 )]
