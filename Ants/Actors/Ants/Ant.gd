@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-	
+
 #se modificar, modifique tambem em pherormone
 enum{
 #	MOVE,
@@ -14,7 +14,7 @@ enum{
 }
 
 export(int) var proximity_range = 16
-
+export(bool) var display_pathline = false
 
 var state = null
 var velocity = Vector2.ZERO
@@ -50,11 +50,11 @@ var posicao_atual: Vector2 = Vector2.ZERO
 var obj_type = null
 var phero_obj_type = null
 
-
-
 var modifier: Array = []
 
+
 var state_list = [WANDER, WANDER, WANDER, WANDER, IDLE, IDLE, IDLE, SEARCH]
+
 
 onready var anim : AnimationPlayer = $AnimationPlayer
 onready var animTree = $AnimationTree
@@ -62,10 +62,6 @@ onready var animState = animTree.get("parameters/playback")
 #onready var formigueiro = $Formigueiro
 onready var formigueiro = get_node("../../Formigueiro")
 onready var hitbox = get_node("Hitbox/CollisionShape2D")
-
-onready var pathfinding = get_node("../../Pathfinding")
-
-onready var ferormonios = get_node("../../FerormoniosManager")
 
 onready var colisao = get_node("CollisionShape2D")
 
@@ -78,28 +74,35 @@ onready var hitdamage = $Hitbox
 
 #Stats
 onready var stat = $Stats
+
 #Stats modifiers for lvl up
 onready var statchange = $"../../CanvasLayer/StatChange"
-#Finding
-onready var detectionZone = $DetectionZone
+
 #Attack
 onready var detectionZone2 = $DetectionZone2
-#Wander
-onready var wanderController = $WanderController
+
 #soft Collistion
 onready var softCollision = $SoftCollision
 
+onready var pathfinding = get_node("../../Pathfinding")
 
+onready var ferormonios = get_node("../../FerormoniosManager")
 
+#Finding
+onready var detectionZone = $DetectionZone
+#Wander
+onready var wanderController = $WanderController
 
+onready var path_line = $Pathline
 
 func _ready():
+
 #	self.modulate = Color(1,1,1)
 	randomize()
 	animTree.active = true
 	state = WANDER
 	self.rotation_degrees = rand_range(0, 2 * PI)
-	
+
 	#nasce uma formiga existente ou uma nova
 	if rand_range(0, formigueiro.ants_count) < formigueiro.formigas.size(): 
 			formigueiro.formigas.shuffle()
@@ -108,7 +111,7 @@ func _ready():
 		formigueiro.ant_id += 1
 		stat.LEVEL = int(rand_range(1, spawnermanager.spawner_level))
 		stat.ANT_ID = formigueiro.ant_id
-		
+
 		if formigueiro.workercount == 0:
 			stat.CLASS = "Worker"
 			formigueiro.workercount += 1
@@ -123,20 +126,21 @@ func _ready():
 
 func _physics_process(delta):
 
+	path_line.global_rotation = 0
+	
 	match state:
 #		MOVE:
 #			seek_zone()
 #			move_state(delta)
-			
+
 #state 0
 		ATTACK:
 			attack_state(delta)
-#stat1 
+
+#state 1
 		CHASE:
 			seek_zone(delta)
 			chase_state(delta)
-
-			
 #state 2
 		EAT:
 			eat_state(delta)
@@ -144,7 +148,6 @@ func _physics_process(delta):
 		WANDER:
 			seek_zone(delta)
 			wander_state(delta)
-
 #state 4
 		SEARCH:
 			seek_zone(delta)
@@ -158,17 +161,17 @@ func _physics_process(delta):
 #state 6
 		VOLTAR:
 			voltar_state(delta)
-	
-	
-	
+
+
+
 		#colisao , usado somente enquanto esta movendo
 	if softCollision.is_colliding():
 		velocity += softCollision.get_push_vector() * delta * 40
-	
+
 		#se meche por causa disso:
 	velocity = move_and_slide(velocity)
 
-	
+
 	#decide se volta pro formigueiro
 	if stat.HUNGER <= 1 or stat.CUR_HP <= stat.MAX_HP/2:
 		if is_voltando == false:
@@ -200,7 +203,7 @@ func chase_state(delta):
 		is_chase = true
 		if detectionZone.object != null:
 			last_chased_object_pos = detectionZone.object.global_position 
-			
+
 	look_and_move(obj_pos, delta, 6)
 
 	animState.travel("Walk")
@@ -219,14 +222,14 @@ func wander_state(delta):
 		wanderController.update_target_position()
 		if wanderController.get_time_left() == 0:
 			state = pick_random_state(state_list)
-			wanderController.set_wander_timer(rand_range(1,2))
-		if stat.CLASS == "Worker":
-			look_and_move(wanderController.target_position , delta, 6)
-		if stat.CLASS == "Warrior":
-			look_and_move(wanderController.target_position , delta, 6)
+			if stat.CLASS == "Worker": 
+				wanderController.set_wander_timer(rand_range(2,3))
+			if stat.CLASS == "Warrior":
+				wanderController.set_wander_timer(rand_range(1,2))
+		look_and_move(wanderController.target_position , delta, 6)
 		animState.travel("Walk")
-		
-	
+
+
 	if global_position.distance_to(wanderController.target_position) <= proximity_range:
 				velocity = Vector2.ZERO
 				animState.travel("Idle")
@@ -236,7 +239,7 @@ func search_state(_delta):
 	is_idle = false
 	is_searching = true
 	is_chase = false
-	
+
 	animState.travel("Search")
 	velocity = Vector2.ZERO
 #state 5
@@ -251,7 +254,7 @@ func idle_state(_delta):
 		is_idle = true
 		wanderController.set_wander_timer(rand_range(1,3))
 		animState.travel("Idle")
-#		velocity = Vector2.ZERO
+		velocity = Vector2.ZERO
 
 	if  wanderController.get_time_left() == 0:
 		state = pick_random_state(state_list)
@@ -264,7 +267,7 @@ func voltar_state(delta):
 	if stat.HUNGER <= 1 or stat.CUR_HP <= stat.MAX_HP/2:
 		hitbox.disabled = true
 		look_and_move(formigueiro.global_position, delta, 4)
-		
+
 		animState.travel("Walk Leaf")
 	if is_it_close(formigueiro.global_position, global_position, 30):
 		queue_free()
@@ -292,7 +295,7 @@ func set_stat():
 	stat.THIRST = ant_stat[13]
 	stat.need_level_up = ant_stat[14]
 	stat.CLASS = ant_stat[15]
-		
+
 	formigueiro.formigas.remove(0)
 	if stat.ANT_ID == 0:
 		stat.ANT_ID += 1
@@ -335,7 +338,7 @@ func search_animation_finished():
 	state = WANDER
 	is_searching = false
 
-		
+
 func detect_and_look(_delta):
 	var object = detectionZone2.object
 	if object != null:
@@ -347,16 +350,17 @@ func detect_and_look(_delta):
 			state = ATTACK
 		if object.is_in_group("Ant") and detectionZone.object != null:
 			obj_pos = get_random_position_within_target_radius()
-			
-			
-			
+
+
+
 
 
 func look_and_move(target_position ,  delta, proximity):
 
-#		#colisao , usado somente enquanto esta movendo
-#	if softCollision.is_colliding():
-#		velocity += softCollision.get_push_vector() * delta * 500
+		#colisao , usado somente enquanto esta movendo
+	if softCollision.is_colliding():
+		velocity += softCollision.get_push_vector() * delta * 500
+
 	if path.size() < 2 or path == null or softCollision.is_colliding() or self.is_on_wall():
 		path = pathfinding.get_new_path(global_position, target_position)
 	get_closer(delta, proximity)
@@ -365,16 +369,44 @@ func look_and_move(target_position ,  delta, proximity):
 func get_closer(delta, proximity):
 	if path.size() > 1:
 		velocity = global_position.direction_to(path[1]) * stat.MAX_SPEED * stat.ACCELERATION * delta
-		rotation = lerp(rotation, global_position.direction_to(path[1]).angle(), 0.20)
+		rotate_towards(path[1])
+#		rotation = lerp(rotation, global_position.direction_to(path[1]).angle(), 0.20)
 		#Mechendo aqui
+
+
 		if is_it_close(global_position, path[1], 4):
 			path.remove(1)
-			
-	elif path.size() == 1:
-		if is_it_close(global_position, path[0], proximity):
-			velocity = Vector2.ZERO
-			animState.travel("Idle")
-			state = pick_random_state(state_list)
+
+#	elif path.size() == 1:
+#		if is_it_close(global_position, path[0], proximity):
+#			velocity = Vector2.ZERO
+#			animState.travel("Idle")
+#			state = pick_random_state(state_list)
+	else:
+		velocity = Vector2.ZERO
+		animState.travel("Idle")
+		state = pick_random_state(state_list)
+		if display_pathline:
+			path_line.clear_points()
+	if display_pathline:
+		set_path_line(path)
+
+
+
+
+func rotate_towards(object: Vector2):
+	var goal = global_position.direction_to(object).angle()
+	if goal - rotation > PI:
+		goal = goal - 2 * PI
+	elif rotation - goal > PI:
+		goal = 2 * PI + goal
+
+	rotation = lerp(rotation, goal, 0.12)
+
+	if rotation > 2*PI:
+		rotation = rotation - 2*PI
+	if rotation < 0:
+		rotation = 2*PI + rotation
 
 func is_it_close(pos1, pos2, distance):
 	var posicao = pos1 - pos2
@@ -460,10 +492,10 @@ func follow_pherormone(new_value):
 		pass
 #		else:
 #			release_pherormon(obj_pos, obj_type)
-##			state = pick_random_state(state_list)
+#			state = pick_random_state(state_list)
 	else:
 		pass
-		
+
 
 
 func apply_modifier():
@@ -473,7 +505,7 @@ func apply_modifier():
 	if stat.CLASS == "Warrior":
 		modifier = statchange.listfighter
 		scale = Vector2(1,1) + Vector2(stat.LEVEL * 0.1 , stat.LEVEL * 0.1)
-	
+
 #	stat.LEVEL = stat.LEVEL + modifier[0]
 	stat.DAMAGE = 1 * ( 1 + (modifier[0] + stat.LEVEL))
 
@@ -503,7 +535,7 @@ func get_random_position_within_target_radius() -> Vector2:
 #	var x = rand_range(topleft.x , topleft.x+ extents.x)
 #	var y = rand_range(topleft.y , topleft.y+ extents.y)
 	return Vector2(x, y)
-	
+
 func _on_HurtBox_area_entered(attack):
 	stat.CUR_HP -= attack.damage
 
@@ -516,5 +548,21 @@ func _on_Stats_no_health():
 	if ferormonio != null:
 		ferormonio.queue_free()
 	queue_free()
+
+func initialize():
+	#implement to use this insteady of func _ready
+	pass
+
+
+func set_path_line(points: Array):
+	var local_points:= []
+	for point in points:
+		if point == points[0]:
+			local_points.append(Vector2.ZERO)
+		else:
+			local_points.append(point - global_position)
+
+	path_line.points = local_points
+
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://FormigueiroCount.gd" type="Script" id=1]
 [ext_resource path="res://Camera2D.gd" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://Water.gd" type="Script" id=13]
 [ext_resource path="res://SpawnerManager.gd" type="Script" id=14]
 [ext_resource path="res://GlobalSignals.gd" type="Script" id=15]
+[ext_resource path="res://Actors/Ants/Player.tscn" type="PackedScene" id=16]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Sand Tile"
@@ -172,10 +173,14 @@ zoomMin = 0.1
 
 [node name="Pathfinding" type="Node2D" parent="."]
 script = ExtResource( 10 )
+enabled_color = Color( 0.243137, 0.694118, 0.282353, 1 )
+disabled_color = Color( 0.678431, 0.207843, 0.207843, 1 )
 
 [node name="Timer" type="Timer" parent="Pathfinding"]
 wait_time = 0.5
 autostart = true
+
+[node name="Grid" type="Node2D" parent="Pathfinding"]
 
 [node name="Formigueiro" parent="." instance=ExtResource( 8 )]
 position = Vector2( 1273.44, 712.804 )
@@ -192,6 +197,9 @@ position = Vector2( 49.8007, 59.3123 )
 [node name="EnemiesManager" type="Node2D" parent="."]
 
 [node name="AntsManager" type="Node2D" parent="."]
+
+[node name="Player" parent="AntsManager" instance=ExtResource( 16 )]
+position = Vector2( 84.0896, 90.8168 )
 
 [node name="SpawnerManager" type="Node2D" parent="."]
 script = ExtResource( 14 )

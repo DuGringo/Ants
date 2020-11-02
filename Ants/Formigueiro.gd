@@ -93,7 +93,7 @@ func handle_exp():
 func _on_Formigueiro_body_entered(body):
 	if body.is_in_group("obstacles"):
 		body.remove_from_group("obstacles")
-	if body.state == 6:
+	if body.is_in_group("Ant") and body.state == 6:
 		ants_count += 1
 		if body.stat.EXPERIENCE >= body.stat.LEVEL:
 			need_level_up = true
