@@ -5,57 +5,55 @@ class_name Player
 
 export (int) var speed = 100
 
+export (int) var acceleration = 20
+
+export (int) var friction = 20
+
+var velocity := Vector2.ZERO
 
 onready var team = $Team
 onready var health_stat = $Health
 
+onready var anim : AnimationPlayer = $AnimationPlayer
 onready var animTree = $AnimationTree
 onready var animState = animTree.get("parameters/playback")
 
-var movingup = false
-var movingdown = false
-var movingright = false
-var movingleft = false
+onready var robotbutton = $"../../CanvasLayer/RobotAntButton"
+
+onready var formigueiro = get_node("../../Formigueiro")
 
 
-func _ready() ->void:
-#	weapon.initialize(team.team)
-	animTree.active = true
-	pass
-	
 func _physics_process(delta: float) -> void:
-	var movement_direction := Vector2.ZERO
 	
-	if Input.get_action_strength("ui_up"):
-		movement_direction.y = -1
-		movingup = true
-	else: movingup = false
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left") 
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up") 
+	input_vector = input_vector.normalized()
 	
-	if Input.get_action_strength("ui_down"):
-		movement_direction.y = 1
-		movingdown = true
-	else: movingdown = false
-	
-	if Input.get_action_strength("ui_left"):
-		movement_direction.x = -1
-		movingleft = true
-	else: movingleft = false
-		
-	if Input.get_action_strength("ui_right"):
-		movement_direction.x = 1
-		movingright = true
-	else: movingright = false
-
-	if movingup or movingdown or movingleft or movingright:
+	if input_vector != Vector2.ZERO:
+		velocity += input_vector * acceleration 
+		rotate_towards(global_position + input_vector)
+		velocity = velocity.clamped(speed)
 		animState.travel("Walk")
-		rotate_towards(global_position + movement_direction)
 	else:
+		velocity = velocity.move_toward(Vector2.ZERO, friction)
 		animState.travel("Idle")
-	movement_direction =  movement_direction.normalized()
-	move_and_slide(movement_direction * speed)
+	
+	move_and_slide(velocity)
 
+func initialize():
+	self.visible = false
+	self.global_position = formigueiro.global_position
+	animTree.active = true
+	robotbutton.connect("robot_pressed",self,"_handle_robot")
 
-
+func _handle_robot(is_pressed):
+	if is_pressed:
+		self.visible = true
+	else:
+		self.visible = false
+		self.global_position = formigueiro.global_position
+		
 func _unhandled_input(event):
 	if event.is_action_released("attack"):
 		animState.travel("Attack")
@@ -94,16 +92,14 @@ func rotate_towards(object: Vector2):
 
 
 
-#extends KinematicBody2D
-#
-#
 ##se modificar, modifique tambem em pherormone
 #enum{
 ##	MOVE,
 #	ATTACK,
 #	SEARCH,
-#	IDLE
-#	VOLTAR
+#	IDLE,
+#	VOLTAR,
+#	CAVAR
 #}
 #
 #var state = null
@@ -142,18 +138,7 @@ func rotate_towards(object: Vector2):
 #
 #var modifier: Array = []
 #
-#var direcao: Vector2 = Vector2.ZERO
-#
-#
-#
-#onready var anim : AnimationPlayer = $AnimationPlayer
-#onready var animTree = $AnimationTree
-#onready var animState = animTree.get("parameters/playback")
-##onready var formigueiro = $Formigueiro
-#onready var formigueiro = get_node("../../Formigueiro")
 #onready var hitbox = get_node("Hitbox/CollisionShape2D")
-#
-#onready var colisao = get_node("CollisionShape2D")
 #
 #onready var spawnermanager = get_node("../../SpawnerManager")
 #
@@ -168,9 +153,6 @@ func rotate_towards(object: Vector2):
 ##Stats modifiers for lvl up
 #onready var statchange = $"../../CanvasLayer/StatChange"
 #
-##Attack
-#onready var detectionZone2 = $DetectionZone2
-#
 ##soft Collistion
 #onready var softCollision = $SoftCollision
 #
@@ -179,32 +161,9 @@ func rotate_towards(object: Vector2):
 #
 #
 #func _ready():
-#
-##	self.modulate = Color(1,1,1)
-#	animTree.active = true
 #	state = IDLE
 #	self.rotation_degrees = rand_range(0, 2 * PI)
-#
-#	#nasce uma formiga existente ou uma nova
-#	if rand_range(0, formigueiro.ants_count) < formigueiro.formigas.size(): 
-#			formigueiro.formigas.shuffle()
-#			set_stat()
-#	else:
-#		formigueiro.ant_id += 1
-#		stat.LEVEL = int(rand_range(1, spawnermanager.spawner_level))
-#		stat.ANT_ID = formigueiro.ant_id
-#
-#		if formigueiro.workercount == 0:
-#			stat.CLASS = "Worker"
-#			formigueiro.workercount += 1
-#		elif (float(formigueiro.warriorcount)/formigueiro.workercount) < (float(statchange.warrior_priority)/statchange.worker_priority):
-#			stat.CLASS = "Warrior"
-#			formigueiro.warriorcount +=1
-#		else:
-#
-#			stat.CLASS = "Worker"
-#			formigueiro.workercount += 1
-#		apply_modifier()
+#	apply_modifier()
 #
 #func _physics_process(delta):
 #

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Assets/Animations/RoboAntSpriteSheet2.png" type="Texture" id=1]
 [ext_resource path="res://Zones/SoftCollision.tscn" type="PackedScene" id=2]
@@ -207,6 +207,22 @@ graph_offset = Vector2( -272.333, 161.717 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=29]
 
+[sub_resource type="CapsuleShape2D" id=30]
+radius = 2.05224
+height = 2.16952
+
+[sub_resource type="CapsuleShape2D" id=31]
+radius = 4.51256
+height = 0.0
+
+[sub_resource type="CapsuleShape2D" id=32]
+radius = 3.45603
+height = 4.82017
+
+[sub_resource type="CapsuleShape2D" id=33]
+radius = 1.48851
+height = 6.94148
+
 [node name="Player" type="KinematicBody2D" groups=[
 "Player",
 "obstacles",
@@ -255,16 +271,44 @@ position = Vector2( -2.35395, 0.117985 )
 scale = Vector2( 1.14933, 1.11266 )
 collision_mask = 14
 
+[node name="CollisionShape2D" parent="DetectionZone2" index="0"]
+position = Vector2( 7.84423, -0.158876 )
+shape = SubResource( 30 )
+
 [node name="Hitbox" parent="." instance=ExtResource( 4 )]
+position = Vector2( 6.36396, 0 )
 collision_layer = 0
 collision_mask = 96
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2( 0.176777, 1.90735e-06 )
+shape = SubResource( 31 )
+disabled = true
 
 [node name="HurtBox" parent="." instance=ExtResource( 5 )]
 position = Vector2( -1, 0 )
 collision_layer = 16
 collision_mask = 0
 
+[node name="CollisionShape2D" parent="HurtBox" index="0"]
+position = Vector2( -0.265163, -0.0883865 )
+rotation = 1.5708
+shape = SubResource( 32 )
+
 [node name="SoftCollision" parent="." instance=ExtResource( 2 )]
 position = Vector2( -0.888638, 0.111362 )
+
+[node name="CollisionShape2D" parent="SoftCollision" index="0"]
+position = Vector2( -1.41422, -0.176777 )
+rotation = 1.5708
+shape = SubResource( 33 )
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
+
+[editable path="DetectionZone2"]
+
+[editable path="Hitbox"]
+
+[editable path="HurtBox"]
+
+[editable path="SoftCollision"]

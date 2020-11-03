@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://FormigueiroCount.gd" type="Script" id=1]
 [ext_resource path="res://Camera2D.gd" type="Script" id=2]
@@ -16,6 +16,10 @@
 [ext_resource path="res://SpawnerManager.gd" type="Script" id=14]
 [ext_resource path="res://GlobalSignals.gd" type="Script" id=15]
 [ext_resource path="res://Actors/Ants/Player.tscn" type="PackedScene" id=16]
+[ext_resource path="res://UI/RobotFaceOver.png" type="Texture" id=17]
+[ext_resource path="res://UI/RobotFace.png" type="Texture" id=18]
+[ext_resource path="res://UI/RobotFaceDown.png" type="Texture" id=19]
+[ext_resource path="res://RobotAntButton.gd" type="Script" id=20]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Sand Tile"
@@ -268,6 +272,20 @@ __meta__ = {
 
 [node name="StatChange" parent="CanvasLayer" instance=ExtResource( 3 )]
 position = Vector2( 161.452, 110.998 )
+
+[node name="RobotAntButton" type="TextureButton" parent="CanvasLayer"]
+margin_left = 1195.65
+margin_top = 103.383
+margin_right = 1235.65
+margin_bottom = 143.383
+texture_normal = ExtResource( 18 )
+texture_pressed = ExtResource( 19 )
+texture_hover = ExtResource( 17 )
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="timeout" from="Camera2D/Timer2" to="Camera2D" method="_on_Timer2_timeout"]
 [connection signal="timeout" from="Pathfinding/Timer" to="Pathfinding" method="_on_Timer_timeout"]
 [connection signal="timeout" from="SpawnerManager/Timer" to="SpawnerManager" method="_on_Timer_timeout"]
+[connection signal="pressed" from="CanvasLayer/RobotAntButton" to="CanvasLayer/RobotAntButton" method="_on_RobotAntButton_pressed"]

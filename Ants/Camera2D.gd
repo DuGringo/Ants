@@ -11,6 +11,9 @@ var zoompos = Vector2()
 var zoomfactor = 1.0
 var zooming = false
 
+onready var robotbutton = $"../CanvasLayer/RobotAntButton"
+var follow_robot = false
+
 onready var timer = $Timer2
 var just_started = true
 
@@ -19,14 +22,22 @@ func _ready():
 	
 	zoom = Vector2(0.3, 0.3)
 	timer.start(2)
+	robotbutton.connect("robot_pressed",self,"_handle_robot")
 
 	
 #pass
 #
 func _physics_process(delta):
-
+	if follow_robot:
+		set_drag_margin(0 , 0.1)
+		set_drag_margin(1 , 0.1)
+		set_drag_margin(2 , 0.1)
+		set_drag_margin(3 , 0.1)
+		smoothing_speed = 10
+		position = get_node("../AntsManager/Player").global_position
+		zoom = Vector2(0.2, 0.2)
 	#segue a formiga selecionada
-	if get_tree().current_scene.find_node("*StatsUI*", true , false):
+	elif get_tree().current_scene.find_node("*StatsUI*", true , false):
 		set_drag_margin(0 , 0.1)
 		set_drag_margin(1 , 0.1)
 		set_drag_margin(2 , 0.1)
@@ -75,7 +86,11 @@ func _input(event):
 		else:
 			zooming = false
 			
-
+func _handle_robot(is_pressed):
+	if is_pressed:
+		follow_robot = true
+	else:
+		follow_robot = false
 
 func _on_Timer2_timeout():
 	just_started = false
