@@ -33,9 +33,14 @@ onready var formigueiro = $"../../Formigueiro"
 onready var workerslbl = $"StatsMenu/VBoxContainer/WorkersMeter/WorkersModifier"
 onready var warriorslbl = $"StatsMenu/VBoxContainer/WarriorsMeter/WarriorsModifier"
 
+#exp bar
+onready var expbar = $"StatsMenu/VBoxContainer/ExpContainer/ExpBar"
+onready var maxexplbl = $"StatsMenu/VBoxContainer/ExpContainer/MaxExp"
+
 func _ready():
 	self.visible = false
 	add_items()
+	GlobalSignals.connect("gained_exp", self, "handle_gained_exp")
 
 
 func _input(_event):
@@ -90,6 +95,13 @@ func check_if_can_change(stat: int):
 				return true
 			else:
 				return false
+	
+func handle_gained_exp():
+	expbar.value = formigueiro.anthillexp
+	if formigueiro.anthillexp == (formigueiro.anthilllevel * 20):
+		maxexplbl.text = str((formigueiro.anthilllevel+1) * 20)
+		expbar.max_value = (formigueiro.anthilllevel+1) * 20
+		expbar.value = 0
 	
 func _on_StrLeftButton_pressed():
 	if availablepoints < maxpoints and check_if_can_change(0):

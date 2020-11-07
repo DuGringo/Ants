@@ -22,6 +22,8 @@ onready var spawnermanager = $"../SpawnerManager"
 
 onready var statchange = $"../CanvasLayer/StatChange"
 
+onready var ExpBall = load("res://UI/ExpBall.tscn")
+
 var formigas = []
 var stats = []
 
@@ -77,12 +79,17 @@ func handle_foodsource(new_value):
 	return foodsource
 
 func add_exp():
-	anthillexp = anthillexp + 1
+	print("se isso apararecer eh pq essa funcao nao eh inutil (linha 81 de formigueiro)")
+	anthillexp = anthillexp + 1	
 	pass
 
 func handle_exp():
 	anthillexp = clamp(anthillexp + 1, 0, anthilllevel * 20 )
-	print ("Anthill +1 exp: ", anthillexp ," (Implementar na UI. print dentro de formigueiro)")
+	GlobalSignals.emit_signal("gained_exp")
+	var expBall = ExpBall.instance()
+	var world = get_tree().current_scene
+	world.add_child(expBall)
+	expBall.position = self.global_position
 	if anthillexp == anthilllevel * 20:
 		statchange.availablepoints += 1
 		statchange.maxpoints += 1

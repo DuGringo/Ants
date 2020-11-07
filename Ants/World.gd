@@ -11,4 +11,4 @@ func _ready():
 	pathfinding.initialize(ground)
 	spawnermanager.initialize()
 	formigueiro.initialize()
-	player.initialize()
+	player.initialize(false)

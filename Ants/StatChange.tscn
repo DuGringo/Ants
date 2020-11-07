@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://StatChange.gd" type="Script" id=1]
 [ext_resource path="res://UI/SelectBackground.png" type="Texture" id=2]
@@ -8,6 +8,9 @@
 [ext_resource path="res://UI/SelecArrowLeft.png" type="Texture" id=6]
 [ext_resource path="res://UI/SelecArrowLeftpress.png" type="Texture" id=7]
 [ext_resource path="res://UI/SelecArrowRightpress.png" type="Texture" id=8]
+[ext_resource path="res://Assets/UI/ExpBarProgress.png" type="Texture" id=9]
+[ext_resource path="res://Assets/UI/ExpBarBorder.png" type="Texture" id=10]
+[ext_resource path="res://Assets/UI/ExpBarUnder.png" type="Texture" id=11]
 
 [node name="StatChange" type="Node2D"]
 script = ExtResource( 1 )
@@ -72,30 +75,61 @@ text = "0"
 align = 2
 valign = 3
 
-[node name="DropDown" type="OptionButton" parent="StatsMenu/VBoxContainer"]
+[node name="ExpContainer" type="HBoxContainer" parent="StatsMenu/VBoxContainer"]
 margin_top = 47.0
 margin_right = 269.0
-margin_bottom = 67.0
+margin_bottom = 61.0
+alignment = 1
+
+[node name="MinExp" type="Label" parent="StatsMenu/VBoxContainer/ExpContainer"]
+margin_left = 38.0
+margin_right = 46.0
+margin_bottom = 14.0
+text = "0"
+
+[node name="ExpBar" type="TextureProgress" parent="StatsMenu/VBoxContainer/ExpContainer"]
+margin_left = 50.0
+margin_right = 210.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 160, 5 )
+max_value = 20.0
+texture_under = ExtResource( 11 )
+texture_over = ExtResource( 10 )
+texture_progress = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MaxExp" type="Label" parent="StatsMenu/VBoxContainer/ExpContainer"]
+margin_left = 214.0
+margin_right = 230.0
+margin_bottom = 14.0
+text = "20"
+
+[node name="DropDown" type="OptionButton" parent="StatsMenu/VBoxContainer"]
+margin_top = 65.0
+margin_right = 269.0
+margin_bottom = 85.0
 
 [node name="SeparationTop" type="MarginContainer" parent="StatsMenu/VBoxContainer"]
-margin_top = 71.0
+margin_top = 89.0
 margin_right = 269.0
-margin_bottom = 81.0
+margin_bottom = 99.0
 rect_min_size = Vector2( 0, 10 )
 
 [node name="Strength" type="Label" parent="StatsMenu/VBoxContainer"]
-margin_top = 85.0
+margin_top = 103.0
 margin_right = 269.0
-margin_bottom = 107.0
+margin_bottom = 125.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Strength"
 align = 1
 
 [node name="StrengthMeter" type="HBoxContainer" parent="StatsMenu/VBoxContainer"]
-margin_top = 111.0
+margin_top = 129.0
 margin_right = 269.0
-margin_bottom = 143.0
+margin_bottom = 161.0
 
 [node name="MarginLeft" type="MarginContainer" parent="StatsMenu/VBoxContainer/StrengthMeter"]
 margin_right = 90.0
@@ -140,18 +174,18 @@ __meta__ = {
 }
 
 [node name="Agility" type="Label" parent="StatsMenu/VBoxContainer"]
-margin_top = 147.0
+margin_top = 165.0
 margin_right = 269.0
-margin_bottom = 169.0
+margin_bottom = 187.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Agility"
 align = 1
 
 [node name="AgilityMeter" type="HBoxContainer" parent="StatsMenu/VBoxContainer"]
-margin_top = 173.0
+margin_top = 191.0
 margin_right = 269.0
-margin_bottom = 205.0
+margin_bottom = 223.0
 
 [node name="MarginLeft" type="MarginContainer" parent="StatsMenu/VBoxContainer/AgilityMeter"]
 margin_right = 90.0
@@ -196,26 +230,26 @@ __meta__ = {
 }
 
 [node name="Proportion" type="Label" parent="StatsMenu/VBoxContainer"]
-margin_top = 209.0
+margin_top = 227.0
 margin_right = 269.0
-margin_bottom = 252.0
+margin_bottom = 270.0
 custom_fonts/font = ExtResource( 4 )
 text = "Proportion"
 align = 1
 
 [node name="Workers" type="Label" parent="StatsMenu/VBoxContainer"]
-margin_top = 256.0
+margin_top = 274.0
 margin_right = 269.0
-margin_bottom = 278.0
+margin_bottom = 296.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Workers"
 align = 1
 
 [node name="WorkersMeter" type="HBoxContainer" parent="StatsMenu/VBoxContainer"]
-margin_top = 282.0
+margin_top = 300.0
 margin_right = 269.0
-margin_bottom = 314.0
+margin_bottom = 332.0
 
 [node name="MarginLeft" type="MarginContainer" parent="StatsMenu/VBoxContainer/WorkersMeter"]
 margin_right = 90.0
@@ -260,18 +294,18 @@ __meta__ = {
 }
 
 [node name="Warriors" type="Label" parent="StatsMenu/VBoxContainer"]
-margin_top = 318.0
+margin_top = 336.0
 margin_right = 269.0
-margin_bottom = 340.0
+margin_bottom = 358.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Warriors"
 align = 1
 
 [node name="WarriorsMeter" type="HBoxContainer" parent="StatsMenu/VBoxContainer"]
-margin_top = 344.0
+margin_top = 362.0
 margin_right = 269.0
-margin_bottom = 376.0
+margin_bottom = 394.0
 
 [node name="MarginLeft" type="MarginContainer" parent="StatsMenu/VBoxContainer/WarriorsMeter"]
 margin_right = 90.0

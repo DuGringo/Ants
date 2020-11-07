@@ -41,18 +41,24 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide(velocity)
 
-func initialize():
-	self.visible = false
+
+func initialize(is_loaded):
+	if is_loaded == false:
+		self.visible = false
+		robotbutton.connect("robot_pressed",self,"_handle_robot")
+	else:
+		self.visible = true
 	self.global_position = formigueiro.global_position
 	animTree.active = true
-	robotbutton.connect("robot_pressed",self,"_handle_robot")
+
 
 func _handle_robot(is_pressed):
 	if is_pressed:
+		initialize(true)
 		self.visible = true
 	else:
 		self.visible = false
-		self.global_position = formigueiro.global_position
+
 		
 func _unhandled_input(event):
 	if event.is_action_released("attack"):

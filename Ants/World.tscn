@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://FormigueiroCount.gd" type="Script" id=1]
 [ext_resource path="res://Camera2D.gd" type="Script" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://UI/RobotFace.png" type="Texture" id=18]
 [ext_resource path="res://UI/RobotFaceDown.png" type="Texture" id=19]
 [ext_resource path="res://RobotAntButton.gd" type="Script" id=20]
+[ext_resource path="res://Objects/Treasure.tscn" type="PackedScene" id=21]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Sand Tile"
@@ -197,6 +198,11 @@ position = Vector2( 1273.44, 712.804 )
 position = Vector2( 49.8007, 59.3123 )
 
 [node name="FoodsManager" type="Node2D" parent="."]
+
+[node name="TreasureManager" type="Node2D" parent="."]
+
+[node name="Treasure" parent="TreasureManager" instance=ExtResource( 21 )]
+position = Vector2( 2349.87, 1239.14 )
 
 [node name="EnemiesManager" type="Node2D" parent="."]
 
