@@ -507,9 +507,9 @@ func apply_modifier():
 		scale = Vector2(1,1) + Vector2(stat.LEVEL * 0.1 , stat.LEVEL * 0.1)
 
 #	stat.LEVEL = stat.LEVEL + modifier[0]
-	stat.DAMAGE = 1 * ( 1 + (modifier[0] + stat.LEVEL))
+	stat.DAMAGE = 1 * ( 1 + (modifier[1] + stat.LEVEL))
 
-	stat.MAX_SPEED = 50 *  (1 + (modifier[1] + stat.LEVEL)/10)
+	stat.MAX_SPEED = 50 *  (1 + (modifier[2] + stat.LEVEL)/10)
 	#da o dano certo para HitZone
 	hitdamage.damage = stat.DAMAGE
 

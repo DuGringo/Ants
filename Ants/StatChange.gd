@@ -1,6 +1,7 @@
 extends Node2D
 
 enum{
+	ROBOT,
 	WORKERS,
 	WARRIORS
 }
@@ -14,11 +15,12 @@ export var availablepoints: int = 0 setget handle_avalable_points
 export var warrior_priority = 1
 export var worker_priority = 2
 
-var state = WORKERS
+var state = ROBOT
 
-#List in order: level modifier, damage modifier
-var listworker: Array = [0, 0]
-var listfighter:Array = [0, 0]
+#List in order: level modifier, damage modifier, agi modifier
+var listrobot: Array = [0, 0, 0]
+var listworker: Array = [0, 0, 0]
+var listfighter:Array = [0, 0, 0]
 
 # poitns label
 onready var availablepointslbl = $"StatsMenu/VBoxContainer/HBoxContainer/Points"
@@ -26,6 +28,11 @@ onready var availablepointslbl = $"StatsMenu/VBoxContainer/HBoxContainer/Points"
 #stats labels
 onready var strlbl = $"StatsMenu/VBoxContainer/StrengthMeter/StrengthModifier"
 onready var agilbl = $"StatsMenu/VBoxContainer/AgilityMeter/AgilityModifier"
+
+#stas Crystals
+onready var agicrystal = $"StatsMenu/VBoxContainer/AgilityMeter/CrystalUI/AgiCrystalsFilled"
+onready var strcrystal = $"StatsMenu/VBoxContainer/StrengthMeter/CrystalUI/StrCrystalsFilled"
+
 #for increasing ants capacity
 onready var formigueiro = $"../../Formigueiro"
 
@@ -63,21 +70,31 @@ func _input(_event):
 		GlobalSignals.emit_signal("leveledup")
 
 
-func statchange( stat:int,  valuechange:int, minvalue:int, maxvalue:int, labelnode: Label):
+func statchange( stat:int,  valuechange:int, minvalue:int, maxvalue:int,  crystalnode: TextureRect):
 	match state:
+		ROBOT:
+			listrobot[stat] = clamp(listrobot[stat] + valuechange, minvalue,maxvalue)
+			change_crystals(crystalnode, listrobot, stat)
 		WORKERS:
 			listworker[stat] = clamp(listworker[stat] + valuechange, minvalue,maxvalue)
-			change_label(labelnode, listworker, stat)
+			change_crystals(crystalnode, listworker, stat)
 		WARRIORS:
 			listfighter[stat] = clamp(listfighter[stat] + valuechange, minvalue,maxvalue)
-			change_label(labelnode, listfighter, stat)
+			change_crystals(crystalnode, listfighter, stat)
 
-func change_label(labelnode: Label, classlist: Array, stat: int):
-	labelnode.text = str(classlist[stat])
+func change_crystals(crystalnode: TextureRect, classlist: Array, stat: int):
+	crystalnode.rect_size.x = clamp(classlist[stat] * 20, 20, 200)
+	if classlist[stat] == 0:
+		crystalnode.visible = false
+	else:
+		crystalnode.visible = true
+
 
 func add_items():
+	dropdown.add_item("Robot Ant")
 	dropdown.add_item("Worker Ants")
 	dropdown.add_item("Warrior Ants")
+
 	
 func handle_avalable_points(new_value):
 	availablepoints = clamp(new_value, 0, 20)
@@ -85,6 +102,11 @@ func handle_avalable_points(new_value):
 
 func check_if_can_change(stat: int):
 	match state:
+		ROBOT: 
+			if listrobot[stat] > 0:
+				return true
+			else:
+				return false 
 		WORKERS:
 			if listworker[stat] > 0:
 				return true
@@ -104,35 +126,39 @@ func handle_gained_exp():
 		expbar.value = 0
 	
 func _on_StrLeftButton_pressed():
-	if availablepoints < maxpoints and check_if_can_change(0):
-		statchange(0, -1, 0 ,10 , strlbl )
+	if availablepoints < maxpoints and check_if_can_change(1):
+		statchange(1, -1, 0 ,10 , strcrystal )
 		handle_avalable_points(availablepoints + 1)
 
 func _on_StrRightButton_pressed():
 	if availablepoints > 0:
-		statchange(0, 1, 0 ,10 , strlbl )
+		statchange(1, 1, 0 ,10 , strcrystal )
 		handle_avalable_points(availablepoints - 1)
 
 func _on_AgiLeftButton_pressed():
-	if availablepoints < maxpoints and check_if_can_change(1):
-		statchange(1, -1, 0 ,10 , agilbl )
+	if availablepoints < maxpoints and check_if_can_change(2):
+		statchange(2, -1, 0 ,10 , agicrystal )
 		handle_avalable_points(availablepoints + 1)
 
 func _on_AgiRightButton_pressed():
 	if availablepoints > 0:
-		statchange(1, 1, 0 ,10 , agilbl )
+		statchange(2, 1, 0 ,10 , agicrystal )
 		handle_avalable_points(availablepoints - 1)
 
 func _on_DropDown_item_selected(index):
 	match index:
 		0:
-			state = WORKERS
-			change_label(strlbl, listworker, 0)
-			change_label(agilbl, listworker, 1)
+			state = ROBOT
+			change_crystals(strcrystal, listrobot, 1)
+			change_crystals(agicrystal, listrobot, 2)
 		1:
+			state = WORKERS
+			change_crystals(strcrystal, listworker, 1)
+			change_crystals(agicrystal, listworker, 2)
+		2:
 			state = WARRIORS
-			change_label(strlbl, listfighter, 0)
-			change_label(agilbl, listfighter, 1)
+			change_crystals(strcrystal, listfighter, 1)
+			change_crystals(agicrystal, listfighter, 2)
 
 
 func _on_WorkersLeftButton_pressed():

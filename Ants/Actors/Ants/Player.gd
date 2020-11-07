@@ -1,15 +1,9 @@
 extends KinematicBody2D
 class_name Player
 
-
-
-export (int) var speed = 100
-
 export (int) var acceleration = 20
 
 export (int) var friction = 20
-
-var velocity := Vector2.ZERO
 
 onready var team = $Team
 onready var health_stat = $Health
@@ -22,6 +16,17 @@ onready var robotbutton = $"../../CanvasLayer/RobotAntButton"
 
 onready var formigueiro = get_node("../../Formigueiro")
 
+#Stats modifiers for lvl up
+onready var statchange = $"../../CanvasLayer/StatChange"
+
+onready var stat = $Stats
+
+onready var hitdamage = $Hitbox
+
+var velocity := Vector2.ZERO
+
+var modifier: Array = []
+
 
 func _physics_process(delta: float) -> void:
 	
@@ -33,7 +38,7 @@ func _physics_process(delta: float) -> void:
 	if input_vector != Vector2.ZERO:
 		velocity += input_vector * acceleration 
 		rotate_towards(global_position + input_vector)
-		velocity = velocity.clamped(speed)
+		velocity = velocity.clamped(stat.MAX_SPEED)
 		animState.travel("Walk")
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction)
@@ -46,12 +51,29 @@ func initialize(is_loaded):
 	if is_loaded == false:
 		self.visible = false
 		robotbutton.connect("robot_pressed",self,"_handle_robot")
+
 	else:
 		self.visible = true
 	self.global_position = formigueiro.global_position
 	animTree.active = true
+	apply_modifier()
 
 
+func apply_modifier():
+	modifier = statchange.listrobot
+	stat.LEVEL = formigueiro.anthilllevel
+	stat.DAMAGE = 1 * ( 1 + (modifier[1] + stat.LEVEL))
+	stat.MAX_SPEED = 100 *  (1 + (modifier[1] + stat.LEVEL)/10)
+	#da o dano certo para HitZone
+	hitdamage.damage = stat.DAMAGE
+
+#	#desabilitado por ser quebrado!, o cone fic aMUITO grande muito rapido (pq almenta duas vezes. com a formiga e com awareness)
+#	#almenta o tamanho da do campo de visao baseado AWARENESS level
+##	detectionZone.scale = Vector2(stat.AWARENESS, stat.AWARENESS)
+#
+#	#almenta o range que anda conforme awareness //// removido para debugging
+#	wanderController.wander_range = 150 * 1 + (stat.LEVEL/10) 
+	
 func _handle_robot(is_pressed):
 	if is_pressed:
 		initialize(true)

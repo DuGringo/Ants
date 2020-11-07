@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://StatChange.gd" type="Script" id=1]
 [ext_resource path="res://UI/SelectBackground.png" type="Texture" id=2]
@@ -11,6 +11,8 @@
 [ext_resource path="res://Assets/UI/ExpBarProgress.png" type="Texture" id=9]
 [ext_resource path="res://Assets/UI/ExpBarBorder.png" type="Texture" id=10]
 [ext_resource path="res://Assets/UI/ExpBarUnder.png" type="Texture" id=11]
+[ext_resource path="res://Assets/UI/SkillCrystalUnder.png" type="Texture" id=12]
+[ext_resource path="res://Assets/UI/SkillCrystalFilled.png" type="Texture" id=13]
 
 [node name="StatChange" type="Node2D"]
 script = ExtResource( 1 )
@@ -44,7 +46,7 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="StatsMenu/VBoxContainer"]
-margin_right = 269.0
+margin_right = 272.0
 margin_bottom = 43.0
 
 [node name="MarginLeft" type="MarginContainer" parent="StatsMenu/VBoxContainer/HBoxContainer"]
@@ -77,19 +79,19 @@ valign = 3
 
 [node name="ExpContainer" type="HBoxContainer" parent="StatsMenu/VBoxContainer"]
 margin_top = 47.0
-margin_right = 269.0
+margin_right = 272.0
 margin_bottom = 61.0
 alignment = 1
 
 [node name="MinExp" type="Label" parent="StatsMenu/VBoxContainer/ExpContainer"]
-margin_left = 38.0
-margin_right = 46.0
+margin_left = 40.0
+margin_right = 48.0
 margin_bottom = 14.0
 text = "0"
 
 [node name="ExpBar" type="TextureProgress" parent="StatsMenu/VBoxContainer/ExpContainer"]
-margin_left = 50.0
-margin_right = 210.0
+margin_left = 52.0
+margin_right = 212.0
 margin_bottom = 14.0
 rect_min_size = Vector2( 160, 5 )
 max_value = 20.0
@@ -101,25 +103,25 @@ __meta__ = {
 }
 
 [node name="MaxExp" type="Label" parent="StatsMenu/VBoxContainer/ExpContainer"]
-margin_left = 214.0
-margin_right = 230.0
+margin_left = 216.0
+margin_right = 232.0
 margin_bottom = 14.0
 text = "20"
 
 [node name="DropDown" type="OptionButton" parent="StatsMenu/VBoxContainer"]
 margin_top = 65.0
-margin_right = 269.0
+margin_right = 272.0
 margin_bottom = 85.0
 
 [node name="SeparationTop" type="MarginContainer" parent="StatsMenu/VBoxContainer"]
 margin_top = 89.0
-margin_right = 269.0
+margin_right = 272.0
 margin_bottom = 99.0
 rect_min_size = Vector2( 0, 10 )
 
 [node name="Strength" type="Label" parent="StatsMenu/VBoxContainer"]
 margin_top = 103.0
-margin_right = 269.0
+margin_right = 272.0
 margin_bottom = 125.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -128,54 +130,57 @@ align = 1
 
 [node name="StrengthMeter" type="HBoxContainer" parent="StatsMenu/VBoxContainer"]
 margin_top = 129.0
-margin_right = 269.0
+margin_right = 272.0
 margin_bottom = 161.0
 
-[node name="MarginLeft" type="MarginContainer" parent="StatsMenu/VBoxContainer/StrengthMeter"]
-margin_right = 90.0
-margin_bottom = 32.0
-grow_horizontal = 0
-grow_vertical = 0
-rect_min_size = Vector2( 90, 0 )
-
 [node name="StrLeftButton" type="TextureButton" parent="StatsMenu/VBoxContainer/StrengthMeter"]
-margin_left = 94.0
-margin_right = 126.0
+margin_right = 32.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
 texture_normal = ExtResource( 6 )
 texture_pressed = ExtResource( 7 )
 expand = true
 
-[node name="StrengthModifier" type="Label" parent="StatsMenu/VBoxContainer/StrengthMeter"]
-margin_left = 130.0
-margin_top = 9.0
-margin_right = 138.0
-margin_bottom = 23.0
-text = "0"
-align = 1
+[node name="CrystalUI" type="Control" parent="StatsMenu/VBoxContainer/StrengthMeter"]
+margin_left = 36.0
+margin_right = 236.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="StrCrystalsUnder" type="TextureRect" parent="StatsMenu/VBoxContainer/StrengthMeter/CrystalUI"]
+margin_left = 4.0
+margin_right = 204.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 200, 0 )
+texture = ExtResource( 12 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StrCrystalsFilled" type="TextureRect" parent="StatsMenu/VBoxContainer/StrengthMeter/CrystalUI"]
+visible = false
+margin_left = 4.0
+margin_right = 24.0
+margin_bottom = 32.0
+texture = ExtResource( 13 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="StrRightButton" type="TextureButton" parent="StatsMenu/VBoxContainer/StrengthMeter"]
-margin_left = 142.0
-margin_right = 174.0
+margin_left = 240.0
+margin_right = 272.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
 texture_normal = ExtResource( 5 )
 texture_pressed = ExtResource( 8 )
 expand = true
 
-[node name="MarginRight" type="MarginContainer" parent="StatsMenu/VBoxContainer/StrengthMeter"]
-margin_left = 178.0
-margin_right = 213.0
-margin_bottom = 32.0
-rect_min_size = Vector2( 35, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Agility" type="Label" parent="StatsMenu/VBoxContainer"]
 margin_top = 165.0
-margin_right = 269.0
+margin_right = 272.0
 margin_bottom = 187.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -184,54 +189,57 @@ align = 1
 
 [node name="AgilityMeter" type="HBoxContainer" parent="StatsMenu/VBoxContainer"]
 margin_top = 191.0
-margin_right = 269.0
+margin_right = 272.0
 margin_bottom = 223.0
 
-[node name="MarginLeft" type="MarginContainer" parent="StatsMenu/VBoxContainer/AgilityMeter"]
-margin_right = 90.0
-margin_bottom = 32.0
-grow_horizontal = 0
-grow_vertical = 0
-rect_min_size = Vector2( 90, 0 )
-
 [node name="AgiLeftButton" type="TextureButton" parent="StatsMenu/VBoxContainer/AgilityMeter"]
-margin_left = 94.0
-margin_right = 126.0
+margin_right = 32.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
 texture_normal = ExtResource( 6 )
 texture_pressed = ExtResource( 7 )
 expand = true
 
-[node name="AgilityModifier" type="Label" parent="StatsMenu/VBoxContainer/AgilityMeter"]
-margin_left = 130.0
-margin_top = 9.0
-margin_right = 138.0
-margin_bottom = 23.0
-text = "0"
-align = 1
+[node name="CrystalUI" type="Control" parent="StatsMenu/VBoxContainer/AgilityMeter"]
+margin_left = 36.0
+margin_right = 236.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="AgiCrystalsUnder" type="TextureRect" parent="StatsMenu/VBoxContainer/AgilityMeter/CrystalUI"]
+margin_left = 4.0
+margin_right = 204.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 200, 0 )
+texture = ExtResource( 12 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AgiCrystalsFilled" type="TextureRect" parent="StatsMenu/VBoxContainer/AgilityMeter/CrystalUI"]
+visible = false
+margin_left = 4.0
+margin_right = 24.0
+margin_bottom = 32.0
+texture = ExtResource( 13 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="AgiRightButton" type="TextureButton" parent="StatsMenu/VBoxContainer/AgilityMeter"]
-margin_left = 142.0
-margin_right = 174.0
+margin_left = 240.0
+margin_right = 272.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
 texture_normal = ExtResource( 5 )
 texture_pressed = ExtResource( 8 )
 expand = true
 
-[node name="MarginRight" type="MarginContainer" parent="StatsMenu/VBoxContainer/AgilityMeter"]
-margin_left = 178.0
-margin_right = 213.0
-margin_bottom = 32.0
-rect_min_size = Vector2( 35, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Proportion" type="Label" parent="StatsMenu/VBoxContainer"]
 margin_top = 227.0
-margin_right = 269.0
+margin_right = 272.0
 margin_bottom = 270.0
 custom_fonts/font = ExtResource( 4 )
 text = "Proportion"
@@ -239,7 +247,7 @@ align = 1
 
 [node name="Workers" type="Label" parent="StatsMenu/VBoxContainer"]
 margin_top = 274.0
-margin_right = 269.0
+margin_right = 272.0
 margin_bottom = 296.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -248,7 +256,7 @@ align = 1
 
 [node name="WorkersMeter" type="HBoxContainer" parent="StatsMenu/VBoxContainer"]
 margin_top = 300.0
-margin_right = 269.0
+margin_right = 272.0
 margin_bottom = 332.0
 
 [node name="MarginLeft" type="MarginContainer" parent="StatsMenu/VBoxContainer/WorkersMeter"]
@@ -295,7 +303,7 @@ __meta__ = {
 
 [node name="Warriors" type="Label" parent="StatsMenu/VBoxContainer"]
 margin_top = 336.0
-margin_right = 269.0
+margin_right = 272.0
 margin_bottom = 358.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -304,7 +312,7 @@ align = 1
 
 [node name="WarriorsMeter" type="HBoxContainer" parent="StatsMenu/VBoxContainer"]
 margin_top = 362.0
-margin_right = 269.0
+margin_right = 272.0
 margin_bottom = 394.0
 
 [node name="MarginLeft" type="MarginContainer" parent="StatsMenu/VBoxContainer/WarriorsMeter"]
