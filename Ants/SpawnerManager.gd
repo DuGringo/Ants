@@ -25,6 +25,9 @@ onready var Enemy = load("res://Actors/Enemies/Ladybug.tscn")
 #for isntancing ants
 onready var Ant = load("res://Actors/Ants/Ant.tscn")
 
+#for instancing treasures
+onready var Treasure = load("res://Objects/Treasure.tscn")
+
 #for the stats modifier menu:
 onready var modifierui = $"../CanvasLayer/StatChange"
 
@@ -150,10 +153,14 @@ func _on_Timer_timeout():
 			enemy.stat.LEVEL = spawner_level
 			enemy.position = get_spawn_position()
 			
-			
+		if rand_range(0,15) <= 1:
+			var treasure = Treasure.instance()
+			world.get_node("TreasureManager").add_child(treasure)
+			treasure.position = get_spawn_position()
+
 		var foodCube = FoodCube.instance()
 		world.get_node("FoodsManager").add_child(foodCube)
 		foodCube.position = get_spawn_position()
-		timer.start(rand_range(1, time_between_cupcakes))
+		timer.start(rand_range(5, time_between_cupcakes))
 
 

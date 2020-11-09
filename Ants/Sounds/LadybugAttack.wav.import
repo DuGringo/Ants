@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/LadybugAttack.wav-e88ec1135ec0eea5adfd67d601dd18ba.sample"
+
+[deps]
+
+source_file="res://Sounds/LadybugAttack.wav"
+dest_files=[ "res://.import/LadybugAttack.wav-e88ec1135ec0eea5adfd67d601dd18ba.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Zones/SoftCollision.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Zones/HurtBox.tscn" type="PackedScene" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://Assets/Animations/AntSpriteSheet2.png" type="Texture" id=7]
 [ext_resource path="res://Actors/Ants/Ant.gd" type="Script" id=8]
 [ext_resource path="res://Actors/Ants/ClickArea.gd" type="Script" id=9]
+[ext_resource path="res://Sounds/AntDamaged.wav" type="AudioStream" id=10]
+[ext_resource path="res://Actors/Ants/SoundManager.gd" type="Script" id=11]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 2.34484
@@ -313,8 +315,6 @@ parameters/Walk/TimeScale/scale = 2.5
 [node name="WanderController" parent="." instance=ExtResource( 5 )]
 
 [node name="Stats" parent="." instance=ExtResource( 6 )]
-MAX_HP = 3
-CUR_HP = 3
 ACCELERATION = 80
 MAX_SPEED = 50
 MAX_LEVEL = 100.0
@@ -373,6 +373,16 @@ shape = SubResource( 35 )
 [node name="Pathline" type="Line2D" parent="."]
 width = 1.0
 default_color = Color( 0.65098, 0.65098, 0.65098, 1 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="SoundManager" type="Node" parent="."]
+script = ExtResource( 11 )
+
+[node name="Damaged" type="AudioStreamPlayer" parent="SoundManager"]
+stream = ExtResource( 10 )
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
 [connection signal="mouse_entered" from="ClickArea" to="ClickArea" method="_on_ClickArea_mouse_entered"]
 [connection signal="mouse_exited" from="ClickArea" to="ClickArea" method="_on_ClickArea_mouse_exited"]

@@ -139,7 +139,7 @@ func idle_state(_delta):
 func rand_stat():
 	stat.LEVEL = get_tree().current_scene.get_node("SpawnerManager").spawner_level
 	
-	stat.DAMAGE = 1 + (stat.LEVEL/4)
+	stat.DAMAGE = 1 + (stat.LEVEL/3)
 	hitdamage.damage = stat.DAMAGE
 	
 	stat.MAX_HP = stat.MAX_HP * (1 + stat.LEVEL/4)

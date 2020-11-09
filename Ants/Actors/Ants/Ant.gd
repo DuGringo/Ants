@@ -27,6 +27,7 @@ var is_searching = false setget fix_cone
 var is_idle = false
 var is_chase = false
 var is_voltando = false
+var is_wandering = false
 
 var phero_obj_dir setget follow_pherormone
 var pheroid = null
@@ -95,10 +96,15 @@ onready var wanderController = $WanderController
 
 onready var path_line = $Pathline
 
+onready var timer = $Timer
+
+onready var Fantasma = load("res://Actors/Ants/AntGhost.tscn")
+
 func _ready():
 
 #	self.modulate = Color(1,1,1)
 	randomize()
+	stat.connect("leveledup_ant",self,"apply_modifier")
 	animTree.active = true
 	state = WANDER
 	self.rotation_degrees = rand_range(0, 2 * PI)
@@ -119,14 +125,13 @@ func _ready():
 			stat.CLASS = "Warrior"
 			formigueiro.warriorcount +=1
 		else:
-
 			stat.CLASS = "Worker"
 			formigueiro.workercount += 1
 		apply_modifier()
 
 func _physics_process(delta):
-
-	path_line.global_rotation = 0
+	if display_pathline:
+		path_line.global_rotation = 0
 	
 	match state:
 #		MOVE:
@@ -165,8 +170,8 @@ func _physics_process(delta):
 
 
 		#colisao , usado somente enquanto esta movendo
-	if softCollision.is_colliding():
-		velocity += softCollision.get_push_vector() * delta * 40
+#	if softCollision.is_colliding():
+#		velocity += softCollision.get_push_vector() * delta * 40
 
 		#se meche por causa disso:
 	velocity = move_and_slide(velocity)
@@ -218,16 +223,18 @@ func wander_state(delta):
 	is_idle = false
 	is_chase = false
 
+	timer.start(rand_range(0.5, 2))
 	if is_searching != true:
 		wanderController.update_target_position()
 		if wanderController.get_time_left() == 0:
-			state = pick_random_state(state_list)
+#			state = pick_random_state(state_list)
 			if stat.CLASS == "Worker": 
-				wanderController.set_wander_timer(rand_range(2,3))
+				wanderController.set_wander_timer(rand_range(4,6))
 			if stat.CLASS == "Warrior":
-				wanderController.set_wander_timer(rand_range(1,2))
+				wanderController.set_wander_timer(rand_range(2,4))
 		look_and_move(wanderController.target_position , delta, 6)
 		animState.travel("Walk")
+	
 
 
 	if global_position.distance_to(wanderController.target_position) <= proximity_range:
@@ -246,10 +253,12 @@ func search_state(_delta):
 func idle_state(_delta):
 	is_chase = false
 	is_searching = false
+
 	#vector zero aqui para a formiga parar de ser empurrada enquanto estiver idle
 	velocity = Vector2.ZERO
 
 	if is_idle == false:
+		is_chase = false
 		is_searching = false
 		is_idle = true
 		wanderController.set_wander_timer(rand_range(1,3))
@@ -257,8 +266,9 @@ func idle_state(_delta):
 		velocity = Vector2.ZERO
 
 	if  wanderController.get_time_left() == 0:
-		state = pick_random_state(state_list)
 		is_idle = false
+		state = pick_random_state(state_list)
+		
 #state 6
 func voltar_state(delta):
 	is_chase = false
@@ -297,11 +307,12 @@ func set_stat():
 	stat.CLASS = ant_stat[15]
 
 	formigueiro.formigas.remove(0)
+	#acho que essa parte do codigo nao faz nada~~~~
 	if stat.ANT_ID == 0:
+		print("se entrou aqui eh pq isso nao eh inutil~~~~")
 		stat.ANT_ID += 1
 		formigueiro.antid = stat.ANT_ID
 
-	apply_modifier()
 
 
 func attack_animation_start():
@@ -315,10 +326,15 @@ func attack_animation_finished():
 		if valor_nutricional != null:
 			stat.HUNGER = stat.HUNGER - valor_nutricional
 			valor_nutricional = 0
-		state = IDLE
+		if detectionZone2.object != null:
+			var delta = self.get_physics_process_delta_time()
+			attack_state(delta)
+		else:
+			state = IDLE
+
 
 func seek_zone(delta):
-	if detectionZone.object != null and detectionZone2.object == null:
+	if detectionZone.object != null and detectionZone.object.is_in_group("detectable") and detectionZone2.object == null:
 		animState.stop()
 		obj_pos = get_random_position_within_target_radius()
 		if detectionZone.object.is_in_group("Food"):
@@ -328,7 +344,7 @@ func seek_zone(delta):
 		if state != CHASE:
 			state = CHASE
 	elif detectionZone.object != null and detectionZone2.object != null:
-		detect_and_look(delta)
+		detect_and_look()
 
 func pick_random_state(statelist):
 	statelist.shuffle()
@@ -339,7 +355,7 @@ func search_animation_finished():
 	is_searching = false
 
 
-func detect_and_look(_delta):
+func detect_and_look():
 	var object = detectionZone2.object
 	if object != null:
 		direction = global_position.direction_to(object.global_position)
@@ -363,10 +379,10 @@ func look_and_move(target_position ,  delta, proximity):
 
 	if path.size() < 2 or path == null or softCollision.is_colliding() or self.is_on_wall():
 		path = pathfinding.get_new_path(global_position, target_position)
-	get_closer(delta, proximity)
+	get_closer(delta)
 
 
-func get_closer(delta, proximity):
+func get_closer(delta):
 	if path.size() > 1:
 		velocity = global_position.direction_to(path[1]) * stat.MAX_SPEED * stat.ACCELERATION * delta
 		rotate_towards(path[1])
@@ -377,11 +393,6 @@ func get_closer(delta, proximity):
 		if is_it_close(global_position, path[1], 4):
 			path.remove(1)
 
-#	elif path.size() == 1:
-#		if is_it_close(global_position, path[0], proximity):
-#			velocity = Vector2.ZERO
-#			animState.travel("Idle")
-#			state = pick_random_state(state_list)
 	else:
 		velocity = Vector2.ZERO
 		animState.travel("Idle")
@@ -489,27 +500,29 @@ func follow_pherormone(new_value):
 			if state != CHASE:
 				state = CHASE
 			pass
-		pass
+			# tirei do comment, mas pode causar erros ~~~~
 #		else:
 #			release_pherormon(obj_pos, obj_type)
 #			state = pick_random_state(state_list)
-	else:
-		pass
 
 
 
 func apply_modifier():
 	if stat.CLASS == "Worker":
 		modifier = statchange.listworker
-		scale = Vector2(1,1) + Vector2(stat.LEVEL * 0.05 , stat.LEVEL * 0.05)
+		scale = Vector2(1,1) + Vector2(stat.LEVEL * 0.02 , stat.LEVEL * 0.02)
+		stat.MAX_HP = stat.LEVEL*2
+		stat.CUR_HP = stat.MAX_HP
 	if stat.CLASS == "Warrior":
 		modifier = statchange.listfighter
-		scale = Vector2(1,1) + Vector2(stat.LEVEL * 0.1 , stat.LEVEL * 0.1)
+		scale = Vector2(1,1) + Vector2(stat.LEVEL * 0.04 , stat.LEVEL * 0.04)
+		stat.MAX_HP = stat.LEVEL*4
+		stat.CUR_HP = stat.MAX_HP
 
 #	stat.LEVEL = stat.LEVEL + modifier[0]
-	stat.DAMAGE = 1 * ( 1 + (modifier[1] + stat.LEVEL))
+	stat.DAMAGE = stat.DAMAGE * (1 + (stat.LEVEL * modifier[1]/20)) 
 
-	stat.MAX_SPEED = 50 *  (1 + (modifier[2] + stat.LEVEL)/10)
+	stat.MAX_SPEED = stat.MAX_SPEED *  (1 + (modifier[2]/20 * stat.LEVEL))
 	#da o dano certo para HitZone
 	hitdamage.damage = stat.DAMAGE
 
@@ -518,10 +531,11 @@ func apply_modifier():
 #	detectionZone.scale = Vector2(stat.AWARENESS, stat.AWARENESS)
 
 	#almenta o range que anda conforme awareness //// removido para debugging
-	wanderController.wander_range = 150 * 1 + (stat.LEVEL/10) 
+	wanderController.wander_range = 150 * (1 + (stat.LEVEL/10)) 
 
 func get_random_position_within_target_radius() -> Vector2:
 #	var extents = Vector2.ZERO
+	
 	var radius: float = detectionZone.object.collisionshape.shape.radius
 #	if detectionZone.object.is_in_group("Food"):
 #		extents = detectionZone.object.collisionshape.shape.extent
@@ -547,6 +561,9 @@ func _on_Stats_no_health():
 	formigueiro.antout -= 1
 	if ferormonio != null:
 		ferormonio.queue_free()
+	var fantasma = Fantasma.instance()
+	fantasma.global_position = global_position
+	spawnermanager.add_child(fantasma)
 	queue_free()
 
 func initialize():
@@ -564,5 +581,17 @@ func set_path_line(points: Array):
 
 	path_line.points = local_points
 
-
+# se nao for usar, desconecta do nodulo! ~~~~
+#func _on_DetectionZone_area_entered(area):
+#	if detectionZone2.object == null:
+#		animState.stop()
+#		obj_pos = get_random_position_within_target_radius()
+#		if detectionZone.object.is_in_group("Food"):
+#			obj_type = "Food"
+#		if detectionZone.object.is_in_group("Enemy"):
+#			obj_type = "Enemy"
+#		if state != CHASE:
+#			state = CHASE
+#	elif detectionZone2.object != null:
+#		detect_and_look()
 

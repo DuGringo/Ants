@@ -23,6 +23,17 @@ onready var stat = $Stats
 
 onready var hitdamage = $Hitbox
 
+onready var facedetection = $DetectionZone2
+
+
+onready var ferormanager = $"../../FerormoniosManager"
+onready var arrowmanager = $"../../ArrowManager"
+onready var Arrow = load("res://Objects/PherormoneArrow.tscn")
+
+
+onready var timer = $Timer
+
+
 var velocity := Vector2.ZERO
 
 var modifier: Array = []
@@ -90,6 +101,7 @@ func _unhandled_input(event):
 		animState.travel("Search")
 		pass
 	elif event.is_action_released("dig"):
+		animState.travel("Dig")
 		pass
 		
 
@@ -97,12 +109,6 @@ func _unhandled_input(event):
 func handle_hit():
 	health_stat.health -= 20
 	print("player hit! ", health_stat.health)
-	
-#probably useless
-func reload():
-#	weapon.start_reload()
-	pass
-	
 
 func rotate_towards(object: Vector2):
 	var goal = global_position.direction_to(object).angle()
@@ -118,7 +124,36 @@ func rotate_towards(object: Vector2):
 	if rotation < 0:
 		rotation = 2*PI + rotation
 
+func check_for_prize():
+	if facedetection.object != null and facedetection.object.is_in_group("treasure"):
+		var premio = facedetection.object.premios.pop_front()
+		facedetection.object.queue_free()
+		
+		match premio:
+			"Skill Point":
+				statchange.availablepoints += 1
+				statchange.maxpoints += 1
+				continue
+			"+10 Ants":
+				formigueiro.ants_count = formigueiro.ants_count + 10
+				continue
+			"+5 Max Ants":
+				formigueiro.max_ants = formigueiro.max_ants + 5
+				continue
 
+func searching():
+	
+	timer.start(2.5)
+	for ferormonio in ferormanager.get_children():
+		var target = ferormonio.posicao
+		var arrow = Arrow.instance()
+		arrowmanager.add_child(arrow)
+		arrow.global_position = ferormonio.global_position
+		arrow.look_at(target)
+
+func _on_Timer_timeout():
+	for arrow in arrowmanager.get_children():
+		arrow.queue_free()
 
 ##se modificar, modifique tambem em pherormone
 #enum{
@@ -623,3 +658,6 @@ func rotate_towards(object: Vector2):
 #
 #
 #
+
+
+

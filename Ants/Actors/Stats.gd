@@ -1,5 +1,6 @@
 extends Node2D
 
+signal leveledup_ant
 
 export var ANT_ID = 0
 export var MAX_HP = 1
@@ -30,8 +31,9 @@ signal no_health
 signal loosing_health
 
 func set_health(value):
+	if value < CUR_HP:
+		emit_signal("loosing_health")
 	CUR_HP = value
-	emit_signal("loosing_health")
 	if CUR_HP <= 0 :
 		CUR_HP = 0
 		emit_signal("no_health")
@@ -63,12 +65,12 @@ func apply_level(new_level):
 	if CLASS == "Worker":
 		DAMAGE = 1 * LEVEL
 		AWARENESS = 1 + (0.33 * LEVEL)
-		MAX_HP +=1 * LEVEL
-		CUR_HP += MAX_HP
+		MAX_HP = 2 * LEVEL
+		CUR_HP = MAX_HP
 	
 	if CLASS == "Warrior":
 		DAMAGE = 1.5* LEVEL
 		AWARENESS = 1 + (0.1 * LEVEL)
-		MAX_HP += 1.5 * LEVEL
+		MAX_HP = 4 * LEVEL
 		CUR_HP = MAX_HP
-	
+	emit_signal("leveledup_ant")

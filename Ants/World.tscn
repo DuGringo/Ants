@@ -14,7 +14,7 @@
 [ext_resource path="res://Assets/Tiles/singlewater.png" type="Texture" id=12]
 [ext_resource path="res://Water.gd" type="Script" id=13]
 [ext_resource path="res://SpawnerManager.gd" type="Script" id=14]
-[ext_resource path="res://GlobalSignals.gd" type="Script" id=15]
+[ext_resource path="res://Autoloads/GlobalSignals.gd" type="Script" id=15]
 [ext_resource path="res://Actors/Ants/Player.tscn" type="PackedScene" id=16]
 [ext_resource path="res://UI/RobotFaceOver.png" type="Texture" id=17]
 [ext_resource path="res://UI/RobotFace.png" type="Texture" id=18]
@@ -128,6 +128,7 @@ format = 1
 
 [node name="Water" type="TileMap" parent="." groups=[
 "obstacles",
+"wall",
 ]]
 modulate = Color( 0.85, 0.85, 0.85, 1 )
 tile_set = SubResource( 4 )
@@ -140,6 +141,7 @@ persistence = 0.05
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." groups=[
 "obstacles",
+"wall",
 ]]
 collision_mask = 13
 __meta__ = {
@@ -182,7 +184,6 @@ enabled_color = Color( 0.243137, 0.694118, 0.282353, 1 )
 disabled_color = Color( 0.678431, 0.207843, 0.207843, 1 )
 
 [node name="Timer" type="Timer" parent="Pathfinding"]
-wait_time = 0.5
 autostart = true
 
 [node name="Grid" type="Node2D" parent="Pathfinding"]
@@ -211,9 +212,12 @@ position = Vector2( 2349.87, 1239.14 )
 [node name="Player" parent="AntsManager" instance=ExtResource( 16 )]
 position = Vector2( 84.0896, 90.8168 )
 
+[node name="ArrowManager" type="Node2D" parent="."]
+position = Vector2( 1194.34, 23.7389 )
+
 [node name="SpawnerManager" type="Node2D" parent="."]
 script = ExtResource( 14 )
-time_between_cupcakes = 13
+time_between_cupcakes = 20
 
 [node name="Timer" type="Timer" parent="SpawnerManager"]
 
@@ -229,48 +233,58 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/FormigueiroCount"]
+modulate = Color( 0, 0, 0, 0.305882 )
+margin_left = -91.6321
+margin_top = -7.34016
+margin_right = 17.3679
+margin_bottom = 128.66
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="AnthillCount" type="Label" parent="CanvasLayer/FormigueiroCount"]
-margin_left = -23.2031
-margin_top = 1.51531
-margin_right = 34.7969
-margin_bottom = 15.5153
+margin_left = -72.0522
+margin_top = 14.3089
+margin_right = -14.0522
+margin_bottom = 28.3089
 text = "Anthill: 0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AntsOut" type="Label" parent="CanvasLayer/FormigueiroCount"]
-margin_left = -24.7147
-margin_top = 13.8017
-margin_right = 30.2853
-margin_bottom = 27.8017
+margin_left = -73.5638
+margin_top = 26.5953
+margin_right = -18.5638
+margin_bottom = 40.5953
 text = "Outside:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Total" type="Label" parent="CanvasLayer/FormigueiroCount"]
-margin_left = -37.6102
-margin_top = 25.6581
-margin_right = 30.3898
-margin_bottom = 39.6581
+margin_left = -86.4593
+margin_top = 38.4517
+margin_right = -18.4593
+margin_bottom = 52.4517
 text = "Total Ants:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Workers" type="Label" parent="CanvasLayer/FormigueiroCount"]
-margin_left = -27.1394
-margin_top = 38.5467
-margin_right = 41.8606
-margin_bottom = 52.5467
+margin_left = -75.9885
+margin_top = 51.3403
+margin_right = -6.98853
+margin_bottom = 65.3403
 text = "Workers: 0"
 
 [node name="Warriors" type="Label" parent="CanvasLayer/FormigueiroCount"]
-margin_left = -27.582
-margin_top = 50.9245
-margin_right = 42.418
-margin_bottom = 64.9245
+margin_left = -76.4311
+margin_top = 63.7181
+margin_right = -6.43112
+margin_bottom = 77.7181
 text = "Warriors: 0"
 __meta__ = {
 "_edit_use_anchors_": false

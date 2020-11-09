@@ -79,7 +79,7 @@ func handle_foodsource(new_value):
 	return foodsource
 
 func add_exp():
-	print("se isso apararecer eh pq essa funcao nao eh inutil (linha 81 de formigueiro)")
+	print("se isso apararecer eh pq essa funcao nao eh inutil (linha 81 de formigueiro)~~~~")
 	anthillexp = anthillexp + 1	
 	pass
 

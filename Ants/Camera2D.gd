@@ -75,7 +75,7 @@ func _input(event):
 		zoomfactor = 1.0
 		
 	if event is InputEventMouseButton:
-		if event.is_pressed():
+		if event.is_pressed() and !follow_robot:
 			zooming = true
 			if event.button_index == BUTTON_WHEEL_UP:
 				zoomfactor -= 0.01 * zoomspeed

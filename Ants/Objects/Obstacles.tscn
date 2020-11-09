@@ -7,6 +7,7 @@ extents = Vector2( 14.218, 15.5022 )
 
 [node name="Obstacles" type="KinematicBody2D" groups=[
 "obstacles",
+"wall",
 ]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

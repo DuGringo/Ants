@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/AntDamaged.wav-9374cca3037ef0477fbc281b66ee4c31.sample"
+
+[deps]
+
+source_file="res://Sounds/AntDamaged.wav"
+dest_files=[ "res://.import/AntDamaged.wav-9374cca3037ef0477fbc281b66ee4c31.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
