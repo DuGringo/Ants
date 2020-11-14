@@ -1,6 +1,14 @@
 extends KinematicBody2D
 class_name Player
 
+enum{
+	IDLE,
+	ATTACK,
+	EAT,
+	DIG,
+	SEARCH
+}
+
 export (int) var acceleration = 20
 
 export (int) var friction = 20
@@ -30,30 +38,38 @@ onready var ferormanager = $"../../FerormoniosManager"
 onready var arrowmanager = $"../../ArrowManager"
 onready var Arrow = load("res://Objects/PherormoneArrow.tscn")
 
-
 onready var timer = $Timer
 
+onready var nutrientbar = $NutrientBar
+
+var state = null
 
 var velocity := Vector2.ZERO
 
 var modifier: Array = []
-
+#variavel pra animacao de comendo
+var is_eating = false
+var is_animating = false
 
 func _physics_process(delta: float) -> void:
 	
-	var input_vector = Vector2.ZERO
-	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left") 
-	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up") 
-	input_vector = input_vector.normalized()
-	
-	if input_vector != Vector2.ZERO:
-		velocity += input_vector * acceleration 
-		rotate_towards(global_position + input_vector)
-		velocity = velocity.clamped(stat.MAX_SPEED)
-		animState.travel("Walk")
-	else:
-		velocity = velocity.move_toward(Vector2.ZERO, friction)
-		animState.travel("Idle")
+	match state:
+		IDLE:
+			idle_state()
+			pass
+		ATTACK:
+			attack_state()
+			pass
+		EAT:
+			eat_state()
+			pass
+		DIG:
+			dig_state()
+			pass
+		SEARCH:
+			search_state()
+			pass
+			
 	
 	move_and_slide(velocity)
 
@@ -68,6 +84,10 @@ func initialize(is_loaded):
 	self.global_position = formigueiro.global_position
 	animTree.active = true
 	apply_modifier()
+	state = IDLE
+	is_eating = false
+	is_animating = false
+	stat.HUNGER = 1
 
 
 func apply_modifier():
@@ -91,21 +111,85 @@ func _handle_robot(is_pressed):
 		self.visible = true
 	else:
 		self.visible = false
+		if global_position.distance_to(formigueiro.global_position) <= 35.5:
+			if stat.HUNGER != 1:
+				formigueiro.foodsource = formigueiro.foodsource + stat.HUNGER
+
+func idle_state():
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left") 
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up") 
+	input_vector = input_vector.normalized()
+	
+	if input_vector != Vector2.ZERO:
+		velocity += input_vector * acceleration 
+		rotate_towards(global_position + input_vector)
+		velocity = velocity.clamped(stat.MAX_SPEED)
+		animState.travel("Walk")
+	else:
+		velocity = Vector2.ZERO
+		animState.travel("Idle")
+
+func attack_state():
+	velocity = Vector2.ZERO
+	animState.travel("Attack")
+	pass
+func eat_state():
+	velocity = Vector2.ZERO
+	
+	
+	if is_eating and is_animating:
+		nutrientbar.visible = true
+		animState.travel("EatStart")
+	elif is_eating and !is_animating:
+		if facedetection.object != null and facedetection.object.is_in_group("Food") and stat.HUNGER != 100:
+			animState.travel("EatAnim")
+		else: 
+			animState.travel("EatIdle")
+	elif !is_eating:
+		nutrientbar.visible = false
+		animState.travel("EatEnd")
 
 		
+	pass
+func dig_state():
+	velocity = Vector2.ZERO
+	animState.travel("Dig")
+	pass
+func search_state():
+	velocity = Vector2.ZERO
+	animState.travel("Search")
+	pass
+
+
 func _unhandled_input(event):
 	if event.is_action_released("attack"):
-		animState.travel("Attack")
+		state = ATTACK
 		pass
-	elif event.is_action_released("search"):
-		animState.travel("Search")
+	elif event.is_action_released("eat"):
+		if !is_eating:
+			is_animating = true
+		is_eating = !is_eating
+		state = EAT
 		pass
 	elif event.is_action_released("dig"):
-		animState.travel("Dig")
+		state = DIG
 		pass
-		
-
-
+	elif event.is_action_released("search"):
+		state = SEARCH
+		pass
+func finished_eat_start():
+	is_animating = false
+	
+func finished_animating():
+	state = IDLE
+	pass
+	
+func add_food():
+	if facedetection.object != null and facedetection.object.is_in_group("Food"):
+		stat.HUNGER = stat.HUNGER + facedetection.object.valor_nutricional
+	pass
+	
 func handle_hit():
 	health_stat.health -= 20
 	print("player hit! ", health_stat.health)
@@ -123,26 +207,42 @@ func rotate_towards(object: Vector2):
 		rotation = rotation - 2*PI
 	if rotation < 0:
 		rotation = 2*PI + rotation
+	pass
 
 func check_for_prize():
 	if facedetection.object != null and facedetection.object.is_in_group("treasure"):
 		var premio = facedetection.object.premios.pop_front()
 		facedetection.object.queue_free()
-		
 		match premio:
-			"Skill Point":
+			"+1 Skill Point":
 				statchange.availablepoints += 1
 				statchange.maxpoints += 1
+				continue
+			"+2 Skill Point":
+				statchange.availablepoints += 2
+				statchange.maxpoints += 2
+				continue
+			"+1 Ants":
+				formigueiro.ants_count = formigueiro.ants_count + 1
+				continue
+			"+5 Ants":
+				formigueiro.ants_count = formigueiro.ants_count + 5
 				continue
 			"+10 Ants":
 				formigueiro.ants_count = formigueiro.ants_count + 10
 				continue
+			"+1 Max Ants":
+				formigueiro.max_ants = formigueiro.max_ants + 1
+				continue
+			"+2 Max Ants":
+				formigueiro.max_ants = formigueiro.max_ants + 2
+				continue
 			"+5 Max Ants":
 				formigueiro.max_ants = formigueiro.max_ants + 5
 				continue
+	pass
 
 func searching():
-	
 	timer.start(2.5)
 	for ferormonio in ferormanager.get_children():
 		var target = ferormonio.posicao
@@ -150,10 +250,12 @@ func searching():
 		arrowmanager.add_child(arrow)
 		arrow.global_position = ferormonio.global_position
 		arrow.look_at(target)
+	pass
 
 func _on_Timer_timeout():
 	for arrow in arrowmanager.get_children():
 		arrow.queue_free()
+	pass
 
 ##se modificar, modifique tambem em pherormone
 #enum{

@@ -48,14 +48,14 @@ func _input(_event):
 			modifierui.visible = true
 			is_selection_on = true
 
-	if Input.is_key_pressed(70):
-		last_input = "F"
-	if Input.is_key_pressed(69):
-		last_input = "E"
-	if Input.is_key_pressed(65):
-		last_input = "A"
 	if Input.is_key_pressed(80):
 		last_input = "P"
+	if Input.is_key_pressed(79):
+		last_input = "O"
+	if Input.is_key_pressed(73):
+		last_input = "I"
+	if Input.is_key_pressed(45):
+		last_input = "-"
 	
 	#recarrega o mapa com barra de espaco
 	if Input.is_action_just_pressed("ui_select"):
@@ -83,27 +83,15 @@ func _input(_event):
 
 	#funcoes do clique esquerdo (instanciamento de comida, inimigo etc)
 	if Input.is_action_just_pressed("ui_right_click"):
-		#cria bolinhos depois de apertar F
-		if last_input == "F":	
+		#cria bolinhos depois de apertar P
+		if last_input == "P":	
 			var foodCube = FoodCube.instance()
 			world.get_node("FoodsManager").add_child(foodCube)
 			foodCube.stat.LEVEL = spawner_level
 			foodCube.global_position = get_global_mouse_position()
 			foodCube.global_position.y = foodCube.global_position.y -20
-		#Cria Joaninha depois de apertar E
-		if last_input == "E":
-			var enemy = Enemy.instance()
-			world.get_node("EnemiesManager").add_child(enemy)
-			enemy.stat.LEVEL = spawner_level
-			enemy.global_position = get_global_mouse_position()
-		#Cria Formiga depois de apertar A
-		if last_input == "A":
-			var ant = Ant.instance()
-			world.get_node("AntsManager").add_child(ant)
-			ant.stat.LEVEL = spawner_level
-			ant.global_position = get_global_mouse_position()
-		#Cria super comida depois de paertar P
-		if last_input == "P":
+		#Cria super comida depois de paertar [
+		if last_input == "-":
 			var foodCube = FoodCube.instance()
 			world.get_node("FoodsManager").add_child(foodCube)
 			foodCube.global_position = get_global_mouse_position()
@@ -112,6 +100,20 @@ func _input(_event):
 			foodCube.stat.CUR_HP = 400 * (1 + spawner_level/10)
 			foodCube.valor_nutricional = 4 * (1 + spawner_level/10)
 			foodCube.modulate = Color(1,1,0)
+		#Cria Joaninha depois de apertar O
+		if last_input == "O":
+			var enemy = Enemy.instance()
+			world.get_node("EnemiesManager").add_child(enemy)
+			enemy.stat.LEVEL = spawner_level
+			enemy.global_position = get_global_mouse_position()
+		#Cria Formiga depois de apertar I
+		if last_input == "I":
+			var ant = Ant.instance()
+			world.get_node("AntsManager").add_child(ant)
+			ant.stat.LEVEL = spawner_level
+			ant.global_position = get_global_mouse_position()
+
+		
 
 func KillUi():
 	get_tree().current_scene.find_node("*StatsUI*",true,false).queue_free()

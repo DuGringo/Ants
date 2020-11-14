@@ -1,18 +1,22 @@
 extends Control
 
 
-onready var anthill = $AnthillCount
-onready var antsout = $AntsOut
-onready var total = $Total
-onready var workers = $Workers
-onready var warriors = $Warriors
+onready var anthill = $VBoxContainer/HBoxContainer/AnthillCount
+onready var anthillcapacity = $VBoxContainer/HBoxContainer/Capacity
+onready var antsout = $VBoxContainer/AntsOut
+onready var total = $VBoxContainer/Total
+onready var workers = $VBoxContainer/Workers
+onready var warriors = $VBoxContainer/Warriors
 
 onready var formigueiro = get_tree().current_scene.get_node("Formigueiro")
 
 func _process(_delta):
-		#INEFICIENTE, ARRUMAR EVENTUALMENTE
+		#INEFICIENTE, ARRUMAR EVENTUALMENTE~~~~
 		var dentro = formigueiro.ants_count
 		anthill.text = "Ant Hill: " + str(dentro)
+		
+		var capacity = formigueiro.max_ants
+		anthillcapacity.text = "/" + str(capacity)
 		
 		var fora = formigueiro.antout
 		antsout.text = "Outside: " + str(fora)

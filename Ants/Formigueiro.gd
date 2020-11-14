@@ -1,8 +1,8 @@
 extends Area2D
 
 #ants inside anthill ants_count eh o mudavel
-export var ants_count = 100
-export var max_ants = 150
+export var ants_count = 25
+export var max_ants = 50
 
 #ant name#
 var ant_id = 0

@@ -1,7 +1,7 @@
 extends Node2D
 
 onready var animPlayer = $AnimationPlayer
-var premios : Array = ["Skill Point", "+5 Max Ants", "+10 Ants"]
+var premios : Array = ["+1 Skill Point", "+2 Skill Point","+1 Max Ants", "+2 Max Ants", "+5 Max Ants", "+1 Ants",  "+5 Ants", "+10 Ants"]
 
 func _ready():
 	randomize()

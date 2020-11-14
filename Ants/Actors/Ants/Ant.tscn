@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://Zones/SoftCollision.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Zones/HurtBox.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Actors/Ants/ClickArea.gd" type="Script" id=9]
 [ext_resource path="res://Sounds/AntDamaged.wav" type="AudioStream" id=10]
 [ext_resource path="res://Actors/Ants/SoundManager.gd" type="Script" id=11]
+[ext_resource path="res://Assets/FX/AntShadow.png" type="Texture" id=12]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 2.34484
@@ -286,12 +287,18 @@ collision_layer = 3
 collision_mask = 2147484162
 script = ExtResource( 8 )
 
+[node name="Shadow" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.333333 )
+position = Vector2( -1.00732, 0.0172081 )
+scale = Vector2( 0.843284, 0.843284 )
+texture = ExtResource( 12 )
+
 [node name="Ant Spritesheet" type="Sprite" parent="."]
 position = Vector2( -0.220459, 1.45681 )
 texture = ExtResource( 7 )
 offset = Vector2( 0, -0.5 )
 hframes = 54
-frame = 29
+frame = 33
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -2.25136, 0.0331078 )
@@ -325,10 +332,10 @@ THIRST = 50
 script = ExtResource( 9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
-visible = false
 shape = SubResource( 30 )
 
 [node name="DetectionZone" parent="." instance=ExtResource( 3 )]
+rotation = 0.785398
 collision_mask = 12
 
 [node name="CollisionShape2D" parent="DetectionZone" index="0"]

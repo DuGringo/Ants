@@ -12,7 +12,8 @@ collision_mask = 2
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 3.70375, -6.46814 )
+position = Vector2( 4.19375, -4.48813 )
+scale = Vector2( 1.26, 1.26 )
 texture = ExtResource( 1 )
 offset = Vector2( 1, 2 )
 
