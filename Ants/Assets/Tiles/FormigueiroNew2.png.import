@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Grass_me.png-6c570356411d04a3c07a32545921a834.stex"
+path="res://.import/FormigueiroNew2.png-45f35272fa2652c3b9e3df1e8bf9a37b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Tiles/Grass_me.png"
-dest_files=[ "res://.import/Grass_me.png-6c570356411d04a3c07a32545921a834.stex" ]
+source_file="res://Assets/Tiles/FormigueiroNew2.png"
+dest_files=[ "res://.import/FormigueiroNew2.png-45f35272fa2652c3b9e3df1e8bf9a37b.stex" ]
 
 [params]
 
@@ -30,5 +30,5 @@ process/HDR_as_SRGB=false
 process/invert_color=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0
