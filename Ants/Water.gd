@@ -12,8 +12,8 @@ export var lacunarity = 2
 #2,7,5,5
 
 const TILES = {
-	'water': 0,
-	'nothing': 1,
+	'water': 1,
+	'nothing': 2,
 
 }
 
