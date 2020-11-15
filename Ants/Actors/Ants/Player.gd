@@ -87,6 +87,7 @@ func initialize(is_loaded):
 	state = IDLE
 	is_eating = false
 	is_animating = false
+	nutrientbar.visible = false
 	stat.HUNGER = 1
 
 
@@ -211,35 +212,36 @@ func rotate_towards(object: Vector2):
 
 func check_for_prize():
 	if facedetection.object != null and facedetection.object.is_in_group("treasure"):
-		var premio = facedetection.object.premios.pop_front()
+		formigueiro.balls_count +=1
+#		var premio = facedetection.object.premios.pop_front()
 		facedetection.object.queue_free()
-		match premio:
-			"+1 Skill Point":
-				statchange.availablepoints += 1
-				statchange.maxpoints += 1
-				continue
-			"+2 Skill Point":
-				statchange.availablepoints += 2
-				statchange.maxpoints += 2
-				continue
-			"+1 Ants":
-				formigueiro.ants_count = formigueiro.ants_count + 1
-				continue
-			"+5 Ants":
-				formigueiro.ants_count = formigueiro.ants_count + 5
-				continue
-			"+10 Ants":
-				formigueiro.ants_count = formigueiro.ants_count + 10
-				continue
-			"+1 Max Ants":
-				formigueiro.max_ants = formigueiro.max_ants + 1
-				continue
-			"+2 Max Ants":
-				formigueiro.max_ants = formigueiro.max_ants + 2
-				continue
-			"+5 Max Ants":
-				formigueiro.max_ants = formigueiro.max_ants + 5
-				continue
+#		match premio:
+#			"+1 Skill Point":
+#				statchange.availablepoints += 1
+#				statchange.maxpoints += 1
+#				continue
+#			"+2 Skill Point":
+#				statchange.availablepoints += 2
+#				statchange.maxpoints += 2
+#				continue
+#			"+1 Ants":
+#				formigueiro.ants_count = formigueiro.ants_count + 1
+#				continue
+#			"+5 Ants":
+#				formigueiro.ants_count = formigueiro.ants_count + 5
+#				continue
+#			"+10 Ants":
+#				formigueiro.ants_count = formigueiro.ants_count + 10
+#				continue
+#			"+1 Max Ants":
+#				formigueiro.max_ants = formigueiro.max_ants + 1
+#				continue
+#			"+2 Max Ants":
+#				formigueiro.max_ants = formigueiro.max_ants + 2
+#				continue
+#			"+5 Max Ants":
+#				formigueiro.max_ants = formigueiro.max_ants + 5
+#				continue
 	pass
 
 func searching():

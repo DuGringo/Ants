@@ -32,6 +32,8 @@ var foodsource = 0 setget handle_foodsource
 var anthillexp = 0
 var anthilllevel = 1
 
+export var balls_count = 1
+
 onready var target_position = global_position
 
 func initialize():

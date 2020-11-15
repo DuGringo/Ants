@@ -44,6 +44,9 @@ onready var warriorslbl = $"StatsMenu/VBoxContainer/WarriorsMeter/WarriorsModifi
 onready var expbar = $"StatsMenu/VBoxContainer/ExpContainer/ExpBar"
 onready var maxexplbl = $"StatsMenu/VBoxContainer/ExpContainer/MaxExp"
 
+#sound
+onready var beep = $Beep
+
 func _ready():
 	self.visible = false
 	add_items()
@@ -127,21 +130,25 @@ func handle_gained_exp():
 	
 func _on_StrLeftButton_pressed():
 	if availablepoints < maxpoints and check_if_can_change(1):
+		beep.play()
 		statchange(1, -1, 0 ,10 , strcrystal )
 		handle_avalable_points(availablepoints + 1)
 
 func _on_StrRightButton_pressed():
 	if availablepoints > 0:
+		beep.play()
 		statchange(1, 1, 0 ,10 , strcrystal )
 		handle_avalable_points(availablepoints - 1)
 
 func _on_AgiLeftButton_pressed():
 	if availablepoints < maxpoints and check_if_can_change(2):
+		beep.play()
 		statchange(2, -1, 0 ,10 , agicrystal )
 		handle_avalable_points(availablepoints + 1)
 
 func _on_AgiRightButton_pressed():
 	if availablepoints > 0:
+		beep.play()
 		statchange(2, 1, 0 ,10 , agicrystal )
 		handle_avalable_points(availablepoints - 1)
 
@@ -162,19 +169,23 @@ func _on_DropDown_item_selected(index):
 
 
 func _on_WorkersLeftButton_pressed():
+	beep.play()
 	worker_priority = clamp (worker_priority - 1, 1, 10)
 	workerslbl.text = str(worker_priority)
 
 func _on_WorkersRightButton_pressed():
+	beep.play()
 	worker_priority = clamp (worker_priority + 1, 1, 10)
 	workerslbl.text = str(worker_priority)
 
 
 func _on_WarriorsLeftButton_pressed():
+	beep.play()
 	warrior_priority = clamp (warrior_priority - 1, 1, 10)
 	warriorslbl.text = str(warrior_priority)
 
 
 func _on_WarriorsRightButton_pressed():
+	beep.play()
 	warrior_priority = clamp (warrior_priority + 1, 1, 10)
 	warriorslbl.text = str(warrior_priority)

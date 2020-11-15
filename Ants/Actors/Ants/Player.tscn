@@ -118,7 +118,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=32]
+[sub_resource type="Animation" id=4]
 resource_name = "EatAnim"
 length = 0.7
 loop = true
@@ -149,7 +149,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=33]
+[sub_resource type="Animation" id=5]
 resource_name = "EatEnd"
 length = 0.4
 tracks/0/type = "value"
@@ -179,7 +179,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=34]
+[sub_resource type="Animation" id=6]
 resource_name = "EatIdle"
 length = 0.1
 loop = true
@@ -196,7 +196,7 @@ tracks/0/keys = {
 "values": [ 60 ]
 }
 
-[sub_resource type="Animation" id=46]
+[sub_resource type="Animation" id=7]
 resource_name = "EatStart"
 length = 0.4
 tracks/0/type = "value"
@@ -226,7 +226,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=8]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -242,7 +242,7 @@ tracks/0/keys = {
 "values": [ 1 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=9]
 length = 2.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Ant Spritesheet:frame")
@@ -274,7 +274,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=10]
 length = 0.9
 loop = true
 tracks/0/type = "value"
@@ -290,125 +290,125 @@ tracks/0/keys = {
 "values": [ 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=11]
 animation = "Attack"
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=12]
 animation = "Dig"
 
-[sub_resource type="AnimationNodeAnimation" id=36]
+[sub_resource type="AnimationNodeAnimation" id=13]
 animation = "EatAnim"
 
-[sub_resource type="AnimationNodeAnimation" id=37]
+[sub_resource type="AnimationNodeAnimation" id=14]
 animation = "EatEnd"
 
-[sub_resource type="AnimationNodeAnimation" id=38]
+[sub_resource type="AnimationNodeAnimation" id=15]
 animation = "EatIdle"
 
-[sub_resource type="AnimationNodeAnimation" id=47]
+[sub_resource type="AnimationNodeAnimation" id=16]
 animation = "EatStart"
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=17]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeAnimation" id=10]
+[sub_resource type="AnimationNodeAnimation" id=18]
 animation = "Search"
 
-[sub_resource type="AnimationNodeAnimation" id=11]
+[sub_resource type="AnimationNodeAnimation" id=19]
 animation = "Walk"
 
-[sub_resource type="AnimationNodeTimeScale" id=12]
+[sub_resource type="AnimationNodeTimeScale" id=20]
 
-[sub_resource type="AnimationNodeBlendTree" id=13]
+[sub_resource type="AnimationNodeBlendTree" id=21]
 graph_offset = Vector2( -6.10352e-05, 0 )
-nodes/Animation/node = SubResource( 11 )
+nodes/Animation/node = SubResource( 19 )
 nodes/Animation/position = Vector2( 80, 80 )
-nodes/TimeScale/node = SubResource( 12 )
+nodes/TimeScale/node = SubResource( 20 )
 nodes/TimeScale/position = Vector2( 300, 60 )
 nodes/output/position = Vector2( 520, 80 )
 node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "Animation" ]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=14]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=15]
-switch_mode = 2
-auto_advance = true
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=16]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=17]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=18]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=19]
-switch_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=20]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=21]
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=22]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=23]
+switch_mode = 2
+auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=24]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=25]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=27]
 switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=40]
+[sub_resource type="AnimationNodeStateMachineTransition" id=28]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=41]
+[sub_resource type="AnimationNodeStateMachineTransition" id=29]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=42]
+[sub_resource type="AnimationNodeStateMachineTransition" id=30]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=31]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=32]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=33]
 switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=45]
+[sub_resource type="AnimationNodeStateMachineTransition" id=34]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=35]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=36]
 switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=48]
+[sub_resource type="AnimationNodeStateMachineTransition" id=37]
 switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=49]
+[sub_resource type="AnimationNodeStateMachineTransition" id=38]
+switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachine" id=26]
-states/Attack/node = SubResource( 7 )
+[sub_resource type="AnimationNodeStateMachineTransition" id=39]
+
+[sub_resource type="AnimationNodeStateMachine" id=40]
+states/Attack/node = SubResource( 11 )
 states/Attack/position = Vector2( 330, 79 )
-states/Dig/node = SubResource( 8 )
+states/Dig/node = SubResource( 12 )
 states/Dig/position = Vector2( 279.667, 148 )
-states/EatAnim/node = SubResource( 36 )
+states/EatAnim/node = SubResource( 13 )
 states/EatAnim/position = Vector2( 747.667, 73 )
-states/EatEnd/node = SubResource( 37 )
+states/EatEnd/node = SubResource( 14 )
 states/EatEnd/position = Vector2( 603.667, 207.534 )
-states/EatIdle/node = SubResource( 38 )
+states/EatIdle/node = SubResource( 15 )
 states/EatIdle/position = Vector2( 747.667, 155.534 )
-states/EatStart/node = SubResource( 47 )
+states/EatStart/node = SubResource( 16 )
 states/EatStart/position = Vector2( 595.667, 148 )
-states/Idle/node = SubResource( 9 )
+states/Idle/node = SubResource( 17 )
 states/Idle/position = Vector2( 428, 148 )
-states/Search/node = SubResource( 10 )
+states/Search/node = SubResource( 18 )
 states/Search/position = Vector2( 428, 273 )
-states/Walk/node = SubResource( 13 )
+states/Walk/node = SubResource( 21 )
 states/Walk/position = Vector2( 492, 79 )
-transitions = [ "Idle", "Attack", SubResource( 14 ), "Attack", "Idle", SubResource( 15 ), "Walk", "Idle", SubResource( 16 ), "Idle", "Walk", SubResource( 17 ), "Idle", "Search", SubResource( 18 ), "Search", "Idle", SubResource( 19 ), "Search", "Walk", SubResource( 20 ), "Walk", "Attack", SubResource( 21 ), "Attack", "Walk", SubResource( 22 ), "Walk", "Search", SubResource( 23 ), "Idle", "Dig", SubResource( 24 ), "Dig", "Idle", SubResource( 25 ), "EatIdle", "EatAnim", SubResource( 40 ), "EatIdle", "EatEnd", SubResource( 41 ), "EatAnim", "EatIdle", SubResource( 42 ), "EatEnd", "Idle", SubResource( 45 ), "EatStart", "EatIdle", SubResource( 48 ), "Idle", "EatStart", SubResource( 49 ) ]
+transitions = [ "Idle", "Attack", SubResource( 22 ), "Attack", "Idle", SubResource( 23 ), "Walk", "Idle", SubResource( 24 ), "Idle", "Walk", SubResource( 25 ), "Idle", "Search", SubResource( 26 ), "Search", "Idle", SubResource( 27 ), "Search", "Walk", SubResource( 28 ), "Walk", "Attack", SubResource( 29 ), "Attack", "Walk", SubResource( 30 ), "Walk", "Search", SubResource( 31 ), "Idle", "Dig", SubResource( 32 ), "Dig", "Idle", SubResource( 33 ), "EatIdle", "EatAnim", SubResource( 34 ), "EatIdle", "EatEnd", SubResource( 35 ), "EatAnim", "EatIdle", SubResource( 36 ), "EatEnd", "Idle", SubResource( 37 ), "EatStart", "EatIdle", SubResource( 38 ), "Idle", "EatStart", SubResource( 39 ) ]
 start_node = "Idle"
 graph_offset = Vector2( -73.333, 34.4772 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=27]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=41]
 
-[sub_resource type="CapsuleShape2D" id=28]
+[sub_resource type="CapsuleShape2D" id=42]
 radius = 2.05224
 height = 2.16952
 
-[sub_resource type="CapsuleShape2D" id=29]
+[sub_resource type="CapsuleShape2D" id=43]
 radius = 4.51256
 height = 0.0
 
-[sub_resource type="CapsuleShape2D" id=30]
+[sub_resource type="CapsuleShape2D" id=44]
 radius = 3.45603
 height = 4.82017
 
-[sub_resource type="CapsuleShape2D" id=31]
+[sub_resource type="CapsuleShape2D" id=45]
 radius = 1.48851
 height = 6.94148
 
@@ -443,18 +443,18 @@ shape = SubResource( 1 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 2 )
 anims/Dig = SubResource( 3 )
-anims/EatAnim = SubResource( 32 )
-anims/EatEnd = SubResource( 33 )
-anims/EatIdle = SubResource( 34 )
-anims/EatStart = SubResource( 46 )
-anims/Idle = SubResource( 4 )
-anims/Search = SubResource( 5 )
-anims/Walk = SubResource( 6 )
+anims/EatAnim = SubResource( 4 )
+anims/EatEnd = SubResource( 5 )
+anims/EatIdle = SubResource( 6 )
+anims/EatStart = SubResource( 7 )
+anims/Idle = SubResource( 8 )
+anims/Search = SubResource( 9 )
+anims/Walk = SubResource( 10 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 26 )
+tree_root = SubResource( 40 )
 anim_player = NodePath("../AnimationPlayer")
-parameters/playback = SubResource( 27 )
+parameters/playback = SubResource( 41 )
 parameters/Walk/TimeScale/scale = 2.5
 
 [node name="Stats" parent="." instance=ExtResource( 6 )]
@@ -471,7 +471,7 @@ collision_mask = 4104
 
 [node name="CollisionShape2D" parent="DetectionZone2" index="0"]
 position = Vector2( 7.84423, -0.158876 )
-shape = SubResource( 28 )
+shape = SubResource( 42 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 4 )]
 position = Vector2( 6.36396, 0 )
@@ -480,7 +480,7 @@ collision_mask = 96
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 position = Vector2( 0.176777, 1.90735e-06 )
-shape = SubResource( 29 )
+shape = SubResource( 43 )
 
 [node name="HurtBox" parent="." instance=ExtResource( 5 )]
 position = Vector2( -1, 0 )
@@ -490,7 +490,7 @@ collision_mask = 0
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
 position = Vector2( -0.265163, -0.0883865 )
 rotation = 1.5708
-shape = SubResource( 30 )
+shape = SubResource( 44 )
 
 [node name="SoftCollision" parent="." instance=ExtResource( 2 )]
 position = Vector2( -0.888638, 0.111362 )
@@ -498,7 +498,7 @@ position = Vector2( -0.888638, 0.111362 )
 [node name="CollisionShape2D" parent="SoftCollision" index="0"]
 position = Vector2( -1.41422, -0.176777 )
 rotation = 1.5708
-shape = SubResource( 31 )
+shape = SubResource( 45 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0

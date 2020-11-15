@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://StatChange.gd" type="Script" id=1]
 [ext_resource path="res://UI/SelectBackground.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Assets/UI/ExpBarUnder.png" type="Texture" id=11]
 [ext_resource path="res://Assets/UI/SkillCrystalUnder.png" type="Texture" id=12]
 [ext_resource path="res://Assets/UI/SkillCrystalFilled.png" type="Texture" id=13]
+[ext_resource path="res://Sounds/arrowclick.wav" type="AudioStream" id=14]
 
 [node name="StatChange" type="Node2D"]
 script = ExtResource( 1 )
@@ -356,6 +357,9 @@ rect_min_size = Vector2( 35, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Beep" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
 [connection signal="item_selected" from="StatsMenu/VBoxContainer/DropDown" to="." method="_on_DropDown_item_selected"]
 [connection signal="pressed" from="StatsMenu/VBoxContainer/StrengthMeter/StrLeftButton" to="." method="_on_StrLeftButton_pressed"]
 [connection signal="pressed" from="StatsMenu/VBoxContainer/StrengthMeter/StrRightButton" to="." method="_on_StrRightButton_pressed"]

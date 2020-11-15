@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/UI/prizecup.png" type="Texture" id=1]
+[ext_resource path="res://UI/Pachinko/PrizePlatform.gd" type="Script" id=2]
+
+[sub_resource type="PhysicsMaterial" id=1]
+friction = 5.0
+bounce = -8.0
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 12.3605, 0.863129 )
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 5.60151
+height = 13.71
+
+[node name="PrizePlatform" type="StaticBody2D"]
+collision_layer = 8192
+collision_mask = 24576
+script = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -38.3744, -11.1162, -35.546, -13.7678, -31.1265, -13.7678, -28.6517, -10.9394, -28.4426, -5.39763, -24.7261, 0.206621, -21.0503, 3.02596, -14.45, 6.99775, -14.45, 9.04513, 11.2999, 9.21314, 11.2209, 6.99775, 15.3657, 5.32405, 18.3709, 3.37951, 23.1439, -0.509575, 25.442, -5.10577, 26.1491, -10.7626, 28.2704, -13.0607, 32.6898, -13.4143, 34.8112, -10.9394, 35.1647, -2.10057, 32.8666, 2.14207, 28.9775, 6.03116, 22.0833, 10.097, 14.9229, 12.595, 8.13878, 13.7158, 6.42801, 14.6007, -7.7301, 14.7187, -9.80107, 14.0698, -15.93, 13.1849, -19.6361, 12.0416, -27.7678, 9.03636, -33.0711, 5.14728, -37.1369, 0.020752, -38.3744, -2.98445 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+
+[node name="almofadinha" type="StaticBody2D" parent="."]
+physics_material_override = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="almofadinha"]
+position = Vector2( -1.59101, 7.77818 )
+shape = SubResource( 2 )
+
+[node name="detecta" type="Area2D" parent="."]
+collision_layer = 8192
+collision_mask = 16384
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detecta"]
+position = Vector2( -1.70948, 0.96623 )
+rotation = 1.5708
+shape = SubResource( 3 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+[connection signal="body_entered" from="detecta" to="." method="_on_detecta_body_entered"]
+[connection signal="body_exited" from="detecta" to="." method="_on_detecta_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

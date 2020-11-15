@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://FormigueiroCount.gd" type="Script" id=1]
 [ext_resource path="res://Camera2D.gd" type="Script" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://Formigueiro.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Objects/Obstacles.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Actors/Pathfinding.gd" type="Script" id=10]
+[ext_resource path="res://PachinkoButton.gd" type="Script" id=11]
+[ext_resource path="res://Assets/UI/pachinkobutton.png" type="Texture" id=12]
 [ext_resource path="res://Water.gd" type="Script" id=13]
 [ext_resource path="res://SpawnerManager.gd" type="Script" id=14]
 [ext_resource path="res://Autoloads/GlobalSignals.gd" type="Script" id=15]
@@ -21,6 +23,8 @@
 [ext_resource path="res://Objects/Treasure.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Assets/Tiles/Dirtvariety.png" type="Texture" id=22]
 [ext_resource path="res://Assets/Tiles/watertileset.png" type="Texture" id=23]
+[ext_resource path="res://Assets/UI/pachinkobuttonover.png" type="Texture" id=24]
+[ext_resource path="res://Assets/UI/pachinkobuttondown.png" type="Texture" id=25]
 
 [sub_resource type="TileSet" id=1]
 0/name = "SingleGrass.png 0"
@@ -85,6 +89,9 @@
 6/shape_one_way_margin = 0.0
 6/shapes = [  ]
 6/z_index = 0
+
+[sub_resource type="ConvexPolygonShape2D" id=3]
+points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 
 [sub_resource type="ConvexPolygonShape2D" id=4]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -155,10 +162,7 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 [sub_resource type="ConvexPolygonShape2D" id=26]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 
-[sub_resource type="ConvexPolygonShape2D" id=27]
-points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
-
-[sub_resource type="TileSet" id=3]
+[sub_resource type="TileSet" id=27]
 1/name = "watertileset.png 1"
 1/texture = ExtResource( 23 )
 1/tex_offset = Vector2( 0, 0 )
@@ -178,152 +182,152 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 1/navigation_offset = Vector2( 0, 0 )
 1/shape_offset = Vector2( 0, 0 )
 1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-1/shape = SubResource( 4 )
+1/shape = SubResource( 3 )
 1/shape_one_way = false
 1/shape_one_way_margin = 1.0
 1/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 4 ),
+"shape": SubResource( 3 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 1, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 5 ),
+"shape": SubResource( 4 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 2, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 6 ),
+"shape": SubResource( 5 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 0, 1 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 7 ),
+"shape": SubResource( 6 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 1, 1 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 8 ),
+"shape": SubResource( 7 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 2, 1 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 9 ),
+"shape": SubResource( 8 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 0, 2 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 10 ),
+"shape": SubResource( 9 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 1, 2 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 11 ),
+"shape": SubResource( 10 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 2, 2 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 12 ),
+"shape": SubResource( 11 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 3, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 13 ),
+"shape": SubResource( 12 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 4, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 14 ),
+"shape": SubResource( 13 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 5, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 15 ),
+"shape": SubResource( 14 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 3, 1 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 16 ),
+"shape": SubResource( 15 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 4, 1 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 17 ),
+"shape": SubResource( 16 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 5, 1 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 18 ),
+"shape": SubResource( 17 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 3, 2 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 19 ),
+"shape": SubResource( 18 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 4, 2 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 20 ),
+"shape": SubResource( 19 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 5, 2 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 21 ),
+"shape": SubResource( 20 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 6, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 22 ),
+"shape": SubResource( 21 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 6, 1 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 23 ),
+"shape": SubResource( 22 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 6, 2 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 24 ),
+"shape": SubResource( 23 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 7, 1 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 25 ),
+"shape": SubResource( 24 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 8, 1 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 26 ),
+"shape": SubResource( 25 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 }, {
 "autotile_coord": Vector2( 9, 1 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 27 ),
+"shape": SubResource( 26 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 1/z_index = 0
@@ -365,7 +369,7 @@ format = 1
 "wall",
 ]]
 modulate = Color( 0.85, 0.85, 0.85, 1 )
-tile_set = SubResource( 3 )
+tile_set = SubResource( 27 )
 cell_size = Vector2( 16, 16 )
 format = 1
 script = ExtResource( 13 )
@@ -414,6 +418,7 @@ zoomMin = 0.1
 
 [node name="Formigueiro" parent="." instance=ExtResource( 8 )]
 position = Vector2( 1273.44, 712.804 )
+balls_count = 2
 
 [node name="Pathfinding" type="Node2D" parent="."]
 script = ExtResource( 10 )
@@ -437,14 +442,14 @@ position = Vector2( 49.8007, 59.3123 )
 [node name="TreasureManager" type="Node2D" parent="."]
 
 [node name="Treasure" parent="TreasureManager" instance=ExtResource( 21 )]
-position = Vector2( 2349.87, 1239.14 )
+position = Vector2( 104.677, 48.3438 )
 
 [node name="EnemiesManager" type="Node2D" parent="."]
 
 [node name="AntsManager" type="Node2D" parent="."]
 
 [node name="Player" parent="AntsManager" instance=ExtResource( 16 )]
-position = Vector2( 84.0896, 90.8168 )
+position = Vector2( 76.5301, 45.4596 )
 
 [node name="ArrowManager" type="Node2D" parent="."]
 position = Vector2( 1194.34, 23.7389 )
@@ -546,14 +551,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="BallsCountLabel" type="Label" parent="CanvasLayer/FormigueiroCount"]
+margin_left = -25.1526
+margin_top = 112.771
+margin_right = 0.847412
+margin_bottom = 126.771
+text = "x3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="StatChange" parent="CanvasLayer" instance=ExtResource( 3 )]
 position = Vector2( 161.452, 110.998 )
 
 [node name="RobotAntButton" type="TextureButton" parent="CanvasLayer"]
-margin_left = 1195.65
-margin_top = 103.383
-margin_right = 1235.65
-margin_bottom = 143.383
+margin_left = 1125.66
+margin_top = 119.762
+margin_right = 1157.66
+margin_bottom = 151.762
 texture_normal = ExtResource( 18 )
 texture_pressed = ExtResource( 19 )
 texture_hover = ExtResource( 17 )
@@ -561,7 +576,21 @@ script = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PachinkoButton" type="TextureButton" parent="CanvasLayer"]
+margin_left = 1158.8
+margin_top = 119.201
+margin_right = 1192.8
+margin_bottom = 153.201
+texture_normal = ExtResource( 12 )
+texture_pressed = ExtResource( 25 )
+texture_hover = ExtResource( 24 )
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="timeout" from="Camera2D/Timer2" to="Camera2D" method="_on_Timer2_timeout"]
 [connection signal="timeout" from="Pathfinding/Timer" to="Pathfinding" method="_on_Timer_timeout"]
 [connection signal="timeout" from="SpawnerManager/Timer" to="SpawnerManager" method="_on_Timer_timeout"]
 [connection signal="pressed" from="CanvasLayer/RobotAntButton" to="CanvasLayer/RobotAntButton" method="_on_RobotAntButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/PachinkoButton" to="CanvasLayer/PachinkoButton" method="_on_PachinkoButton_pressed"]

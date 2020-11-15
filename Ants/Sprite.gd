@@ -51,7 +51,7 @@ func _generate_world():
 #			$TileMap2.set_cellv(Vector2(x-WIDTH/2, y-HEIGHT/2), _get_tile_index(noise.get_noise_2d(float(x),float(y))))
 			$TileMap2.set_cellv(Vector2(x, y), _get_tile_index(noise.get_noise_2d(float(x),float(y))))
 			pass
-	$TileMap2.update_bitmask_region()
+	$TileMap2.update_bitmask_region(Vector2(0.0,0.0),Vector2(WIDTH, HEIGHT))
 
 func _get_tile_index(noise_sample):
 	if noise_sample < 0.3:

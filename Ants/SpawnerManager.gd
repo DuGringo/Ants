@@ -15,10 +15,14 @@ var last_input = null
 
 var spawner_level = 1
 
+
+
 #for instancing
 onready var world = get_tree().current_scene
 #for instancing food
 onready var FoodCube = load("res://Actors/Food/Food.tscn")
+#for instancing pachinko minigame
+onready var canvaslayer = $"../CanvasLayer"
 
 #for isntancing enemy
 onready var Enemy = load("res://Actors/Enemies/Ladybug.tscn")
@@ -31,14 +35,22 @@ onready var Treasure = load("res://Objects/Treasure.tscn")
 #for the stats modifier menu:
 onready var modifierui = $"../CanvasLayer/StatChange"
 
+#for pachinko minigame
+onready var Pachinko = load("res://UI/Pachinko/Board.tscn")
+#for the button signal
+onready var pachinkobutton = $"../CanvasLayer/PachinkoButton"
+
 #for spawnning in non-blocked areas
 onready var pathfinding = $"../Pathfinding"
 var tilemap: TileMap
 
+
+
 func initialize():
 	tilemap = pathfinding.tilemap
 	timer.start(rand_range(1, 5))
-
+	pachinkobutton.connect("pachinko_pressed",self,"handle_pachinko")
+	
 func _input(_event):	
 	if Input.is_action_just_pressed("StatsScreen"):
 		if is_selection_on:
@@ -147,6 +159,12 @@ func get_spawn_position() -> Vector2:
 	else:
 		return posicao
 
+func handle_pachinko(pressed):
+	if pressed:
+		var pachinko = Pachinko.instance()
+		canvaslayer.add_child(pachinko)
+	else:
+		canvaslayer.get_node("Board").queue_free()
 
 func _on_Timer_timeout():
 		if rand_range(0, 15) <= 1:
